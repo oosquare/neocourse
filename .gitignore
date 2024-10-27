@@ -1,0 +1,49 @@
+# Gradle files
+.gradle/
+build/
+out/
+*.gradle
+*.jar
+*.war
+*.ear
+
+# Java class files
+*.class
+
+# Log files
+*.log
+
+# IDEA specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# NetBeans files
+nbproject/private/
+nbproject/Makefile-Debug.mk
+nbproject/Makefile-Release.mk
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+ehthumbs.db
+
+# Other files
+*.swp
+*.swo
+*.tmp
+*.temp
+*.orig
+*.bak
+*.backup
+
+# Environment files
+.env
