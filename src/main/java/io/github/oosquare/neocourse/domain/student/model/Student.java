@@ -11,17 +11,17 @@ import io.github.oosquare.neocourse.utility.id.Id;
 @Getter
 public class Student extends User {
 
-    private final @NonNull Id coursePlan;
-    private @NonNull CoursePlanScore coursePlanScore;
+    private final @NonNull Id plan;
+    private @NonNull PlanScore planScore;
 
     public Student(
         @NonNull Id id,
         @NonNull Username username,
         @NonNull DisplayedUsername displayedUsername,
-        @NonNull Id coursePlan
+        @NonNull Id plan
     ) {
         super(id, username, displayedUsername);
-        this.coursePlan = coursePlan;
-        this.coursePlanScore = new CoursePlanScore();
+        this.plan = plan;
+        this.planScore = new PlanScore();
     }
 }

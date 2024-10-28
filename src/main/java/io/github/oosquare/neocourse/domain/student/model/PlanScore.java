@@ -10,19 +10,19 @@ import lombok.With;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
-public class CoursePlanScore {
+public class PlanScore {
 
     private final @NonNull @With Map<Id, Score> courseScores;
 
-    public CoursePlanScore() {
+    public PlanScore() {
         this.courseScores = new HashMap<>();
     }
 
-    public CoursePlanScore(@NonNull Map<Id, Score> courseScores) {
+    public PlanScore(@NonNull Map<Id, Score> courseScores) {
         this.courseScores = courseScores;
     }
 
-    public @NonNull CoursePlanScore assignScoreForCourse(@NonNull Id course, @NonNull Score score) {
+    public @NonNull PlanScore assignScoreForCourse(@NonNull Id course, @NonNull Score score) {
         var newCourseScores = new HashMap<>(this.courseScores);
         newCourseScores.put(course, score);
         return this.withCourseScores(newCourseScores);
