@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.model.student;
+package io.github.oosquare.neocourse.domain.student.model;
 
 import lombok.Value;
 

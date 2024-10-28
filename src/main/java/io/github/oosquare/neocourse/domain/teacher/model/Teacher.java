@@ -1,11 +1,13 @@
-package io.github.oosquare.neocourse.domain.model.teacher;
+package io.github.oosquare.neocourse.domain.teacher.model;
 
 import lombok.Getter;
 import lombok.NonNull;
 
-import io.github.oosquare.neocourse.domain.model.common.DisplayedUsername;
-import io.github.oosquare.neocourse.domain.model.common.User;
-import io.github.oosquare.neocourse.domain.model.common.Username;
+import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
+import io.github.oosquare.neocourse.domain.common.model.User;
+import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.domain.teacher.exception.OfferedCourseException;
+import io.github.oosquare.neocourse.domain.teacher.exception.TeacherException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter

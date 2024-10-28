@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.model.teacher;
+package io.github.oosquare.neocourse.domain.teacher.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
 
+import io.github.oosquare.neocourse.domain.teacher.exception.OfferedCourseException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value

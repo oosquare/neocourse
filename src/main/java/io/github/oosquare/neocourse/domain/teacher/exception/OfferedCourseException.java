@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.model.teacher;
+package io.github.oosquare.neocourse.domain.teacher.exception;
 
 public class OfferedCourseException extends RuntimeException {
 

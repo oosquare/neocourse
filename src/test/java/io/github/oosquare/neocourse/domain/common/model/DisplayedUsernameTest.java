@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.model.common;
+package io.github.oosquare.neocourse.domain.common.model;
 
 import org.junit.jupiter.api.Test;
 

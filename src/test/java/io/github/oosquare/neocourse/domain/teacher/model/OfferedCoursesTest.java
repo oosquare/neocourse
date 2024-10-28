@@ -1,9 +1,10 @@
-package io.github.oosquare.neocourse.domain.model.teacher;
+package io.github.oosquare.neocourse.domain.teacher.model;
 
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.oosquare.neocourse.domain.teacher.exception.OfferedCourseException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
