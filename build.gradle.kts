@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.guava:guava:33.3.1-jre")
     implementation("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

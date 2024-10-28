@@ -3,7 +3,6 @@ package io.github.oosquare.neocourse.utility.id;
 import lombok.*;
 
 @Value
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Id {
 
     @NonNull

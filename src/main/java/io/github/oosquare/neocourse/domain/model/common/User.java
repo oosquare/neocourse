@@ -10,9 +10,15 @@ public abstract class User {
 
     private final @NonNull Id id;
     private final @NonNull Username username;
+    private final @NonNull DisplayedUsername displayedUsername;
 
-    protected User(@NonNull Id id, @NonNull Username username) {
+    protected User(
+        @NonNull Id id,
+        @NonNull Username username,
+        @NonNull DisplayedUsername displayedUsername
+    ) {
         this.id = id;
         this.username = username;
+        this.displayedUsername = displayedUsername;
     }
 }
