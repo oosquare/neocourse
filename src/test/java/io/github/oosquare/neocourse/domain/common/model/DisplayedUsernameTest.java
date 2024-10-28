@@ -9,7 +9,7 @@ class DisplayedUsernameTest {
     @Test
     public void succeedWhenDisplayedUsernameIsValid() {
         var displayedUsername = new DisplayedUsername("Example Username");
-        assertEquals("Example Username", displayedUsername.getValue());
+        assertEquals("Example Username", displayedUsername.getDisplayedUsername());
     }
 
     @Test

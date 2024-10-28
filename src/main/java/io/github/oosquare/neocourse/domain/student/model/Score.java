@@ -9,13 +9,13 @@ public class Score {
 
     private static double MIN_SCORE = 0;
     private static double MAX_SCORE = 100;
-    private double value;
+    private double score;
 
-    public Score(double value) {
+    public Score(double score) {
         checkArgument(
-            Score.MIN_SCORE <= value && value <= Score.MAX_SCORE,
+            Score.MIN_SCORE <= score && score <= Score.MAX_SCORE,
             "Score should be greater than 0 and less than 100"
         );
-        this.value = value;
+        this.score = score;
     }
 }

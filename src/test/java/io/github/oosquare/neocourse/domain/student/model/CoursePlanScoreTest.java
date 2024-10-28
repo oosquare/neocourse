@@ -12,6 +12,6 @@ class CoursePlanScoreTest {
     void testAssignScoreForCourse() {
         var scores = new CoursePlanScore();
         var newScores = scores.assignScoreForCourse(new Id("0"), new Score(90));
-        assertEquals(90, newScores.getCourseScores().get(new Id("0")).getValue());
+        assertEquals(90, newScores.getCourseScores().get(new Id("0")).getScore());
     }
 }

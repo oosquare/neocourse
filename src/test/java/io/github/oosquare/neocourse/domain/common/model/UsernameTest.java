@@ -9,7 +9,7 @@ class UsernameTest {
     @Test
     public void succeedWhenUsernameIsValid() {
         var username = new Username("a_valid-username01");
-        assertEquals("a_valid-username01", username.getValue());
+        assertEquals("a_valid-username01", username.getUsername());
     }
 
     @Test

@@ -8,14 +8,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Value
 public class DisplayedUsername {
 
-    private final @NonNull String value;
+    private final @NonNull String displayedUsername;
 
-    public DisplayedUsername(@NonNull String value) {
-        checkArgument(!value.isBlank(), "Displayed username should not be blank");
+    public DisplayedUsername(@NonNull String displayedUsername) {
+        checkArgument(!displayedUsername.isBlank(), "Displayed username should not be blank");
         checkArgument(
-            value.strip().equals(value),
+            displayedUsername.strip().equals(displayedUsername),
             "Displayed username should not have leading and trailing spaces"
         );
-        this.value = value;
+        this.displayedUsername = displayedUsername;
     }
 }

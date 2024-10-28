@@ -11,14 +11,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class Username {
 
     private static Pattern USERNAME_PATTERN = Pattern.compile("[a-zA-Z0-9\\-_]+");
-    private String value;
+    private String username;
 
-    public Username(@NonNull String value) {
-        checkArgument(!value.isBlank(), "Username should not be blank");
+    public Username(@NonNull String username) {
+        checkArgument(!username.isBlank(), "Username should not be blank");
         checkArgument(
-            USERNAME_PATTERN.matcher(value).matches(),
+            USERNAME_PATTERN.matcher(username).matches(),
             "Username should only contains ASCII alphabets, numbers, hyphens and underscores"
         );
-        this.value = value;
+        this.username = username;
     }
 }
