@@ -6,6 +6,7 @@ import lombok.NonNull;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.common.model.User;
+import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
@@ -18,10 +19,10 @@ public class Student extends User {
         @NonNull Id id,
         @NonNull Username username,
         @NonNull DisplayedUsername displayedUsername,
-        @NonNull Id plan
+        @NonNull Plan plan
     ) {
         super(id, username, displayedUsername);
-        this.plan = plan;
+        this.plan = plan.getId();
         this.planScore = new PlanScore();
     }
 }
