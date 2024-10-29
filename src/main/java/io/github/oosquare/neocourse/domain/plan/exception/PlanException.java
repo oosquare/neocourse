@@ -1,6 +1,8 @@
 package io.github.oosquare.neocourse.domain.plan.exception;
 
-public class PlanException extends RuntimeException {
+import io.github.oosquare.neocourse.domain.common.exception.DomainException;
+
+public class PlanException extends DomainException {
 
     public PlanException(String message) {
         super(message);

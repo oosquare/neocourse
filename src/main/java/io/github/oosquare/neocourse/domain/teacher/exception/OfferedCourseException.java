@@ -1,8 +1,8 @@
 package io.github.oosquare.neocourse.domain.teacher.exception;
 
-public class OfferedCourseException extends RuntimeException {
+import io.github.oosquare.neocourse.domain.common.exception.DomainException;
 
-    public OfferedCourseException() {}
+public class OfferedCourseException extends DomainException {
 
     public OfferedCourseException(String message) {
         super(message);
