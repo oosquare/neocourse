@@ -2,10 +2,9 @@ package io.github.oosquare.neocourse.domain.common.model;
 
 import java.util.regex.Pattern;
 
+import com.google.common.base.Preconditions;
 import lombok.NonNull;
 import lombok.Value;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 @Value
 public class Username {
@@ -14,8 +13,8 @@ public class Username {
     private String username;
 
     public Username(@NonNull String username) {
-        checkArgument(!username.isBlank(), "Username should not be blank");
-        checkArgument(
+        Preconditions.checkArgument(!username.isBlank(), "Username should not be blank");
+        Preconditions.checkArgument(
             USERNAME_PATTERN.matcher(username).matches(),
             "Username should only contains ASCII alphabets, numbers, hyphens and underscores"
         );

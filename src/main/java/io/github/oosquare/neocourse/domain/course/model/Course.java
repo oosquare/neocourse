@@ -28,6 +28,14 @@ public class Course implements Entity {
         this.classPeriod = classPeriod;
     }
 
+    public static Course createInternally(
+        @NonNull Id id,
+        @NonNull CourseName name,
+        @NonNull ClassPeriod classPeriod
+    ) {
+        return new Course(id, name, classPeriod);
+    }
+
     public Duration getActualPeriod() {
         var classPeriod = this.getClassPeriod().getValue();
         var lecturePeriod = Course.PERIOD_PER_LECTURE.multipliedBy(classPeriod);

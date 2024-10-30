@@ -1,8 +1,7 @@
 package io.github.oosquare.neocourse.domain.student.model;
 
+import com.google.common.base.Preconditions;
 import lombok.Value;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 @Value
 public class Score {
@@ -16,7 +15,7 @@ public class Score {
 
 
     public Score(double score) {
-        checkArgument(
+        Preconditions.checkArgument(
             Score.MIN_SCORE <= score && score <= Score.MAX_SCORE,
             "Score should be greater than 0 and less than 100"
         );

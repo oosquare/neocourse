@@ -2,6 +2,7 @@ package io.github.oosquare.neocourse.domain.student.model;
 
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -14,6 +15,7 @@ import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
+@AllArgsConstructor(staticName = "createInternally")
 public class Student implements User {
 
     private final @NonNull Id id;
