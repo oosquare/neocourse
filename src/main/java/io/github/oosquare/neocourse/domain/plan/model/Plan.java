@@ -3,13 +3,14 @@ package io.github.oosquare.neocourse.domain.plan.model;
 import lombok.Getter;
 import lombok.NonNull;
 
+import io.github.oosquare.neocourse.domain.Entity;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.plan.exception.CourseSetException;
 import io.github.oosquare.neocourse.domain.plan.exception.PlanException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-public class Plan {
+public class Plan implements Entity {
 
     private final @NonNull Id id;
     private final @NonNull PlanName name;

@@ -14,8 +14,11 @@ import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-public class Student extends User {
+public class Student implements User {
 
+    private final @NonNull Id id;
+    private final @NonNull Username username;
+    private final @NonNull DisplayedUsername displayedUsername;
     private final @NonNull Id plan;
     private @NonNull PlanScore planScore;
 
@@ -25,7 +28,9 @@ public class Student extends User {
         @NonNull DisplayedUsername displayedUsername,
         @NonNull Plan plan
     ) {
-        super(id, username, displayedUsername);
+        this.id = id;
+        this.username = username;
+        this.displayedUsername = displayedUsername;
         this.plan = plan.getId();
         this.planScore = new PlanScore();
     }

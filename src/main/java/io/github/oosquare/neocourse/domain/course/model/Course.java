@@ -5,10 +5,11 @@ import java.time.Duration;
 import lombok.Getter;
 import lombok.NonNull;
 
+import io.github.oosquare.neocourse.domain.Entity;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-public class Course {
+public class Course implements Entity {
 
     private static final Duration PERIOD_PER_LECTURE = Duration.ofMinutes(45);
     private static final Duration PERIOD_PER_BREAK = Duration.ofMinutes(5);

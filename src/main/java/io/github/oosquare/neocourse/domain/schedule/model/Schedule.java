@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
+import io.github.oosquare.neocourse.domain.Entity;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
@@ -17,7 +18,7 @@ import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
 @AllArgsConstructor(staticName = "createInternally")
-public class Schedule {
+public class Schedule implements Entity {
 
     private final @NonNull Id id;
     private final @NonNull Id course;

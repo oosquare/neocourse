@@ -12,8 +12,11 @@ import io.github.oosquare.neocourse.domain.teacher.exception.TeacherException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-public class Teacher extends User {
+public class Teacher implements User {
 
+    private final @NonNull Id id;
+    private final @NonNull Username username;
+    private final @NonNull DisplayedUsername displayedUsername;
     private @NonNull OfferedCourses offeredCourses;
 
     public Teacher(
@@ -21,7 +24,9 @@ public class Teacher extends User {
         @NonNull Username username,
         @NonNull DisplayedUsername displayedUsername
     ) {
-        super(id, username, displayedUsername);
+        this.id = id;
+        this.username = username;
+        this.displayedUsername = displayedUsername;
         this.offeredCourses = new OfferedCourses();
     }
 
