@@ -7,9 +7,9 @@ import static com.google.common.base.Preconditions.*;
 @Value
 public class ClassPeriod {
 
-    private final double value;
+    private final int value;
 
-    public ClassPeriod(double value) {
+    public ClassPeriod(int value) {
         checkArgument(value > 0, "Class period should not be zero or negative");
         this.value = value;
     }

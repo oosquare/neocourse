@@ -11,4 +11,9 @@ public class Id {
     public static Id createWith(IdGenerator idGenerator) {
         return new Id(idGenerator.generateIdValue());
     }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
 }
