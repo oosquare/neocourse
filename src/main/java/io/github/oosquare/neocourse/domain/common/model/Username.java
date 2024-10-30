@@ -10,14 +10,22 @@ import lombok.Value;
 public class Username {
 
     private static Pattern USERNAME_PATTERN = Pattern.compile("[a-zA-Z0-9\\-_]+");
-    private String username;
+    private String value;
 
-    public Username(@NonNull String username) {
-        Preconditions.checkArgument(!username.isBlank(), "Username should not be blank");
+    private Username(String value) {
+        Preconditions.checkArgument(!value.isBlank(), "Username should not be blank");
         Preconditions.checkArgument(
-            USERNAME_PATTERN.matcher(username).matches(),
+            USERNAME_PATTERN.matcher(value).matches(),
             "Username should only contains ASCII alphabets, numbers, hyphens and underscores"
         );
-        this.username = username;
+        this.value = value;
+    }
+
+    public static Username of(@NonNull String value) {
+        return new Username(value);
+    }
+
+    public static Username ofInternally(@NonNull String value) {
+        return Username.of(value);
     }
 }

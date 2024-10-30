@@ -7,17 +7,25 @@ import lombok.Value;
 @Value
 public class DisplayedUsername {
 
-    private final @NonNull String displayedUsername;
+    private final @NonNull String value;
 
-    public DisplayedUsername(@NonNull String displayedUsername) {
+    private DisplayedUsername(String value) {
         Preconditions.checkArgument(
-            !displayedUsername.isBlank(),
+            !value.isBlank(),
             "Displayed username should not be blank"
         );
         Preconditions.checkArgument(
-            displayedUsername.strip().equals(displayedUsername),
+            value.strip().equals(value),
             "Displayed username should not have leading and trailing spaces"
         );
-        this.displayedUsername = displayedUsername;
+        this.value = value;
+    }
+
+    public static DisplayedUsername of(@NonNull String value) {
+        return new DisplayedUsername(value);
+    }
+
+    public static DisplayedUsername ofInternally(@NonNull String value) {
+        return DisplayedUsername.of(value);
     }
 }

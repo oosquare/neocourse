@@ -21,7 +21,7 @@ public class Plan implements Entity {
     public Plan(@NonNull Id id, @NonNull PlanName name) {
         this.id = id;
         this.name = name;
-        this.includedCourses = new CourseSet();
+        this.includedCourses = CourseSet.of();
     }
 
     public void includeCourse(@NonNull Course course) {

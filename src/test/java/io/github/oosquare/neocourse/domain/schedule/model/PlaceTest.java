@@ -8,12 +8,12 @@ class PlaceTest {
 
     @Test
     public void createPlaceSucceeds() {
-        var place = new Place("example place");
+        var place = Place.of("example place");
         assertEquals("example place", place.getValue());
     }
 
     @Test
     public void createPlaceThrowsWhenParameterIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new Place(""));
+        assertThrows(IllegalArgumentException.class, () -> Place.of(""));
     }
 }

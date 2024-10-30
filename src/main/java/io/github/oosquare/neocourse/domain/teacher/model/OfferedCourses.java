@@ -12,7 +12,7 @@ import io.github.oosquare.neocourse.domain.teacher.exception.OfferedCourseExcept
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "ofInternally")
 public class OfferedCourses {
 
     private final @NonNull @With Set<Id> offeredCourses;

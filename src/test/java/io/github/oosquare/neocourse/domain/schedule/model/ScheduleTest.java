@@ -138,8 +138,8 @@ class ScheduleTest {
         var registrations = new HashMap<Id, Registration>();
 
         if (withDefaultStudents) {
-            registrations.put(new Id("student0"), new Registration(new Id("student0")));
-            registrations.put(new Id("student1"), new Registration(new Id("student1")).markAbsent());
+            registrations.put(new Id("student0"), Registration.of(new Id("student0")));
+            registrations.put(new Id("student1"), Registration.of(new Id("student1")).markAbsent());
         }
 
         return Schedule.createInternally(
@@ -148,8 +148,8 @@ class ScheduleTest {
             new Id("teacher0"),
             TEST_START_TIME,
             TEST_PERIOD,
-            new Place("test place"),
-            new Capacity(2),
+            Place.of("test place"),
+            Capacity.of(2),
             registrations
         );
     }
@@ -157,9 +157,9 @@ class ScheduleTest {
     static Student createTestStudent(int id) {
         return new Student(
             new Id(String.format("student%d", id)),
-            new Username(String.format("student%d", id)),
-            new DisplayedUsername(String.format("student%d", id)),
-            new Plan(new Id("plan0"), new PlanName("plan0"))
+            Username.of(String.format("student%d", id)),
+            DisplayedUsername.of(String.format("student%d", id)),
+            new Plan(new Id("plan0"), PlanName.of("plan0"))
         );
     }
 }

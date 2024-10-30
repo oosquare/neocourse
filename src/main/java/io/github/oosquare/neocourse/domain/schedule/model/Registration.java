@@ -9,14 +9,18 @@ import lombok.With;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "ofInternally")
 public class Registration {
 
     private final @NonNull Id student;
     private final @NonNull @With(AccessLevel.PRIVATE) ParticipationStatus status;
 
-    public Registration(@NonNull Id student) {
+    private Registration(Id student) {
         this(student, ParticipationStatus.ATTENDED);
+    }
+
+    public static Registration of(@NonNull Id student) {
+        return new Registration(student);
     }
 
     public Registration markAttended() {

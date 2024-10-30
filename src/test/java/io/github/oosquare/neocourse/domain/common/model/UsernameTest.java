@@ -8,19 +8,19 @@ class UsernameTest {
 
     @Test
     public void succeedWhenUsernameIsValid() {
-        var username = new Username("a_valid-username01");
-        assertEquals("a_valid-username01", username.getUsername());
+        var username = Username.of("a_valid-username01");
+        assertEquals("a_valid-username01", username.getValue());
     }
 
     @Test
     public void throwWhenUsernameIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new Username(""));
-        assertThrows(IllegalArgumentException.class, () -> new Username(" "));
+        assertThrows(IllegalArgumentException.class, () -> Username.of(""));
+        assertThrows(IllegalArgumentException.class, () -> Username.of(" "));
     }
 
     @Test
     public void throwWhenUsernameContainsOtherCharacter() {
-        assertThrows(IllegalArgumentException.class, () -> new Username(" leading-space"));
-        assertThrows(IllegalArgumentException.class, () -> new Username("invalid-character!"));
+        assertThrows(IllegalArgumentException.class, () -> Username.of(" leading-space"));
+        assertThrows(IllegalArgumentException.class, () -> Username.of("invalid-character!"));
     }
 }

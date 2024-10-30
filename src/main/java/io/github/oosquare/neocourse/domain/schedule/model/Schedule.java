@@ -53,7 +53,7 @@ public class Schedule implements Entity {
             this.getStartTime(),
             this.getCapacity()
         ).checkRegistrable(this.getRegistrations(), student.getId(), currentTime);
-        var registration = new Registration(student.getId());
+        var registration = Registration.of(student.getId());
         this.registrations.put(student.getId(), registration);
     }
 

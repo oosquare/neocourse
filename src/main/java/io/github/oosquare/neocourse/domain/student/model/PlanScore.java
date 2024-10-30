@@ -12,13 +12,17 @@ import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "ofInternally")
 public class PlanScore {
 
     private final @NonNull @With Map<Id, Score> courseScores;
 
-    public PlanScore() {
+    private PlanScore() {
         this(ImmutableMap.of());
+    }
+
+    public static PlanScore of() {
+        return new PlanScore();
     }
 
     public PlanScore assignScoreForCourse(@NonNull Id course, @NonNull Score score) {
@@ -43,7 +47,7 @@ public class PlanScore {
             if (this.courseScores.containsKey(entry.getKey())) {
                 finishedClassPeriod += weight.getValue();
                 Score score = this.courseScores.getOrDefault(course, Score.of(0));
-                weightedScoreSum += weight.getValue() * score.getScore();
+                weightedScoreSum += weight.getValue() * score.getValue();
                 weights += weight.getValue();
             }
         }

@@ -8,13 +8,13 @@ class ClassPeriodTest {
 
     @Test
     public void createSucceeds() {
-        var classHours = new ClassPeriod(1);
+        var classHours = ClassPeriod.of(1);
         assertEquals(1, classHours.getValue());
     }
 
     @Test
     public void createThrowsWhenClassPeriodIsNotPositive() {
-        assertThrows(IllegalArgumentException.class, () -> new ClassPeriod(0));
-        assertThrows(IllegalArgumentException.class, () -> new ClassPeriod(-1));
+        assertThrows(IllegalArgumentException.class, () -> ClassPeriod.of(0));
+        assertThrows(IllegalArgumentException.class, () -> ClassPeriod.of(-1));
     }
 }

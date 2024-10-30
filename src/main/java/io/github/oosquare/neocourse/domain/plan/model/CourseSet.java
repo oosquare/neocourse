@@ -12,14 +12,17 @@ import io.github.oosquare.neocourse.domain.plan.exception.CourseSetException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "ofInternally")
 public class CourseSet {
 
-    private final @NonNull
-    @With Set<Id> courses;
+    private final @NonNull @With Set<Id> courses;
 
-    public CourseSet() {
+    private CourseSet() {
         this(ImmutableSet.of());
+    }
+
+    public static CourseSet of() {
+        return new CourseSet();
     }
 
     public CourseSet addCourse(@NonNull Id course) {

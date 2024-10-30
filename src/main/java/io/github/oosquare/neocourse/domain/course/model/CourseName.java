@@ -8,14 +8,22 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Value
 public class CourseName {
 
-    private final @NonNull String courseName;
+    private final @NonNull String value;
 
-    public CourseName(@NonNull String courseName) {
-        checkArgument(!courseName.isBlank(), "Course name should not be blank");
+    private CourseName(@NonNull String value) {
+        checkArgument(!value.isBlank(), "Course name should not be blank");
         checkArgument(
-            courseName.strip().equals(courseName),
+            value.strip().equals(value),
             "Course name should not have leading and trailing spaces"
         );
-        this.courseName = courseName;
+        this.value = value;
+    }
+
+    public static CourseName of(@NonNull String value) {
+        return new CourseName(value);
+    }
+
+    public static CourseName ofInternally(@NonNull String value) {
+        return CourseName.of(value);
     }
 }

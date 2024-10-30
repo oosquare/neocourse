@@ -8,20 +8,20 @@ class CourseNameTest {
 
     @Test
     public void succeedWhenCourseNameIsValid() {
-        var displayedUsername = new CourseName("Example Course 1");
-        assertEquals("Example Course 1", displayedUsername.getCourseName());
+        var displayedUsername = CourseName.of("Example Course 1");
+        assertEquals("Example Course 1", displayedUsername.getValue());
     }
 
     @Test
     public void throwWhenCourseNameIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new CourseName(""));
-        assertThrows(IllegalArgumentException.class, () -> new CourseName(" "));
+        assertThrows(IllegalArgumentException.class, () -> CourseName.of(""));
+        assertThrows(IllegalArgumentException.class, () -> CourseName.of(" "));
     }
 
     @Test
     public void throwWhenCourseNameHasLeadingOrTrailingSpaces() {
-        assertThrows(IllegalArgumentException.class, () -> new CourseName(" leading-space"));
-        assertThrows(IllegalArgumentException.class, () -> new CourseName("trailing-space "));
-        assertThrows(IllegalArgumentException.class, () -> new CourseName(" both "));
+        assertThrows(IllegalArgumentException.class, () -> CourseName.of(" leading-space"));
+        assertThrows(IllegalArgumentException.class, () -> CourseName.of("trailing-space "));
+        assertThrows(IllegalArgumentException.class, () -> CourseName.of(" both "));
     }
 }

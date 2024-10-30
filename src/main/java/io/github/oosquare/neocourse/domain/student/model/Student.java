@@ -34,7 +34,7 @@ public class Student implements User {
         this.username = username;
         this.displayedUsername = displayedUsername;
         this.plan = plan.getId();
-        this.planScore = new PlanScore();
+        this.planScore = PlanScore.of();
     }
 
     public void assignScoreForCourse(@NonNull Course course, @NonNull Score score) {

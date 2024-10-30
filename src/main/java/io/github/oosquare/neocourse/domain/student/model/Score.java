@@ -11,18 +11,21 @@ public class Score {
 
     private static final Score ZERO = new Score(0);
 
-    private final double score;
+    private final double value;
 
-
-    public Score(double score) {
+    private Score(double value) {
         Preconditions.checkArgument(
-            Score.MIN_SCORE <= score && score <= Score.MAX_SCORE,
+            Score.MIN_SCORE <= value && value <= Score.MAX_SCORE,
             "Score should be greater than 0 and less than 100"
         );
-        this.score = score;
+        this.value = value;
     }
 
     public static Score of(double value) {
         return (value == 0 ? Score.ZERO : new Score(value));
+    }
+
+    public static Score ofInternally(double value) {
+        return Score.of(value);
     }
 }

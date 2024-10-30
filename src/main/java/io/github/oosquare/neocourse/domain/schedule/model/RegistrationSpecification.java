@@ -14,7 +14,7 @@ public class RegistrationSpecification {
 
     private final @NonNull Id schedule;
     private final @NonNull ZonedDateTime startTime;
-    private final Capacity capacity;
+    private final @NonNull Capacity capacity;
 
     public void checkRegistrable(
         @NonNull Map<Id, Registration> registrations,

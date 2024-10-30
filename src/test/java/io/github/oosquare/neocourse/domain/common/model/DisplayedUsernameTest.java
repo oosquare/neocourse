@@ -8,20 +8,20 @@ class DisplayedUsernameTest {
 
     @Test
     public void succeedWhenDisplayedUsernameIsValid() {
-        var displayedUsername = new DisplayedUsername("Example Username");
-        assertEquals("Example Username", displayedUsername.getDisplayedUsername());
+        var displayedUsername = DisplayedUsername.of("Example Username");
+        assertEquals("Example Username", displayedUsername.getValue());
     }
 
     @Test
     public void throwWhenDisplayedUsernameIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> new DisplayedUsername(""));
-        assertThrows(IllegalArgumentException.class, () -> new DisplayedUsername(" "));
+        assertThrows(IllegalArgumentException.class, () -> DisplayedUsername.of(""));
+        assertThrows(IllegalArgumentException.class, () -> DisplayedUsername.of(" "));
     }
 
     @Test
     public void throwWhenDisplayedUsernameHasLeadingOrTrailingSpaces() {
-        assertThrows(IllegalArgumentException.class, () -> new DisplayedUsername(" leading-space"));
-        assertThrows(IllegalArgumentException.class, () -> new DisplayedUsername("trailing-space "));
-        assertThrows(IllegalArgumentException.class, () -> new DisplayedUsername(" both "));
+        assertThrows(IllegalArgumentException.class, () -> DisplayedUsername.of(" leading-space"));
+        assertThrows(IllegalArgumentException.class, () -> DisplayedUsername.of("trailing-space "));
+        assertThrows(IllegalArgumentException.class, () -> DisplayedUsername.of(" both "));
     }
 }

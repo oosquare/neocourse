@@ -8,14 +8,14 @@ class ScoreTest {
 
     @Test
     public void succeedIfScoreIsInRange() {
-        assertEquals(0, (new Score(0)).getScore());
-        assertEquals(90, (new Score(90)).getScore());
-        assertEquals(100, (new Score(100)).getScore());
+        assertEquals(0, (Score.of(0)).getValue());
+        assertEquals(90, (Score.of(90)).getValue());
+        assertEquals(100, (Score.of(100)).getValue());
     }
 
     @Test
     public void throwIfScoreIsOutOfRange() {
-        assertThrows(IllegalArgumentException.class, () -> new Score(-1));
-        assertThrows(IllegalArgumentException.class, () -> new Score(101));
+        assertThrows(IllegalArgumentException.class, () -> Score.of(-1));
+        assertThrows(IllegalArgumentException.class, () -> Score.of(101));
     }
 }
