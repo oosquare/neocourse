@@ -3,6 +3,7 @@ package io.github.oosquare.neocourse.domain.schedule.model;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -161,7 +162,7 @@ class ScheduleTest {
             Username.of(String.format("student%d", id)),
             DisplayedUsername.of(String.format("student%d", id)),
             new Plan(Id.of("plan0"), PlanName.of("plan0")),
-            Id.of("transcript0")
+            Transcript.createInternally(Id.of("transcript0"), Id.of("plan0"), Map.of())
         );
     }
 }

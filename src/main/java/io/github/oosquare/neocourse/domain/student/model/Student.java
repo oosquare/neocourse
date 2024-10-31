@@ -8,6 +8,7 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.User;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
+import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
@@ -25,12 +26,12 @@ public class Student implements User {
         @NonNull Username username,
         @NonNull DisplayedUsername displayedUsername,
         @NonNull Plan plan,
-        @NonNull Id transcript
+        @NonNull Transcript transcript
     ) {
         this.id = id;
         this.username = username;
         this.displayedUsername = displayedUsername;
         this.plan = plan.getId();
-        this.transcript = transcript;
+        this.transcript = transcript.getId();
     }
 }
