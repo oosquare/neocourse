@@ -4,6 +4,7 @@ import lombok.*;
 
 @Value
 @AllArgsConstructor(staticName = "of")
+@ToString(includeFieldNames = false)
 public class Id {
 
     @NonNull

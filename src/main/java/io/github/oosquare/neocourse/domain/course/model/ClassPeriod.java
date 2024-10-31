@@ -1,9 +1,11 @@
 package io.github.oosquare.neocourse.domain.course.model;
 
 import com.google.common.base.Preconditions;
+import lombok.ToString;
 import lombok.Value;
 
 @Value
+@ToString(includeFieldNames = false)
 public class ClassPeriod {
 
     private static final ClassPeriod VALUE_1 = new ClassPeriod(1);

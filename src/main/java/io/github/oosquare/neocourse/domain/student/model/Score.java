@@ -1,9 +1,11 @@
 package io.github.oosquare.neocourse.domain.student.model;
 
 import com.google.common.base.Preconditions;
+import lombok.ToString;
 import lombok.Value;
 
 @Value
+@ToString(includeFieldNames = false)
 public class Score {
 
     private static final double MIN_SCORE = 0;

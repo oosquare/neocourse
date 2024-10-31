@@ -2,9 +2,11 @@ package io.github.oosquare.neocourse.domain.common.model;
 
 import com.google.common.base.Preconditions;
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.Value;
 
 @Value
+@ToString(includeFieldNames = false)
 public class DisplayedUsername {
 
     private final @NonNull String value;

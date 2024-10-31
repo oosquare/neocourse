@@ -1,11 +1,13 @@
 package io.github.oosquare.neocourse.domain.course.model;
 
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.Value;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 @Value
+@ToString(includeFieldNames = false)
 public class CourseName {
 
     private final @NonNull String value;
