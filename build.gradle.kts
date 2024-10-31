@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
     idea
+    id("com.ryandens.javaagent-test") version "0.5.1"
 }
 
 group = "io.github.oosquare"
@@ -32,6 +33,7 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testJavaagent("net.bytebuddy:byte-buddy-agent:1.14.15")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

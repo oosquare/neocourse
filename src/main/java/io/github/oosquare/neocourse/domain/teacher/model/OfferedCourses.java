@@ -17,8 +17,12 @@ public class OfferedCourses {
 
     private final @NonNull @With Set<Id> offeredCourses;
 
-    public OfferedCourses() {
+    private OfferedCourses() {
         this(ImmutableSet.of());
+    }
+
+    public static OfferedCourses of() {
+        return new OfferedCourses();
     }
 
     public OfferedCourses addCourse(@NonNull Id course) {

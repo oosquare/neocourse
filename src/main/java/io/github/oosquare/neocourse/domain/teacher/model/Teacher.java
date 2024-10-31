@@ -29,7 +29,7 @@ public class Teacher implements User {
         this.id = id;
         this.username = username;
         this.displayedUsername = displayedUsername;
-        this.offeredCourses = new OfferedCourses();
+        this.offeredCourses = OfferedCourses.of();
     }
 
     public void addOfferedCourse(@NonNull Course course) {
