@@ -29,7 +29,7 @@ class ScheduleTest {
             ScheduleTest.createTestStudent(0),
             ScheduleTest.TEST_START_TIME.minusSeconds(1)
         );
-        assertTrue(schedule.getRegistrations().containsKey(new Id("student0")));
+        assertTrue(schedule.getRegistrations().containsKey(Id.of("student0")));
     }
 
     @Test
@@ -114,7 +114,7 @@ class ScheduleTest {
         schedule.markStudentAttended(ScheduleTest.createTestStudent(1));
         assertEquals(
             ParticipationStatus.ATTENDED,
-            schedule.getRegistrations().get(new Id("student1")).getStatus()
+            schedule.getRegistrations().get(Id.of("student1")).getStatus()
         );
     }
 
@@ -138,14 +138,14 @@ class ScheduleTest {
         var registrations = new HashMap<Id, Registration>();
 
         if (withDefaultStudents) {
-            registrations.put(new Id("student0"), Registration.of(new Id("student0")));
-            registrations.put(new Id("student1"), Registration.of(new Id("student1")).markAbsent());
+            registrations.put(Id.of("student0"), Registration.of(Id.of("student0")));
+            registrations.put(Id.of("student1"), Registration.of(Id.of("student1")).markAbsent());
         }
 
         return Schedule.createInternally(
-            new Id("schedule0"),
-            new Id("course0"),
-            new Id("teacher0"),
+            Id.of("schedule0"),
+            Id.of("course0"),
+            Id.of("teacher0"),
             TEST_START_TIME,
             TEST_PERIOD,
             Place.of("test place"),
@@ -156,10 +156,10 @@ class ScheduleTest {
 
     static Student createTestStudent(int id) {
         return new Student(
-            new Id(String.format("student%d", id)),
+            Id.of(String.format("student%d", id)),
             Username.of(String.format("student%d", id)),
             DisplayedUsername.of(String.format("student%d", id)),
-            new Plan(new Id("plan0"), PlanName.of("plan0"))
+            new Plan(Id.of("plan0"), PlanName.of("plan0"))
         );
     }
 }

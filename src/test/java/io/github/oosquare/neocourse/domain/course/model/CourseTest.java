@@ -12,10 +12,10 @@ class CourseTest {
 
     @Test
     void getActualPeriod() {
-        var course = new Course(new Id("0"), CourseName.of("test"), ClassPeriod.of(1));
+        var course = new Course(Id.of("0"), CourseName.of("test"), ClassPeriod.of(1));
         assertEquals(Duration.ofMinutes(45), course.getActualPeriod());
 
-        var course2 = new Course(new Id("0"), CourseName.of("test"), ClassPeriod.of(3));
+        var course2 = new Course(Id.of("0"), CourseName.of("test"), ClassPeriod.of(3));
         assertEquals(Duration.ofMinutes(145), course2.getActualPeriod());
     }
 }

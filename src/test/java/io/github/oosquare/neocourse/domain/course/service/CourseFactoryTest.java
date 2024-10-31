@@ -28,19 +28,19 @@ class CourseFactoryTest {
     @Test
     void createCourseSucceeds() {
         when(this.idGenerator.generate())
-            .thenReturn(new Id("0"));
+            .thenReturn(Id.of("0"));
         when(this.courseRepository.findByName(any()))
             .thenReturn(Optional.empty());
 
         var course = this.courseFactory.createCourse(CourseName.of("test course"), ClassPeriod.of(1));
-        assertEquals(new Id("0"), course.getId());
+        assertEquals(Id.of("0"), course.getId());
     }
 
     @Test
     void createCourseThrowsWhenCourseNameIsDuplicated() {
         when(this.courseRepository.findByName(CourseName.of("test course")))
             .thenReturn(Optional.of(new Course(
-                new Id("0"),
+                Id.of("0"),
                 CourseName.of("test course"),
                 ClassPeriod.of(1)
             )));

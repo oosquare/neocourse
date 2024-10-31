@@ -14,16 +14,16 @@ class PlanScoreTest {
     @Test
     void assignScoreForCourse() {
         var scores = PlanScore.of();
-        var newScores = scores.assignScoreForCourse(new Id("0"), Score.of(90));
-        assertEquals(90, newScores.getCourseScores().get(new Id("0")).getValue());
+        var newScores = scores.assignScoreForCourse(Id.of("0"), Score.of(90));
+        assertEquals(90, newScores.getCourseScores().get(Id.of("0")).getValue());
     }
 
     @Test
     void calculateFinalResultReturnsPlanUnfinished() {
         var scores = PlanScore.of()
-            .assignScoreForCourse(new Id("0"), Score.of(90));
+            .assignScoreForCourse(Id.of("0"), Score.of(90));
         var finalResult = scores.calculateFinalResult(
-            Map.of(new Id("0"), ClassPeriod.of(1), new Id("1"), ClassPeriod.of(1)),
+            Map.of(Id.of("0"), ClassPeriod.of(1), Id.of("1"), ClassPeriod.of(1)),
             ClassPeriod.of(2)
         );
         assertEquals(FinalResult.ofPlanUnfinished(), finalResult);
@@ -32,16 +32,16 @@ class PlanScoreTest {
     @Test
     void calculateFinalResultReturnsPlanFinished() {
         var scores = PlanScore.of()
-            .assignScoreForCourse(new Id("0"), Score.of(90))
-            .assignScoreForCourse(new Id("1"), Score.of(95))
-            .assignScoreForCourse(new Id("2"), Score.of(100));
+            .assignScoreForCourse(Id.of("0"), Score.of(90))
+            .assignScoreForCourse(Id.of("1"), Score.of(95))
+            .assignScoreForCourse(Id.of("2"), Score.of(100));
         var finalResult = scores.calculateFinalResult(
             Map.of(
-                new Id("1"),
+                Id.of("1"),
                 ClassPeriod.of(1),
-                new Id("2"),
+                Id.of("2"),
                 ClassPeriod.of(1),
-                new Id("3"),
+                Id.of("3"),
                 ClassPeriod.of(1)
             ),
             ClassPeriod.of(2)

@@ -14,26 +14,26 @@ class CourseSetTest {
     @Test
     public void addCourseSucceeds() {
         var courseSet = CourseSet.of();
-        var newCourseSet = courseSet.addCourse(new Id("0"));
-        assertTrue(newCourseSet.getCourses().contains(new Id("0")));
+        var newCourseSet = courseSet.addCourse(Id.of("0"));
+        assertTrue(newCourseSet.getCourses().contains(Id.of("0")));
     }
 
     @Test
     public void addCourseThrowsWhenCourseDuplicated() {
-        var courseSet = CourseSet.ofInternally(Set.of(new Id("0")));
-        assertThrows(CourseSetException.class, () -> courseSet.addCourse(new Id("0")));
+        var courseSet = CourseSet.ofInternally(Set.of(Id.of("0")));
+        assertThrows(CourseSetException.class, () -> courseSet.addCourse(Id.of("0")));
     }
 
     @Test
     void removeCourseSucceeds() {
-        var courseSet = CourseSet.ofInternally(Set.of(new Id("0")));
-        var newCourseSet = courseSet.removeCourse(new Id("0"));
-        assertFalse(newCourseSet.getCourses().contains(new Id("0")));
+        var courseSet = CourseSet.ofInternally(Set.of(Id.of("0")));
+        var newCourseSet = courseSet.removeCourse(Id.of("0"));
+        assertFalse(newCourseSet.getCourses().contains(Id.of("0")));
     }
 
     @Test
     void removeCourseThrowsWhenCourseNotExisted() {
         var courseSet = CourseSet.of();
-        assertThrows(CourseSetException.class, () -> courseSet.removeCourse(new Id("0")));
+        assertThrows(CourseSetException.class, () -> courseSet.removeCourse(Id.of("0")));
     }
 }
