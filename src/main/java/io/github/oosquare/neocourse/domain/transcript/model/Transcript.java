@@ -1,36 +1,31 @@
-package io.github.oosquare.neocourse.domain.student.model;
+package io.github.oosquare.neocourse.domain.transcript.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.Value;
-import lombok.With;
 
+import io.github.oosquare.neocourse.domain.Entity;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
+import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-@Value
-@AllArgsConstructor(staticName = "ofInternally")
-public class PlanScore {
+@Getter
+@AllArgsConstructor(staticName = "createInternally")
+public class Transcript implements Entity {
 
-    private final @NonNull @With Map<Id, Score> courseScores;
+    private final @NonNull Id id;
+    private final @NonNull Id plan;
+    private final @NonNull Map<Id, Score> courseScores;
 
-    private PlanScore() {
-        this(ImmutableMap.of());
+    public Transcript(@NonNull Id id, @NonNull Plan plan) {
+        this(id, plan.getId(), new HashMap<>());
     }
 
-    public static PlanScore of() {
-        return new PlanScore();
-    }
-
-    public PlanScore assignScoreForCourse(@NonNull Id course, @NonNull Score score) {
-        var newCourseScores = ImmutableMap.<Id, Score>builder()
-            .putAll(this.courseScores)
-            .put(course, score)
-            .build();
-        return this.withCourseScores(newCourseScores);
+    public void assignScoreForCourse(@NonNull Id course, @NonNull Score score) {
+        this.courseScores.put(course, score);
     }
 
     public FinalResult calculateFinalResult(

@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.student.model;
+package io.github.oosquare.neocourse.domain.transcript.model;
 
 import com.google.common.base.Preconditions;
 import lombok.ToString;

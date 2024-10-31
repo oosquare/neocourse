@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.student.model;
+package io.github.oosquare.neocourse.domain.transcript.model;
 
 import org.junit.jupiter.api.Test;
 

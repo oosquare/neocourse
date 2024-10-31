@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.student.model;
+package io.github.oosquare.neocourse.domain.transcript.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

@@ -13,6 +13,7 @@ import io.github.oosquare.neocourse.domain.plan.model.PlanName;
 import io.github.oosquare.neocourse.domain.schedule.exception.EvaluationException;
 import io.github.oosquare.neocourse.domain.schedule.exception.RegistrationException;
 import io.github.oosquare.neocourse.domain.student.model.Student;
+import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -159,7 +160,8 @@ class ScheduleTest {
             Id.of(String.format("student%d", id)),
             Username.of(String.format("student%d", id)),
             DisplayedUsername.of(String.format("student%d", id)),
-            new Plan(Id.of("plan0"), PlanName.of("plan0"))
+            new Plan(Id.of("plan0"), PlanName.of("plan0")),
+            Id.of("transcript0")
         );
     }
 }
