@@ -148,8 +148,7 @@ class ScheduleTest {
             Id.of("schedule0"),
             Id.of("course0"),
             Id.of("teacher0"),
-            TEST_START_TIME,
-            TEST_PERIOD,
+            TimeRange.of(TEST_START_TIME, TEST_PERIOD),
             Place.of("test place"),
             Capacity.of(2),
             registrations
