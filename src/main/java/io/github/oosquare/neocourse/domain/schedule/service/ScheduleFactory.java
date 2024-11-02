@@ -1,8 +1,6 @@
 package io.github.oosquare.neocourse.domain.schedule.service;
 
-import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -14,7 +12,6 @@ import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
-import io.github.oosquare.neocourse.domain.student.exception.CreateStudentException;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
