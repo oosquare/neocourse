@@ -52,4 +52,8 @@ public class Plan implements Entity {
             );
         }
     }
+
+    public boolean isCourseIncluded(@NonNull Id course) {
+        return this.includedCourses.getCourses().contains(course);
+    }
 }

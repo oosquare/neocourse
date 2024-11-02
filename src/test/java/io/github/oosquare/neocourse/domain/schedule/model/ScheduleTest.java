@@ -129,7 +129,17 @@ class ScheduleTest {
     }
 
     @Test
-    void markStudentAbsent() {
+    void markStudentAbsentSucceeds() {
+        var schedule = ScheduleTest.createTestSchedule(true);
+        schedule.markStudentAttended(ScheduleTest.createTestStudent(0));
+        assertEquals(
+            ParticipationStatus.ABSENT,
+            schedule.getRegistrations().get(Id.of("student1")).getStatus()
+        );
+    }
+
+    @Test
+    void markStudentAbsentThrowsWhenStudentDoesNotExist() {
         var schedule = ScheduleTest.createTestSchedule(true);
         assertThrows(EvaluationException.class, () -> {
             schedule.markStudentAbsent(ScheduleTest.createTestStudent(2));
