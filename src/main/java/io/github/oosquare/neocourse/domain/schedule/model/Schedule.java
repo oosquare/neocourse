@@ -63,6 +63,10 @@ public class Schedule implements Entity {
         this.registrations.remove(student.getId());
     }
 
+    public boolean isStudentRegistered(@NonNull Student student) {
+        return this.registrations.containsKey(student.getId());
+    }
+
     public void markStudentAttended(@NonNull Student student) {
         new EvaluationSpecification(
             this.getId(),

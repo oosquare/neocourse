@@ -55,6 +55,10 @@ public class Transcript implements Entity {
         );
     }
 
+    public boolean isCourseAdded(@NonNull Course course) {
+        return this.courseScores.containsKey(course.getId());
+    }
+
     public Optional<ClassPeriod> calculateEarnedClassPeriod() {
         return this.courseScores.values()
             .stream()
