@@ -12,9 +12,9 @@ class TranscriptItemTest {
     @Test
     void accountsForEstimatedClassPeriod() {
         var item = TranscriptItem.of(Id.of("course0"), ClassPeriod.of(1));
-        assertFalse(item.isGraded());
+        assertFalse(item.isEvaluated());
 
         item = TranscriptItem.of(Id.of("course0"), ClassPeriod.of(1)).assignScore(Score.of(60));
-        assertTrue(item.isGraded());
+        assertTrue(item.isEvaluated());
     }
 }

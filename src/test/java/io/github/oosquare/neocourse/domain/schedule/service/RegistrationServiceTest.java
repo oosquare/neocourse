@@ -67,7 +67,7 @@ class RegistrationServiceTest {
             BASE_TIME.minusSeconds(10)
         );
         assertTrue(schedule.isStudentRegistered(student));
-        assertTrue(transcript.isCourseAdded(createTestCourse()));
+        assertFalse(transcript.isCourseSelectable(createTestCourse()));
     }
 
     @Test
@@ -130,7 +130,7 @@ class RegistrationServiceTest {
             BASE_TIME.minusSeconds(10)
         );
         assertFalse(schedule.isStudentRegistered(student));
-        assertFalse(transcript.isCourseAdded(createTestCourse()));
+        assertTrue(transcript.isCourseSelectable(createTestCourse()));
     }
 
     private static Plan createTestPlan() {

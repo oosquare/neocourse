@@ -19,6 +19,8 @@ import io.github.oosquare.neocourse.utility.id.Id;
 @AllArgsConstructor(staticName = "createInternally")
 public class Transcript implements Entity {
 
+    private static final Score DEFAULT_SCORE_FOR_UNEVALUATED = Score.of(60);
+
     private final @NonNull Id id;
     private final @NonNull Id plan;
     private final @NonNull Map<Id, TranscriptItem> courseScores;
@@ -37,7 +39,7 @@ public class Transcript implements Entity {
     public void removeCourseIfNotGraded(@NonNull Course course) {
         this.courseScores.computeIfPresent(
             course.getId(),
-            (key, item) -> (item.isGraded() ? item : null)
+            (key, item) -> (item.isEvaluated() ? item : null)
         );
     }
 
@@ -55,30 +57,36 @@ public class Transcript implements Entity {
         );
     }
 
-    public boolean isCourseAdded(@NonNull Course course) {
-        return this.courseScores.containsKey(course.getId());
+    public boolean isCourseSelectable(@NonNull Course course) {
+        return Optional.ofNullable(this.courseScores.get(course.getId()))
+            .map(item -> !item.accountsForEstimatedClassPeriod())
+            .orElse(true);
     }
 
-    public Optional<ClassPeriod> calculateEarnedClassPeriod() {
+    public Optional<ClassPeriod> calculateEstimatedClassPeriod() {
         return this.courseScores.values()
             .stream()
+            .filter(TranscriptItem::accountsForEstimatedClassPeriod)
             .map(TranscriptItem::getClassPeriod)
             .reduce((sum, item) -> ClassPeriod.of(sum.getValue() + item.getValue()));
     }
 
     public FinalResult calculateFinalResult(@NonNull ClassPeriod requiredClassPeriod) {
-        int earnedClassPeriod = 0;
+        int estimatedClassPeriod = 0;
         double weightedScoreSum = 0;
 
         for (var item : this.courseScores.values()) {
-            earnedClassPeriod += item.getClassPeriod().getValue();
-            weightedScoreSum += item.getScore().getValue() * item.getClassPeriod().getValue();
+            if (item.accountsForEstimatedClassPeriod()) {
+                estimatedClassPeriod += item.getClassPeriod().getValue();
+                var score = item.getScore().orElse(Transcript.DEFAULT_SCORE_FOR_UNEVALUATED);
+                weightedScoreSum += score.getValue() * item.getClassPeriod().getValue();
+            }
         }
 
-        if (earnedClassPeriod < requiredClassPeriod.getValue()) {
+        if (estimatedClassPeriod < requiredClassPeriod.getValue()) {
             return FinalResult.ofPlanUnfinished();
         } else {
-            double averageScore = weightedScoreSum / earnedClassPeriod;
+            double averageScore = weightedScoreSum / estimatedClassPeriod;
             return FinalResult.ofPlanFinished(averageScore);
         }
     }

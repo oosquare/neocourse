@@ -31,7 +31,7 @@ public class RegistrationService {
         var plan = this.getPlanByStudent(student);
         var course = this.getCourseBySchedule(schedule);
         this.checkCourseIncludedInPlan(student, course, plan);
-        this.checkCourseNotSelected(student, course, transcript);
+        this.checkCourseSelectable(student, course, transcript);
         schedule.requestRegistration(student, currentTime);
         transcript.addCourse(course);
     }
@@ -77,8 +77,8 @@ public class RegistrationService {
         }
     }
 
-    private void checkCourseNotSelected(Student student, Course course, Transcript transcript) {
-        if (transcript.isCourseAdded(course)) {
+    private void checkCourseSelectable(Student student, Course course, Transcript transcript) {
+        if (!transcript.isCourseSelectable(course)) {
             throw new RegistrationException(String.format(
                 "Course[id=%s, name=%s] is already selected by Student[id=%s]",
                 course.getId(),

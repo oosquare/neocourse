@@ -23,12 +23,8 @@ class TranscriptTest {
             Id.of("plan0"),
             new HashMap<>()
         );
-        transcript.addCourse(new Course(
-            Id.of("course0"),
-            CourseName.of("course 0"),
-            ClassPeriod.of(1)
-        ));
-        assertTrue(transcript.getCourseScores().containsKey(Id.of("course0")));
+        transcript.addCourse(createTestCourse(0));
+        assertTrue(transcript.getCourseScores().containsKey(Id.of("0")));
     }
 
     @Test
@@ -43,16 +39,8 @@ class TranscriptTest {
                 TranscriptItem.of(Id.of("1"), ClassPeriod.of(1)).assignScore(Score.of(60))
             ))
         );
-        transcript.removeCourseIfNotGraded(new Course(
-            Id.of("0"),
-            CourseName.of("course 0"),
-            ClassPeriod.of(1)
-        ));
-        transcript.removeCourseIfNotGraded(new Course(
-            Id.of("1"),
-            CourseName.of("course 1"),
-            ClassPeriod.of(1)
-        ));
+        transcript.removeCourseIfNotGraded(createTestCourse(0));
+        transcript.removeCourseIfNotGraded(createTestCourse(1));
         assertFalse(transcript.getCourseScores().containsKey(Id.of("0")));
         assertTrue(transcript.getCourseScores().containsKey(Id.of("1")));
     }
@@ -67,16 +55,9 @@ class TranscriptTest {
                 TranscriptItem.of(Id.of("0"), ClassPeriod.of(1))
             ))
         );
-        transcript.gradeCourse(
-            new Course(
-                Id.of("0"),
-                CourseName.of("course 0"),
-                ClassPeriod.of(1)
-            ),
-            Score.of(60)
-        );
-        assertEquals(Score.of(60), transcript.getCourseScores().get(Id.of("0")).getScore());
-        assertTrue(transcript.getCourseScores().get(Id.of("0")).isGraded());
+        transcript.gradeCourse(createTestCourse(0), Score.of(60));
+        assertEquals(Optional.of(Score.of(60)), transcript.getCourseScores().get(Id.of("0")).getScore());
+        assertTrue(transcript.getCourseScores().get(Id.of("0")).isEvaluated());
     }
 
     @Test
@@ -86,18 +67,33 @@ class TranscriptTest {
             Id.of("plan0"),
             new HashMap<>()
         );
-        assertThrows(TranscriptException.class, () -> transcript.gradeCourse(
-            new Course(
-                Id.of("0"),
-                CourseName.of("course 0"),
-                ClassPeriod.of(1)
-            ),
-            Score.of(60)
-        ));
+        assertThrows(TranscriptException.class, () -> {
+            transcript.gradeCourse(createTestCourse(0), Score.of(60));
+        });
     }
 
     @Test
-    void calculateEarnedClassPeriod() {
+    void isCourseSelectable() {
+        var transcript = Transcript.createInternally(
+            Id.of("0"),
+            Id.of("0"),
+            new HashMap<>(Map.of(
+                Id.of("0"),
+                TranscriptItem.of(Id.of("0"), ClassPeriod.of(1)),
+                Id.of("1"),
+                TranscriptItem.of(Id.of("1"), ClassPeriod.of(1)).assignScore(Score.of(95)),
+                Id.of("2"),
+                TranscriptItem.of(Id.of("2"), ClassPeriod.of(1)).markAbsent()
+            ))
+        );
+        assertFalse(transcript.isCourseSelectable(createTestCourse(0)));
+        assertFalse(transcript.isCourseSelectable(createTestCourse(1)));
+        assertTrue(transcript.isCourseSelectable(createTestCourse(2)));
+        assertTrue(transcript.isCourseSelectable(createTestCourse(3)));
+    }
+
+    @Test
+    void calculateEstimatedClassPeriod() {
         var transcript = Transcript.createInternally(
             Id.of("0"),
             Id.of("0"),
@@ -108,7 +104,7 @@ class TranscriptTest {
                 TranscriptItem.of(Id.of("1"), ClassPeriod.of(2)).assignScore(Score.of(95))
             ))
         );
-        assertEquals(Optional.of(ClassPeriod.of(3)), transcript.calculateEarnedClassPeriod());
+        assertEquals(Optional.of(ClassPeriod.of(3)), transcript.calculateEstimatedClassPeriod());
     }
 
     @Test
@@ -140,6 +136,14 @@ class TranscriptTest {
             ))
         );
         var finalResult = transcript.calculateFinalResult(ClassPeriod.of(4));
-        assertEquals(FinalResult.ofPlanFinished(72.5), finalResult);
+        assertEquals(FinalResult.ofPlanFinished(87.5), finalResult);
+    }
+
+    private static Course createTestCourse(int id) {
+        return new Course(
+            Id.of(String.format("%d", id)),
+            CourseName.of(String.format("course %d", id)),
+            ClassPeriod.of(1)
+        );
     }
 }
