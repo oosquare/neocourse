@@ -10,5 +10,5 @@ import io.github.oosquare.neocourse.domain.plan.model.PlanName;
 
 public interface PlanRepository extends EntityRepository<Plan> {
 
-    Optional<PlanSummaryRepresentation> findByNameReturningSummary(@NonNull PlanName name);
+    Optional<Plan> findByName(@NonNull PlanName name);
 }

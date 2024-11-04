@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.github.oosquare.neocourse.domain.plan.exception.CreatePlanException;
+import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
@@ -27,7 +28,7 @@ class PlanFactoryTest {
     void createPlanSucceeds() {
         when(this.idGenerator.generate())
             .thenReturn(Id.of("0"));
-        when(this.planRepository.findByNameReturningSummary(any()))
+        when(this.planRepository.findByName(any()))
             .thenReturn(Optional.empty());
 
         var plan = this.planFactory.createPlan(PlanName.of("test plan"));
@@ -38,8 +39,8 @@ class PlanFactoryTest {
 
     @Test
     void createPlanThrowsWhenPlanNameIsDuplicated() {
-        when(this.planRepository.findByNameReturningSummary(PlanName.of("test plan")))
-            .thenReturn(Optional.of(new PlanSummaryRepresentation(
+        when(this.planRepository.findByName(PlanName.of("test plan")))
+            .thenReturn(Optional.of(new Plan(
                 Id.of("0"),
                 PlanName.of("test plan")
             )));

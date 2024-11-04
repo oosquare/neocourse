@@ -23,13 +23,13 @@ public class PlanFactory {
     }
 
     private void checkPlanNotDuplicated(PlanName name) {
-        this.planRepository.findByNameReturningSummary(name)
-            .ifPresent(planSummary -> {
+        this.planRepository.findByName(name)
+            .ifPresent(plan -> {
                 throw new CreatePlanException(
                     String.format(
                         "Plan[id=%s, name=%s] already exists",
-                        planSummary.getId(),
-                        planSummary.getName()
+                        plan.getId(),
+                        plan.getName()
                     )
                 );
             });
