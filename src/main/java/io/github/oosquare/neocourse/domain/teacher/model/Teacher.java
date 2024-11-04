@@ -1,5 +1,8 @@
 package io.github.oosquare.neocourse.domain.teacher.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -7,8 +10,7 @@ import lombok.NonNull;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.User;
 import io.github.oosquare.neocourse.domain.common.model.Username;
-import io.github.oosquare.neocourse.domain.course.model.Course;
-import io.github.oosquare.neocourse.domain.teacher.exception.OfferedCourseException;
+import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.teacher.exception.TeacherException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
@@ -19,7 +21,7 @@ public class Teacher implements User {
     private final @NonNull Id id;
     private final @NonNull Username username;
     private final @NonNull DisplayedUsername displayedUsername;
-    private @NonNull OfferedCourses offeredCourses;
+    private final @NonNull Set<Id> managedSchedules;
 
     public Teacher(
         @NonNull Id id,
@@ -29,36 +31,40 @@ public class Teacher implements User {
         this.id = id;
         this.username = username;
         this.displayedUsername = displayedUsername;
-        this.offeredCourses = OfferedCourses.of();
+        this.managedSchedules = new HashSet<>();
     }
 
-    public void addOfferedCourse(@NonNull Course course) {
-        try {
-            this.offeredCourses = this.offeredCourses.addCourse(course.getId());
-        } catch (OfferedCourseException exception) {
-            throw new TeacherException(
-                String.format(
-                    "Could not add Course[id=%s] for Teacher[id=%s]",
-                    course.getId(),
-                    this.getId()
-                ),
-                exception
-            );
+    public void addManagedSchedule(@NonNull Schedule schedule) {
+        if (this.managedSchedules.contains(schedule.getId())) {
+            throw new TeacherException(String.format(
+                "Teacher[id=%s] has already been managing Schedule[id=%s]",
+                this.getId(),
+                schedule.getId()
+            ));
         }
+        if (!schedule.getTeacher().equals(this.getId())) {
+            throw new TeacherException(String.format(
+                "Teacher[id=%s] can't manage Schedule[id=%s] which is offered by Teacher[id=%s]",
+                this.getId(),
+                schedule.getId(),
+                schedule.getTeacher()
+            ));
+        }
+        this.managedSchedules.add(schedule.getId());
     }
 
-    public void removeOfferedCourse(@NonNull Course course) {
-        try {
-            this.offeredCourses = this.offeredCourses.removeCourse(course.getId());
-        } catch (OfferedCourseException exception) {
-            throw new TeacherException(
-                String.format(
-                    "Could not remove Course[id=%s] for Teacher[id=%s]",
-                    course.getId(),
-                    this.getId()
-                ),
-                exception
-            );
+    public void removeManagedSchedule(@NonNull Schedule schedule) {
+        if (!this.managedSchedules.contains(schedule.getId())) {
+            throw new TeacherException(String.format(
+                "Teacher[id=%s] doesn't manage Schedule[id=%s]",
+                this.getId(),
+                schedule.getId()
+            ));
         }
+        this.managedSchedules.remove(schedule.getId());
+    }
+
+    public boolean isManagingSchedule(@NonNull Schedule schedule) {
+        return this.managedSchedules.contains(schedule.getId());
     }
 }
