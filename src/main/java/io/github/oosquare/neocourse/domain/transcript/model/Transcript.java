@@ -46,8 +46,9 @@ public class Transcript implements Entity {
     public void gradeCourse(@NonNull Course course, @NonNull Score score) {
         if (!this.courseScores.containsKey(course.getId())) {
             throw new TranscriptException(String.format(
-                "Transcript[id=%s] doesn't include Course[id=%s]",
+                "Transcript[id=%s] doesn't include Course[id=%s, name=%s]",
                 this.getId(),
+                course.getId(),
                 course.getName()
             ));
         }
@@ -57,10 +58,29 @@ public class Transcript implements Entity {
         );
     }
 
+    public void markAbsent(@NonNull Course course) {
+        if (!this.courseScores.containsKey(course.getId())) {
+            throw new TranscriptException(String.format(
+                "Transcript[id=%s] doesn't include Course[id=%s]",
+                this.getId(),
+                course.getName()
+            ));
+        }
+        this.courseScores.computeIfPresent(
+            course.getId(),
+            (key, item) -> item.markAbsent()
+        );
+    }
+
     public boolean isCourseSelectable(@NonNull Course course) {
         return Optional.ofNullable(this.courseScores.get(course.getId()))
             .map(item -> !item.accountsForEstimatedClassPeriod())
             .orElse(true);
+    }
+
+    public Optional<Score> getScore(@NonNull Course course) {
+        return Optional.ofNullable(this.courseScores.get(course.getId()))
+            .flatMap(TranscriptItem::getScore);
     }
 
     public Optional<ClassPeriod> calculateEstimatedClassPeriod() {

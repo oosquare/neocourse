@@ -2,13 +2,13 @@ package io.github.oosquare.neocourse.domain.schedule.exception;
 
 import io.github.oosquare.neocourse.domain.common.exception.DomainException;
 
-public class EvaluationException extends DomainException {
+public class EvaluationSpecificationException extends DomainException {
 
-    public EvaluationException(String message) {
+    public EvaluationSpecificationException(String message) {
         super(message);
     }
 
-    public EvaluationException(String message, Throwable cause) {
+    public EvaluationSpecificationException(String message, Throwable cause) {
         super(message, cause);
     }
 }

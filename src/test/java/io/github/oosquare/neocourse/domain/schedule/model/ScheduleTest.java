@@ -11,7 +11,7 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
-import io.github.oosquare.neocourse.domain.schedule.exception.EvaluationException;
+import io.github.oosquare.neocourse.domain.schedule.exception.EvaluationSpecificationException;
 import io.github.oosquare.neocourse.domain.schedule.exception.RegistrationException;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
@@ -123,7 +123,7 @@ class ScheduleTest {
     @Test
     void markStudentAttendedThrowsWhenStudentDoesNotExist() {
         var schedule = ScheduleTest.createTestSchedule(true);
-        assertThrows(EvaluationException.class, () -> {
+        assertThrows(EvaluationSpecificationException.class, () -> {
             schedule.markStudentAttended(ScheduleTest.createTestStudent(2));
         });
     }
@@ -141,7 +141,7 @@ class ScheduleTest {
     @Test
     void markStudentAbsentThrowsWhenStudentDoesNotExist() {
         var schedule = ScheduleTest.createTestSchedule(true);
-        assertThrows(EvaluationException.class, () -> {
+        assertThrows(EvaluationSpecificationException.class, () -> {
             schedule.markStudentAbsent(ScheduleTest.createTestStudent(2));
         });
     }

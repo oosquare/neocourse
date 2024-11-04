@@ -5,7 +5,7 @@ import java.util.Map;
 import lombok.NonNull;
 import lombok.Value;
 
-import io.github.oosquare.neocourse.domain.schedule.exception.EvaluationException;
+import io.github.oosquare.neocourse.domain.schedule.exception.EvaluationSpecificationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
@@ -22,7 +22,7 @@ public class EvaluationSpecification {
         if (this.registrations.containsKey(student)) {
             return;
         }
-        throw new EvaluationException(
+        throw new EvaluationSpecificationException(
             String.format(
                 "Student[id=%s] hasn't registered for Schedule[id=%s] yet",
                 student,
