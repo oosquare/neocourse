@@ -7,7 +7,6 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -20,7 +19,7 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
-import io.github.oosquare.neocourse.domain.schedule.exception.CreateScheduleException;
+import io.github.oosquare.neocourse.domain.schedule.exception.ScheduleException;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Registration;
@@ -88,7 +87,7 @@ class ScheduleFactoryTest {
         when(this.scheduleRepository.findByDateAndPlace(startTime, place))
             .thenReturn(List.of(createTestSchedule(0, 45)));
 
-        assertThrows(CreateScheduleException.class, () -> {
+        assertThrows(ScheduleException.class, () -> {
             this.scheduleFactory.createSchedule(course, teacher, startTime, place, capacity);
         });
     }

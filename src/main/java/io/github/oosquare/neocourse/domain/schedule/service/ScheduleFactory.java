@@ -7,7 +7,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import io.github.oosquare.neocourse.domain.course.model.Course;
-import io.github.oosquare.neocourse.domain.schedule.exception.CreateScheduleException;
+import io.github.oosquare.neocourse.domain.schedule.exception.ScheduleException;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
@@ -41,7 +41,7 @@ public class ScheduleFactory {
             .filter(existed -> existed.getTime().hasOverlap(timeRange))
             .findFirst();
         conflictSchedule.ifPresent(existed -> {
-            throw new CreateScheduleException(
+            throw new ScheduleException(
                 String.format(
                     "New schedule's time %s is conflicted with Schedule[id=%s, time=%s]",
                     timeRange,
