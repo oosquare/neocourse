@@ -68,10 +68,6 @@ public class Schedule implements Entity {
     }
 
     public void markStudentAttended(@NonNull Student student) {
-        new EvaluationSpecification(
-            this.getId(),
-            this.getRegistrations()
-        ).checkStudentEvaluable(student.getId());
         this.registrations.computeIfPresent(
             student.getId(),
             (id, registration) -> registration.markAttended()
@@ -79,10 +75,6 @@ public class Schedule implements Entity {
     }
 
     public void markStudentAbsent(@NonNull Student student) {
-        new EvaluationSpecification(
-            this.getId(),
-            this.getRegistrations()
-        ).checkStudentEvaluable(student.getId());
         this.registrations.computeIfPresent(
             student.getId(),
             (id, registration) -> registration.markAbsent()
