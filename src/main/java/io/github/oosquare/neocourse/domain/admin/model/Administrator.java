@@ -24,4 +24,12 @@ public class Administrator implements User {
         this.username = username;
         this.displayedUsername = displayedUsername;
     }
+
+    public static Administrator createInternally(
+        @NonNull Id id,
+        @NonNull Username username,
+        @NonNull DisplayedUsername displayedUsername
+    ) {
+        return new Administrator(id, username, displayedUsername);
+    }
 }
