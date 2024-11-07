@@ -58,12 +58,12 @@ class EvaluationServiceTest {
 
     @Test
     void gradeStudentThrowsWhenTeacherDoesNotManageSchedule() {
-        var teacher = Teacher.createInternally(
-            Id.of("teacher0"),
-            Username.of("teacher0"),
-            DisplayedUsername.of("teacher 0"),
-            new HashSet<>()
-        );
+        var teacher = Teacher.builder()
+            .id(Id.of("teacher0"))
+            .username(Username.of("teacher0"))
+            .displayedUsername(DisplayedUsername.of("teacher 0"))
+            .managedSchedules(new HashSet<>())
+            .build();
         var schedule = createTestSchedule(1);
         var student = createTestStudent();
         var transcript = createTestTranscript();
@@ -77,13 +77,13 @@ class EvaluationServiceTest {
     void gradeStudentThrowsWhenStudentIsNotRegistered() {
         var teacher = createTestTeacher();
         var schedule = createTestSchedule(1);
-        var student = Student.createInternally(
-            Id.of("student1"),
-            Username.of("student1"),
-            DisplayedUsername.of("student 1"),
-            Id.of("plan0"),
-            Id.of("transcript0")
-        );
+        var student = Student.builder()
+            .id(Id.of("student1"))
+            .username(Username.of("student1"))
+            .displayedUsername(DisplayedUsername.of("student 1"))
+            .plan(Id.of("plan0"))
+            .transcript(Id.of("transcript0"))
+            .build();
         var transcript = createTestTranscript();
 
         assertThrows(EvaluationException.class, () -> {
@@ -118,54 +118,54 @@ class EvaluationServiceTest {
     }
 
     private static Teacher createTestTeacher() {
-        return Teacher.createInternally(
-            Id.of("teacher0"),
-            Username.of("teacher0"),
-            DisplayedUsername.of("teacher 0"),
-            new HashSet<>(Set.of(Id.of("schedule0")))
-        );
+        return Teacher.builder()
+            .id(Id.of("teacher0"))
+            .username(Username.of("teacher0"))
+            .displayedUsername(DisplayedUsername.of("teacher 0"))
+            .managedSchedules(new HashSet<>(Set.of(Id.of("schedule0"))))
+            .build();
     }
 
     private static Student createTestStudent() {
-        return Student.createInternally(
-            Id.of("student0"),
-            Username.of("student0"),
-            DisplayedUsername.of("student 0"),
-            Id.of("plan0"),
-            Id.of("transcript0")
-        );
+        return Student.builder()
+            .id(Id.of("student0"))
+            .username(Username.of("student0"))
+            .displayedUsername(DisplayedUsername.of("student 0"))
+            .plan(Id.of("plan0"))
+            .transcript(Id.of("transcript0"))
+            .build();
     }
 
     private static Schedule createTestSchedule(int teacherId) {
         var registration = new HashMap<Id, Registration>();
         registration.put(Id.of("student0"), Registration.of(Id.of("student0")));
-        return Schedule.createInternally(
-            Id.of("schedule0"),
-            Id.of("course0"),
-            Id.of(String.format("teacher%d", teacherId)),
-            TimeRange.of(ZonedDateTime.now(), Duration.ofMinutes(45)),
-            Place.of("place0"),
-            Capacity.of(2),
-            registration
-        );
+        return Schedule.builder()
+            .id(Id.of("schedule0"))
+            .course(Id.of("course0"))
+            .teacher(Id.of(String.format("teacher%d", teacherId)))
+            .time(TimeRange.of(ZonedDateTime.now(), Duration.ofMinutes(45)))
+            .place(Place.of("place0"))
+            .capacity(Capacity.of(2))
+            .registrations(registration)
+            .build();
     }
 
     private static Course createTestCourse() {
-        return Course.createInternally(
-            Id.of("course0"),
-            CourseName.of("course 0"),
-            ClassPeriod.of(1)
-        );
+        return Course.builder()
+            .id(Id.of("course0"))
+            .name(CourseName.of("course 0"))
+            .classPeriod(ClassPeriod.of(1))
+            .build();
     }
 
     private static Transcript createTestTranscript() {
-        return Transcript.createInternally(
-            Id.of("transcript0"),
-            Id.of("plan0"),
-            new HashMap<>(Map.of(
+        return Transcript.builder()
+            .id(Id.of("transcript0"))
+            .plan(Id.of("plan0"))
+            .courseScores(new HashMap<>(Map.of(
                 Id.of("course0"),
                 TranscriptItem.of(Id.of("course0"), ClassPeriod.of(1))
-            ))
-        );
+            )))
+            .build();
     }
 }

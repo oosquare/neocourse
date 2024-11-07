@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -15,7 +16,8 @@ import io.github.oosquare.neocourse.domain.teacher.exception.TeacherException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-@AllArgsConstructor(staticName = "createInternally")
+@AllArgsConstructor
+@Builder
 public class Teacher implements User {
 
     private final @NonNull Id id;

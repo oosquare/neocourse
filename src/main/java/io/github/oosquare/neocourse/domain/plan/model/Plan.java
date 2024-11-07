@@ -1,6 +1,7 @@
 package io.github.oosquare.neocourse.domain.plan.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -11,7 +12,8 @@ import io.github.oosquare.neocourse.domain.plan.exception.PlanException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-@AllArgsConstructor(staticName = "createInternally")
+@AllArgsConstructor
+@Builder
 public class Plan implements Entity {
 
     private final @NonNull Id id;

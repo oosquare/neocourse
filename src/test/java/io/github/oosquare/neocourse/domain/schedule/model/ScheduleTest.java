@@ -137,15 +137,15 @@ class ScheduleTest {
             registrations.put(Id.of("student1"), Registration.of(Id.of("student1")).markAbsent());
         }
 
-        return Schedule.createInternally(
-            Id.of("schedule0"),
-            Id.of("course0"),
-            Id.of("teacher0"),
-            TimeRange.of(TEST_START_TIME, TEST_PERIOD),
-            Place.of("test place"),
-            Capacity.of(2),
-            registrations
-        );
+        return Schedule.builder()
+            .id(Id.of("schedule0"))
+            .course(Id.of("course0"))
+            .teacher(Id.of("teacher0"))
+            .time(TimeRange.of(TEST_START_TIME, TEST_PERIOD))
+            .place(Place.of("test place"))
+            .capacity(Capacity.of(2))
+            .registrations(registrations)
+            .build();
     }
 
     static Student createTestStudent(int id) {
@@ -154,7 +154,11 @@ class ScheduleTest {
             Username.of(String.format("student%d", id)),
             DisplayedUsername.of(String.format("student%d", id)),
             new Plan(Id.of("plan0"), PlanName.of("plan0")),
-            Transcript.createInternally(Id.of("transcript0"), Id.of("plan0"), Map.of())
+            Transcript.builder()
+                .id(Id.of("transcript0"))
+                .plan(Id.of("plan0"))
+                .courseScores(Map.of())
+                .build()
         );
     }
 }

@@ -1,6 +1,7 @@
 package io.github.oosquare.neocourse.domain.student.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -12,7 +13,8 @@ import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-@AllArgsConstructor(staticName = "createInternally")
+@AllArgsConstructor
+@Builder
 public class Student implements User {
 
     private final @NonNull Id id;

@@ -76,14 +76,14 @@ class TeacherTest {
     }
 
     private static Schedule createTestSchedule(int teacherId) {
-        return Schedule.createInternally(
-            Id.of("schedule0"),
-            Id.of("course0"),
-            Id.of(String.format("teacher%d", teacherId)),
-            TimeRange.of(ZonedDateTime.now(), Duration.ofSeconds(1)),
-            Place.of("place0"),
-            Capacity.of(1),
-            new HashMap<>()
-        );
+        return Schedule.builder()
+            .id(Id.of("schedule0"))
+            .course(Id.of("course0"))
+            .teacher(Id.of(String.format("teacher%d", teacherId)))
+            .time(TimeRange.of(ZonedDateTime.now(), Duration.ofSeconds(1)))
+            .place(Place.of("place0"))
+            .capacity(Capacity.of(1))
+            .registrations(new HashMap<>())
+            .build();
     }
 }

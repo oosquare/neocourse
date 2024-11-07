@@ -2,6 +2,7 @@ package io.github.oosquare.neocourse.domain.course.model;
 
 import java.time.Duration;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -9,6 +10,7 @@ import io.github.oosquare.neocourse.domain.Entity;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
+@Builder
 public class Course implements Entity {
 
     private static final Duration PERIOD_PER_LECTURE = Duration.ofMinutes(45);
@@ -26,14 +28,6 @@ public class Course implements Entity {
         this.id = id;
         this.name = name;
         this.classPeriod = classPeriod;
-    }
-
-    public static Course createInternally(
-        @NonNull Id id,
-        @NonNull CourseName name,
-        @NonNull ClassPeriod classPeriod
-    ) {
-        return new Course(id, name, classPeriod);
     }
 
     public Duration getActualPeriod() {

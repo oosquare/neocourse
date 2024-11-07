@@ -95,14 +95,14 @@ class ScheduleFactoryTest {
     private static Schedule createTestSchedule(int scheduleId, int startMinutes) {
         var registrations = new HashMap<Id, Registration>();
 
-        return Schedule.createInternally(
-            Id.of(String.format("schedule%s", scheduleId)),
-            Id.of("course0"),
-            Id.of("teacher0"),
-            TimeRange.of(TEST_BASE_TIME.plusMinutes(startMinutes), TEST_PERIOD),
-            Place.of("test place"),
-            Capacity.of(2),
-            registrations
-        );
+        return Schedule.builder()
+            .id(Id.of(String.format("schedule%s", scheduleId)))
+            .course(Id.of("course0"))
+            .teacher(Id.of("teacher0"))
+            .time(TimeRange.of(TEST_BASE_TIME.plusMinutes(startMinutes), TEST_PERIOD))
+            .place(Place.of("test place"))
+            .capacity(Capacity.of(2))
+            .registrations(registrations)
+            .build();
     }
 }

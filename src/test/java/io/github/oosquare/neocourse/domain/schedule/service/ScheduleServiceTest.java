@@ -75,12 +75,7 @@ class ScheduleServiceTest {
     @Test
     void prepareRemovingScheduleSucceeds() {
         var schedule = createTestSchedule(false);
-        var teacher = Teacher.createInternally(
-            Id.of("teacher0"),
-            Username.of("test-teacher"),
-            DisplayedUsername.of("test teacher"),
-            new HashSet<>(Set.of(Id.of("schedule0")))
-        );
+        var teacher = createTestTeacher();
 
         this.scheduleService.prepareRemovingSchedule(schedule, teacher);
         assertFalse(teacher.isManagingSchedule(schedule));
@@ -89,21 +84,16 @@ class ScheduleServiceTest {
     @Test
     void prepareRemovingScheduleThrowsWhenStartTimeIsNotAfterNow() {
         var registrations = new HashMap<Id, Registration>();
-        var schedule = Schedule.createInternally(
-            Id.of("schedule0"),
-            Id.of("course0"),
-            Id.of("teacher0"),
-            TimeRange.of(TEST_BASE_TIME.minusMinutes(10), TEST_PERIOD),
-            Place.of("test place"),
-            Capacity.of(2),
-            registrations
-        );
-        var teacher = Teacher.createInternally(
-            Id.of("teacher0"),
-            Username.of("test-teacher"),
-            DisplayedUsername.of("test teacher"),
-            new HashSet<>(Set.of(Id.of("schedule0")))
-        );
+        var schedule = Schedule.builder()
+            .id(Id.of("schedule0"))
+            .course(Id.of("course0"))
+            .teacher(Id.of("teacher0"))
+            .time(TimeRange.of(TEST_BASE_TIME.minusMinutes(10), TEST_PERIOD))
+            .place(Place.of("test place"))
+            .capacity(Capacity.of(2))
+            .registrations(registrations)
+            .build();
+        var teacher = createTestTeacher();
 
         assertThrows(ScheduleException.class, () -> {
             this.scheduleService.prepareRemovingSchedule(schedule, teacher);
@@ -113,12 +103,7 @@ class ScheduleServiceTest {
     @Test
     void prepareRemovingScheduleThrowsWhenScheduleHasRegistrations() {
         var schedule = createTestSchedule(true);
-        var teacher = Teacher.createInternally(
-            Id.of("teacher0"),
-            Username.of("test-teacher"),
-            DisplayedUsername.of("test teacher"),
-            new HashSet<>(Set.of(Id.of("schedule0")))
-        );
+        var teacher = createTestTeacher();
 
         assertThrows(ScheduleException.class, () -> {
             this.scheduleService.prepareRemovingSchedule(schedule, teacher);
@@ -128,12 +113,12 @@ class ScheduleServiceTest {
     @Test
     void prepareRemovingScheduleThrowsWhenTeacherDoesNotManageSchedule() {
         var schedule = createTestSchedule(false);
-        var teacher = Teacher.createInternally(
-            Id.of("teacher1"),
-            Username.of("test-teacher1"),
-            DisplayedUsername.of("test teacher1"),
-            new HashSet<>()
-        );
+        var teacher = Teacher.builder()
+            .id(Id.of("teacher1"))
+            .username(Username.of("test-teacher1"))
+            .displayedUsername(DisplayedUsername.of("test teacher1"))
+            .managedSchedules(new HashSet<>())
+            .build();
 
         assertThrows(ScheduleException.class, () -> {
             this.scheduleService.prepareRemovingSchedule(schedule, teacher);
@@ -145,14 +130,23 @@ class ScheduleServiceTest {
         if (withDefaultRegistrations) {
             registrations.put(Id.of("student0"), Registration.of(Id.of("student0")));
         }
-        return Schedule.createInternally(
-            Id.of("schedule0"),
-            Id.of("course0"),
-            Id.of("teacher0"),
-            TimeRange.of(TEST_BASE_TIME.plusMinutes(10), TEST_PERIOD),
-            Place.of("test place"),
-            Capacity.of(2),
-            registrations
-        );
+        return Schedule.builder()
+            .id(Id.of("schedule0"))
+            .course(Id.of("course0"))
+            .teacher(Id.of("teacher0"))
+            .time(TimeRange.of(TEST_BASE_TIME.plusMinutes(10), TEST_PERIOD))
+            .place(Place.of("test place"))
+            .capacity(Capacity.of(2))
+            .registrations(registrations)
+            .build();
+    }
+
+    private static Teacher createTestTeacher() {
+        return Teacher.builder()
+            .id(Id.of("teacher0"))
+            .username(Username.of("test-teacher"))
+            .displayedUsername(DisplayedUsername.of("test teacher"))
+            .managedSchedules(new HashSet<>(Set.of(Id.of("schedule0"))))
+            .build();
     }
 }

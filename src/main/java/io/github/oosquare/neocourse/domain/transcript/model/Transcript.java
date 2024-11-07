@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -16,7 +17,8 @@ import io.github.oosquare.neocourse.domain.transcript.exception.TranscriptExcept
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-@AllArgsConstructor(staticName = "createInternally")
+@AllArgsConstructor
+@Builder
 public class Transcript implements Entity {
 
     private static final Score DEFAULT_SCORE_FOR_UNEVALUATED = Score.of(60);

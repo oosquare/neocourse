@@ -91,12 +91,13 @@ class RegistrationServiceTest {
 
     @Test
     void registerThrowsWhenCourseIsNotIncludedInPlan() {
+        var plan = Plan.builder()
+            .id(Id.of("plan0"))
+            .name(PlanName.of("plan 0"))
+            .includedCourses(CourseSet.ofInternally(Set.of(Id.of("course1"))))
+            .build();
         when(this.planRepository.find(Id.of("plan0")))
-            .thenReturn(Optional.of(Plan.createInternally(
-                Id.of("plan0"),
-                PlanName.of("plan 0"),
-                CourseSet.ofInternally(Set.of(Id.of("course1")))
-            )));
+            .thenReturn(Optional.of(plan));
         when(this.courseRepository.find(Id.of("course0")))
             .thenReturn(Optional.of(createTestCourse()));
 
@@ -134,21 +135,21 @@ class RegistrationServiceTest {
     }
 
     private static Plan createTestPlan() {
-        return Plan.createInternally(
-            Id.of("plan0"),
-            PlanName.of("plan 0"),
-            CourseSet.ofInternally(Set.of(Id.of("course0")))
-        );
+        return Plan.builder()
+            .id(Id.of("plan0"))
+            .name(PlanName.of("plan 0"))
+            .includedCourses(CourseSet.ofInternally(Set.of(Id.of("course0"))))
+            .build();
     }
 
     private static Student createTestStudent(int id) {
-        return Student.createInternally(
-            Id.of(String.format("student%d", id)),
-            Username.of(String.format("student%d", id)),
-            DisplayedUsername.of(String.format("student %d", id)),
-            Id.of("plan0"),
-            Id.of("transcript0")
-        );
+        return Student.builder()
+            .id(Id.of(String.format("student%d", id)))
+            .username(Username.of(String.format("student%d", id)))
+            .displayedUsername(DisplayedUsername.of(String.format("student %d", id)))
+            .plan(Id.of("plan0"))
+            .transcript(Id.of("transcript0"))
+            .build();
     }
 
     private static Schedule createTestSchedule(boolean withDefaultStudent) {
@@ -157,30 +158,30 @@ class RegistrationServiceTest {
             registration.put(Id.of("student0"), Registration.of(Id.of("student0")));
             registration.put(Id.of("student1"), Registration.of(Id.of("student1")));
         }
-        return Schedule.createInternally(
-            Id.of("schedule0"),
-            Id.of("course0"),
-            Id.of("teacher0"),
-            TimeRange.of(BASE_TIME, Duration.ofMinutes(45)),
-            Place.of("place0"),
-            Capacity.of(2),
-            registration
-        );
+        return Schedule.builder()
+            .id(Id.of("schedule0"))
+            .course(Id.of("course0"))
+            .teacher(Id.of("teacher0"))
+            .time(TimeRange.of(BASE_TIME, Duration.ofMinutes(45)))
+            .place(Place.of("place0"))
+            .capacity(Capacity.of(2))
+            .registrations(registration)
+            .build();
     }
 
     private static Course createTestCourse() {
-        return Course.createInternally(
-            Id.of("course0"),
-            CourseName.of("course 0"),
-            ClassPeriod.of(1)
-        );
+        return Course.builder()
+            .id(Id.of("course0"))
+            .name(CourseName.of("course 0"))
+            .classPeriod(ClassPeriod.of(1))
+            .build();
     }
 
     private static Transcript createTestTranscript(int id) {
-        return Transcript.createInternally(
-            Id.of(String.format("transcript%d", id)),
-            Id.of(String.format("plan%d", id)),
-            new HashMap<>()
-        );
+        return Transcript.builder()
+            .id(Id.of(String.format("transcript%d", id)))
+            .plan(Id.of(String.format("plan%d", id)))
+            .courseScores(new HashMap<>())
+            .build();
     }
 }

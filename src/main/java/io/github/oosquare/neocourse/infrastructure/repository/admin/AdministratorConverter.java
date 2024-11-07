@@ -14,11 +14,11 @@ public class AdministratorConverter implements DataConverter<Administrator, Admi
 
     @Override
     public Administrator convertToDomain(@NonNull AdministratorData data) {
-        return Administrator.createInternally(
-            Id.of(data.getId()),
-            Username.of(data.getUsername()),
-            DisplayedUsername.of(data.getDisplayedUsername())
-        );
+        return Administrator.builder()
+            .id(Id.of(data.getId()))
+            .username(Username.of(data.getUsername()))
+            .displayedUsername(DisplayedUsername.of(data.getDisplayedUsername()))
+            .build();
     }
 
     @Override

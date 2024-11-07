@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -16,7 +17,8 @@ import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-@AllArgsConstructor(staticName = "createInternally")
+@AllArgsConstructor
+@Builder
 public class Schedule implements Entity {
 
     private final @NonNull Id id;

@@ -59,12 +59,14 @@ class CourseServiceTest {
     @Test
     void prepareRemovingCourseThrowsWhenIncludedInPlan() {
         var course = createTestCourse();
+        var plan = Plan.builder()
+            .id(Id.of("plan0"))
+            .name(PlanName.of("plan 0"))
+            .includedCourses(CourseSet.ofInternally(Set.of(Id.of("course0"))))
+            .build();
+
         when(this.planRepository.findByIncludedCourse(course))
-            .thenReturn(Optional.of(Plan.createInternally(
-                Id.of("plan0"),
-                PlanName.of("plan 0"),
-                CourseSet.ofInternally(Set.of(Id.of("course0")))
-            )));
+            .thenReturn(Optional.of(plan));
 
         assertThrows(RemoveCourseException.class, () -> {
             this.courseService.prepareRemovingCourse(course);
@@ -74,16 +76,18 @@ class CourseServiceTest {
     @Test
     void prepareRemovingCourseThrowsWhenAssociatedWithSchedule() {
         var course = createTestCourse();
+        var schedule = Schedule.builder()
+            .id(Id.of("schedule0"))
+            .course(Id.of("course0"))
+            .teacher(Id.of("teacher0"))
+            .time(TimeRange.of(ZonedDateTime.now(), Duration.ofMinutes(145)))
+            .place(Place.of("place0"))
+            .capacity(Capacity.of(1))
+            .registrations(new HashMap<>())
+            .build();
+
         when(this.scheduleRepository.findByCourse(course))
-            .thenReturn(Optional.of(Schedule.createInternally(
-                Id.of("schedule0"),
-                Id.of("course0"),
-                Id.of("teacher0"),
-                TimeRange.of(ZonedDateTime.now(), Duration.ofMinutes(45)),
-                Place.of("place0"),
-                Capacity.of(1),
-                new HashMap<>()
-            )));
+            .thenReturn(Optional.of(schedule));
 
         assertThrows(RemoveCourseException.class, () -> {
             this.courseService.prepareRemovingCourse(course);
@@ -91,10 +95,10 @@ class CourseServiceTest {
     }
 
     private static Course createTestCourse() {
-        return Course.createInternally(
-            Id.of("course0"),
-            CourseName.of("course 0"),
-            ClassPeriod.of(1)
-        );
+        return Course.builder()
+            .id(Id.of("course0"))
+            .name(CourseName.of("course 0"))
+            .classPeriod(ClassPeriod.of(1))
+            .build();
     }
 }

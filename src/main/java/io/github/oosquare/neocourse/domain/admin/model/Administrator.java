@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.domain.admin.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -9,6 +10,7 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
+@Builder
 public class Administrator implements User {
 
     private final @NonNull Id id;
@@ -23,13 +25,5 @@ public class Administrator implements User {
         this.id = id;
         this.username = username;
         this.displayedUsername = displayedUsername;
-    }
-
-    public static Administrator createInternally(
-        @NonNull Id id,
-        @NonNull Username username,
-        @NonNull DisplayedUsername displayedUsername
-    ) {
-        return new Administrator(id, username, displayedUsername);
     }
 }

@@ -48,14 +48,15 @@ class StudentFactoryTest {
 
     @Test
     void createStudentAndTranscriptThrowsWhenUsernameIsDuplicated() {
+        var student = Student.builder()
+            .id(Id.of("student0"))
+            .username(Username.of("test-student"))
+            .displayedUsername(DisplayedUsername.of("test student"))
+            .plan(Id.of("plan0"))
+            .transcript(Id.of("transcript0"))
+            .build();
         when(this.studentRepository.findByUsername(any()))
-            .thenReturn(Optional.of(Student.createInternally(
-                Id.of("student0"),
-                Username.of("test-student"),
-                DisplayedUsername.of("test student"),
-                Id.of("plan0"),
-                Id.of("transcript0")
-            )));
+            .thenReturn(Optional.of(student));
 
         assertThrows(CreateStudentException.class, () -> {
             this.studentFactory.createStudentAndTranscript(

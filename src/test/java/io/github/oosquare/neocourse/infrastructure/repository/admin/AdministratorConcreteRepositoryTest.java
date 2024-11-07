@@ -31,11 +31,11 @@ class AdministratorConcreteRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        this.testAdministrator = Administrator.createInternally(
-            Id.of("admin0"),
-            Username.of("admin"),
-            DisplayedUsername.of("Administrator")
-        );
+        this.testAdministrator = Administrator.builder()
+            .id(Id.of("admin0"))
+            .username(Username.of("admin"))
+            .displayedUsername(DisplayedUsername.of("Administrator"))
+            .build();
         this.administratorRepository.save(this.testAdministrator);
     }
 
@@ -78,11 +78,11 @@ class AdministratorConcreteRepositoryTest {
 
     @Test
     public void save() {
-        var anotherAdministrator = Administrator.createInternally(
-            Id.of("admin1"),
-            Username.of("another-admin"),
-            DisplayedUsername.of("Another Administrator")
-        );
+        var anotherAdministrator = Administrator.builder()
+            .id(Id.of("admin1"))
+            .username(Username.of("another-admin"))
+            .displayedUsername(DisplayedUsername.of("Another Administrator"))
+            .build();
         this.administratorRepository.save(anotherAdministrator);
         var res = this.administratorRepository.find(anotherAdministrator.getId());
         assertTrue(res.isPresent());
