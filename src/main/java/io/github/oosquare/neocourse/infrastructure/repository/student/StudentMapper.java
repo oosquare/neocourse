@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.infrastructure.repository.admin;
+package io.github.oosquare.neocourse.infrastructure.repository.student;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -10,16 +10,16 @@ import org.springframework.stereotype.Repository;
 import io.github.oosquare.neocourse.infrastructure.repository.DataMapper;
 
 @Repository
-public class AdministratorMapper extends DataMapper<AdministratorData> {
+public class StudentMapper extends DataMapper<StudentData> {
 
-    public AdministratorMapper(@NonNull EntityManager entityManager) {
-        super(entityManager, AdministratorData.class);
+    public StudentMapper(@NonNull EntityManager entityManager) {
+        super(entityManager, StudentData.class);
     }
 
-    public Optional<AdministratorData> findByUsername(@NonNull String username) {
+    public Optional<StudentData> findByUsername(@NonNull String username) {
         try {
             var data = this.getEntityManager()
-                .createNamedQuery("AdministratorData.findByUsername", this.getDataClass())
+                .createNamedQuery("StudentData.findByUsername", this.getDataClass())
                 .setParameter("username", username)
                 .getSingleResult();
             return Optional.of(data);

@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.infrastructure.repository.admin;
+package io.github.oosquare.neocourse.infrastructure.repository.student;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @NamedQuery(
-    name = "AdministratorData.findByUsername",
-    query = "SELECT a FROM AdministratorData a WHERE a.username = :username"
+    name = "StudentData.findByUsername",
+    query = "SELECT s FROM StudentData s WHERE s.username = :username"
 )
-public class AdministratorData {
+public class StudentData {
 
     @Id
     @Column(nullable = false, updatable = false, unique = true)
@@ -31,4 +31,10 @@ public class AdministratorData {
 
     @Column(nullable = false, updatable = false)
     private String displayedUsername;
+
+    @Column(nullable = false, updatable = false)
+    private String planId;
+
+    @Column(nullable = false, updatable = false)
+    private String transcriptId;
 }
