@@ -1,9 +1,11 @@
-package io.github.oosquare.neocourse.infrastructure.repository.student;
+package io.github.oosquare.neocourse.infrastructure.repository.teacher;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
+import java.util.Set;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,15 +14,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
 @NamedQuery(
-    name = "StudentData.findByUsername",
-    query = "SELECT s FROM StudentData s WHERE s.username = :username"
+    name = "TeacherData.findByUsername",
+    query = "SELECT t FROM TeacherData t WHERE t.username = :username"
 )
-public class StudentData {
+public class TeacherData {
 
     @Id
     @Column(nullable = false, updatable = false, unique = true)
@@ -32,9 +34,7 @@ public class StudentData {
     @Column(nullable = false, updatable = false)
     private String displayedUsername;
 
-    @Column(nullable = false, updatable = false)
-    private String planId;
-
-    @Column(nullable = false, updatable = false)
-    private String transcriptId;
+    @ElementCollection
+    @Column(nullable = false)
+    private Set<String> managedScheduleIds;
 }

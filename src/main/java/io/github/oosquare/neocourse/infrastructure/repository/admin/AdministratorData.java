@@ -12,10 +12,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@Entity
 @NamedQuery(
     name = "AdministratorData.findByUsername",
     query = "SELECT a FROM AdministratorData a WHERE a.username = :username"
