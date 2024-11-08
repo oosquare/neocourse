@@ -1,10 +1,13 @@
 package io.github.oosquare.neocourse.infrastructure.repository.plan;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
 import java.util.Set;
 
 import lombok.AccessLevel;
@@ -20,6 +23,7 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity
+@Table(name = "plan")
 @NamedQuery(
     name = "PlanData.findByName",
     query = "SELECT p FROM PlanData p WHERE p.name = :name"
@@ -38,6 +42,7 @@ public class PlanData {
     private String name;
 
     @ElementCollection
-    @Column(nullable = false)
+    @CollectionTable(name = "plan_included_course_id", joinColumns = @JoinColumn(name = "plan_id"))
+    @Column(name = "included_course_id", nullable = false)
     private Set<String> includedCourseIds;
 }
