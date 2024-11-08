@@ -1,7 +1,6 @@
 package io.github.oosquare.neocourse.infrastructure.repository.student;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import java.util.Optional;
 
 import lombok.NonNull;
@@ -17,14 +16,12 @@ public class StudentMapper extends DataMapper<StudentData> {
     }
 
     public Optional<StudentData> findByUsername(@NonNull String username) {
-        try {
-            var data = this.getEntityManager()
-                .createNamedQuery("StudentData.findByUsername", this.getDataClass())
-                .setParameter("username", username)
-                .getSingleResult();
-            return Optional.of(data);
-        } catch (NoResultException exception) {
-            return Optional.empty();
-        }
+        var data = this.getEntityManager()
+            .createNamedQuery("StudentData.findByUsername", this.getDataClass())
+            .setParameter("username", username)
+            .setMaxResults(1)
+            .getResultList();
+        return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
+
     }
 }

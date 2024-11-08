@@ -1,8 +1,6 @@
 package io.github.oosquare.neocourse.infrastructure.repository.plan;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-
 import java.util.Optional;
 
 import lombok.NonNull;
