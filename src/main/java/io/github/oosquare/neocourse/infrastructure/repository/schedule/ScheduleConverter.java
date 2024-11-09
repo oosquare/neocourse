@@ -2,6 +2,7 @@ package io.github.oosquare.neocourse.infrastructure.repository.schedule;
 
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class ScheduleConverter implements DataConverter<Schedule, ScheduleData> 
             .time(time)
             .place(Place.of(data.getPlace()))
             .capacity(Capacity.of(data.getCapacity()))
-            .registrations(registrations)
+            .registrations(new HashMap<>(registrations))
             .build();
     }
 

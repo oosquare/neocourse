@@ -1,9 +1,7 @@
-package io.github.oosquare.neocourse.infrastructure.repository.schedule;
+package io.github.oosquare.neocourse.infrastructure.repository.transcript;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,12 +14,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Embeddable
-public class RegistrationData {
+public class TranscriptItemData {
 
     @Column(nullable = false)
-    private String studentId;
+    private String courseId;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ParticipationStatusData participationStatus;
+    private Integer classPeriod;
+
+    @Column(nullable = false)
+    private Double score;
+
+    @Column(nullable = false)
+    private Boolean evaluated;
+
+    @Column(nullable = false)
+    private Boolean participationAbsent;
 }
