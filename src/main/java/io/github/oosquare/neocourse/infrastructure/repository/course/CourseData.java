@@ -26,7 +26,7 @@ import lombok.Setter;
 )
 @NamedQuery(
     name = "CourseData.findAll",
-    query = "SELECT c FROM CourseData"
+    query = "SELECT c FROM CourseData c"
 )
 public class CourseData {
 
