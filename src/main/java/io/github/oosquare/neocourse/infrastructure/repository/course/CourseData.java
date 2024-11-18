@@ -24,6 +24,10 @@ import lombok.Setter;
     name = "CourseData.findByName",
     query = "SELECT c FROM CourseData c WHERE c.name = :name"
 )
+@NamedQuery(
+    name = "CourseData.findAll",
+    query = "SELECT c FROM CourseData"
+)
 public class CourseData {
 
     @Id
