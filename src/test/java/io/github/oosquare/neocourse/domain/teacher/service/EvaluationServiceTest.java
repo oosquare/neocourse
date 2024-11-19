@@ -31,6 +31,7 @@ import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
 import io.github.oosquare.neocourse.domain.transcript.model.Score;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
 import io.github.oosquare.neocourse.domain.transcript.model.TranscriptItem;
+import io.github.oosquare.neocourse.utility.exception.UnreachableCodeExecutedException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -98,7 +99,7 @@ class EvaluationServiceTest {
         var student = createTestStudent();
         var transcript = createTestTranscript();
 
-        assertThrows(EvaluationException.class, () -> {
+        assertThrows(UnreachableCodeExecutedException.class, () -> {
             this.evaluationService.gradeStudent(teacher, schedule, student, transcript, Score.of(90));
         });
     }

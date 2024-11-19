@@ -32,6 +32,7 @@ import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
+import io.github.oosquare.neocourse.utility.exception.UnreachableCodeExecutedException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -79,7 +80,7 @@ class RegistrationServiceTest {
         var schedule = createTestSchedule(false);
         var transcript = createTestTranscript(0);
 
-        assertThrows(RegistrationException.class, () -> {
+        assertThrows(UnreachableCodeExecutedException.class, () -> {
             this.registrationService.register(
                 student,
                 schedule,

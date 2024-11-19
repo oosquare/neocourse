@@ -14,6 +14,7 @@ import io.github.oosquare.neocourse.domain.schedule.exception.RegistrationExcept
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
+import io.github.oosquare.neocourse.utility.exception.UnreachableCodeExecutedException;
 
 @Service
 @AllArgsConstructor
@@ -49,20 +50,20 @@ public class RegistrationService {
 
     private Plan getPlanByStudent(Student student) {
         return this.planRepository.find(student.getPlan()).orElseThrow(() ->
-            new RegistrationException(String.format(
-                "Student[id=%s]'s Plan[id=%s] should exist but it's not found",
-                student.getId(),
-                student.getPlan()
-            )));
+            UnreachableCodeExecutedException.builder()
+                .message("Student's Plan should exist but it's not found")
+                .context("student.id", student.getId())
+                .context("student.plan", student.getPlan())
+                .build());
     }
 
     private Course getCourseBySchedule(Schedule schedule) {
         return this.courseRepository.find(schedule.getCourse()).orElseThrow(() ->
-            new RegistrationException(String.format(
-                "Course[id=%s] corresponding to Schedule[id=%s] should exist but it's not found",
-                schedule.getCourse(),
-                schedule.getId()
-            )));
+            UnreachableCodeExecutedException.builder()
+                .message("Course corresponding to Schedule should exist but it's not found")
+                .context("schedule.id", schedule.getId())
+                .context("schedule.course", schedule.getCourse())
+                .build());
     }
 
     private void checkCourseIncludedInPlan(Student student, Course course, Plan plan) {
