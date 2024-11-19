@@ -10,8 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
-import io.github.oosquare.neocourse.domain.teacher.exception.CreateTeacherException;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -50,7 +50,7 @@ class TeacherFactoryTest {
                 DisplayedUsername.of("test teacher")
             )));
 
-        assertThrows(CreateTeacherException.class, () -> {
+        assertThrows(FieldDuplicationException.class, () -> {
             this.teacherFactory.createTeacher(
                 Username.of("test-teacher"),
                 DisplayedUsername.of("test teacher")

@@ -12,8 +12,8 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
-import io.github.oosquare.neocourse.domain.student.exception.CreateStudentException;
 import io.github.oosquare.neocourse.domain.student.model.Student;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -58,7 +58,7 @@ class StudentFactoryTest {
         when(this.studentRepository.findByUsername(any()))
             .thenReturn(Optional.of(student));
 
-        assertThrows(CreateStudentException.class, () -> {
+        assertThrows(FieldDuplicationException.class, () -> {
             this.studentFactory.createStudentAndTranscript(
                 Username.of("test-student"),
                 DisplayedUsername.of("test student"),

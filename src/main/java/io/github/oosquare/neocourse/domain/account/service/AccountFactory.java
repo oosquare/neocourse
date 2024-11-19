@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
-import io.github.oosquare.neocourse.domain.account.exception.AccountException;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -40,13 +40,13 @@ public class AccountFactory {
     }
 
     private void checkUsernameNotDuplicated(Username username) {
-        this.accountRepository.findByUsername(username)
-            .ifPresent(account -> {
-                throw new AccountException(String.format(
-                    "Account[id=%s, username=%s] already exists",
-                    account.getId(),
-                    account.getUsername()
-                ));
-            });
+        this.accountRepository.findByUsername(username).ifPresent(account -> {
+            throw FieldDuplicationException.builder()
+                .message("Username is duplicated and conflicted with another account's")
+                .userMessage("Username is duplicated since an account with the same username already exists")
+                .context("username", username)
+                .context("account.id", account.getId())
+                .build();
+        });
     }
 }

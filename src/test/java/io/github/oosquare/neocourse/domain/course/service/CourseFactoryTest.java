@@ -8,10 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import io.github.oosquare.neocourse.domain.course.exception.CreateCourseException;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -45,7 +45,7 @@ class CourseFactoryTest {
                 ClassPeriod.of(1)
             )));
 
-        assertThrows(CreateCourseException.class, () -> {
+        assertThrows(FieldDuplicationException.class, () -> {
             this.courseFactory.createCourse(CourseName.of("test course"), ClassPeriod.of(2));
         });
     }

@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
-import io.github.oosquare.neocourse.domain.plan.exception.CreatePlanException;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
 @Service
@@ -23,15 +23,13 @@ public class PlanFactory {
     }
 
     private void checkPlanNotDuplicated(PlanName name) {
-        this.planRepository.findByName(name)
-            .ifPresent(plan -> {
-                throw new CreatePlanException(
-                    String.format(
-                        "Plan[id=%s, name=%s] already exists",
-                        plan.getId(),
-                        plan.getName()
-                    )
-                );
-            });
+        this.planRepository.findByName(name).ifPresent(plan -> {
+            throw FieldDuplicationException.builder()
+                .message("PlanName is duplicated and conflicted with another plan's")
+                .userMessage("Plan's name is duplicated since a plan with the same name already exists")
+                .context("name", name)
+                .context("plan.id", plan.getId())
+                .build();
+        });
     }
 }

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
-import io.github.oosquare.neocourse.domain.teacher.exception.CreateTeacherException;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
 @Service
@@ -26,15 +26,13 @@ public class TeacherFactory {
     }
 
     private void checkUsernameNotDuplicated(Username username) {
-        this.teacherRepository.findByUsername(username)
-            .ifPresent(teacher -> {
-                throw new CreateTeacherException(
-                    String.format(
-                        "Teacher[id=%s, username=%s] already exists",
-                        teacher.getId(),
-                        teacher.getUsername()
-                    )
-                );
-            });
+        this.teacherRepository.findByUsername(username).ifPresent(teacher -> {
+            throw FieldDuplicationException.builder()
+                .message("Username is duplicated and conflicted with another teacher's")
+                .userMessage("Username is duplicated since a teacher with the same username already exists")
+                .context("username", username)
+                .context("teacher.id", teacher.getId())
+                .build();
+        });
     }
 }

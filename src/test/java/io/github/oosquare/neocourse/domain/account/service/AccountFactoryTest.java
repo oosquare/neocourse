@@ -8,12 +8,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import io.github.oosquare.neocourse.domain.account.exception.AccountException;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -57,7 +57,7 @@ class AccountFactoryTest {
                 .user(Id.of("student0"))
                 .build()));
 
-        assertThrows(AccountException.class, () -> {
+        assertThrows(FieldDuplicationException.class, () -> {
             this.accountFactory.createAccount(
                 AccountKind.STUDENT,
                 Username.of("student0"),

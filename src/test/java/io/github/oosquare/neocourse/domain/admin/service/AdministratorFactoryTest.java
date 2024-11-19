@@ -8,10 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import io.github.oosquare.neocourse.domain.admin.exception.CreateAdministratorException;
 import io.github.oosquare.neocourse.domain.admin.model.Administrator;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -50,7 +50,7 @@ class AdministratorFactoryTest {
                 DisplayedUsername.of("test admin")
             )));
 
-        assertThrows(CreateAdministratorException.class, () -> {
+        assertThrows(FieldDuplicationException.class, () -> {
             this.administratorFactory.createAdministrator(
                 Username.of("test-admin"),
                 DisplayedUsername.of("test admin")

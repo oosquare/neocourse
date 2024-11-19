@@ -8,9 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import io.github.oosquare.neocourse.domain.plan.exception.CreatePlanException;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
+import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -45,7 +45,7 @@ class PlanFactoryTest {
                 PlanName.of("test plan")
             )));
 
-        assertThrows(CreatePlanException.class, () -> {
+        assertThrows(FieldDuplicationException.class, () -> {
             this.planFactory.createPlan(PlanName.of("test plan"));
         });
     }
