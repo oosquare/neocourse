@@ -11,7 +11,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class NeoCourseException extends RuntimeException {
 
-    public static final String DEFAULT_USER_MESSAGE = "An error occurred";
+    private static final String DEFAULT_USER_MESSAGE = "An error occurred";
 
     private final @NonNull String userMessage;
     private final @NonNull Map<String, Object> context;

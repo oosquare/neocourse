@@ -11,4 +11,9 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 public interface AccountRepository extends EntityRepository<Account> {
 
     Optional<Account> findByUsername(@NonNull Username username);
+
+    @Override
+    default Class<Account> getEntityClass() {
+        return Account.class;
+    }
 }

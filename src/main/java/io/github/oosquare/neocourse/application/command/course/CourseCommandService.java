@@ -9,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.common.service.UserService;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
+import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
 import io.github.oosquare.neocourse.domain.course.service.CourseService;
+import io.github.oosquare.neocourse.utility.exception.EntityNotFoundException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Service
@@ -49,6 +51,7 @@ public class CourseCommandService {
 
         this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
         var course = this.courseRepository.findOrThrow(courseId);
+
         this.courseService.prepareRemovingCourse(course);
         this.courseRepository.remove(course);
 

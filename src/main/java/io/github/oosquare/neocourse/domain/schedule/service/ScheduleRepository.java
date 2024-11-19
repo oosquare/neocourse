@@ -16,4 +16,9 @@ public interface ScheduleRepository extends EntityRepository<Schedule> {
     List<Schedule> findByDateAndPlace(@NonNull ZonedDateTime date, @NonNull Place place);
 
     Optional<Schedule> findByCourse(@NonNull Course course);
+
+    @Override
+    default Class<Schedule> getEntityClass() {
+        return Schedule.class;
+    }
 }

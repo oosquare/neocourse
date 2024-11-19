@@ -11,4 +11,9 @@ import io.github.oosquare.neocourse.domain.student.model.Student;
 public interface StudentRepository extends EntityRepository<Student> {
 
     Optional<Student> findByUsername(@NonNull Username username);
+
+    @Override
+    default Class<Student> getEntityClass() {
+        return Student.class;
+    }
 }

@@ -4,4 +4,9 @@ import io.github.oosquare.neocourse.domain.EntityRepository;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
 
 public interface TranscriptRepository extends EntityRepository<Transcript> {
+
+    @Override
+    default Class<Transcript> getEntityClass() {
+        return Transcript.class;
+    }
 }

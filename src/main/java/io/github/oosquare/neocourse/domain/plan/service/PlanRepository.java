@@ -14,4 +14,9 @@ public interface PlanRepository extends EntityRepository<Plan> {
     Optional<Plan> findByName(@NonNull PlanName name);
 
     Optional<Plan> findByIncludedCourse(@NonNull Course includedCourse);
+
+    @Override
+    default Class<Plan> getEntityClass() {
+        return Plan.class;
+    }
 }

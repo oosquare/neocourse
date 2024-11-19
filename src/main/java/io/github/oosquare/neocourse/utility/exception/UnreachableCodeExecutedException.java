@@ -8,7 +8,7 @@ import lombok.Singular;
 
 public class UnreachableCodeExecutedException extends NeoCourseException {
 
-    public static final String DEFAULT_USER_MESSAGE = "An unreachable error occurred";
+    private static final String DEFAULT_USER_MESSAGE = "An unreachable error occurred";
 
     @Builder
     public UnreachableCodeExecutedException(

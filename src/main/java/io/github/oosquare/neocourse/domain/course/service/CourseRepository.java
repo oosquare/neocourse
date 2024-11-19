@@ -11,4 +11,9 @@ import io.github.oosquare.neocourse.domain.course.model.CourseName;
 public interface CourseRepository extends EntityRepository<Course> {
 
     Optional<Course> findByName(@NonNull CourseName name);
+
+    @Override
+    default Class<Course> getEntityClass() {
+        return Course.class;
+    }
 }
