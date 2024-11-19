@@ -2,6 +2,8 @@ package io.github.oosquare.neocourse.domain.common.model;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UsernameTest {
@@ -14,13 +16,13 @@ class UsernameTest {
 
     @Test
     public void throwWhenUsernameIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> Username.of(""));
-        assertThrows(IllegalArgumentException.class, () -> Username.of(" "));
+        assertThrows(ValueValidationException.class, () -> Username.of(""));
+        assertThrows(ValueValidationException.class, () -> Username.of(" "));
     }
 
     @Test
     public void throwWhenUsernameContainsOtherCharacter() {
-        assertThrows(IllegalArgumentException.class, () -> Username.of(" leading-space"));
-        assertThrows(IllegalArgumentException.class, () -> Username.of("invalid-character!"));
+        assertThrows(ValueValidationException.class, () -> Username.of(" leading-space"));
+        assertThrows(ValueValidationException.class, () -> Username.of("invalid-character!"));
     }
 }

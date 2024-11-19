@@ -2,6 +2,8 @@ package io.github.oosquare.neocourse.domain.course.model;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClassPeriodTest {
@@ -14,7 +16,7 @@ class ClassPeriodTest {
 
     @Test
     public void createThrowsWhenClassPeriodIsNotPositive() {
-        assertThrows(IllegalArgumentException.class, () -> ClassPeriod.of(0));
-        assertThrows(IllegalArgumentException.class, () -> ClassPeriod.of(-1));
+        assertThrows(ValueValidationException.class, () -> ClassPeriod.of(0));
+        assertThrows(ValueValidationException.class, () -> ClassPeriod.of(-1));
     }
 }

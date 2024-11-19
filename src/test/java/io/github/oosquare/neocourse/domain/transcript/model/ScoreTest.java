@@ -2,6 +2,8 @@ package io.github.oosquare.neocourse.domain.transcript.model;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ScoreTest {
@@ -15,7 +17,7 @@ class ScoreTest {
 
     @Test
     public void throwIfScoreIsOutOfRange() {
-        assertThrows(IllegalArgumentException.class, () -> Score.of(-1));
-        assertThrows(IllegalArgumentException.class, () -> Score.of(101));
+        assertThrows(ValueValidationException.class, () -> Score.of(-1));
+        assertThrows(ValueValidationException.class, () -> Score.of(101));
     }
 }

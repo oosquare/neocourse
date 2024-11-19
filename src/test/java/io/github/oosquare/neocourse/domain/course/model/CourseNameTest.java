@@ -2,6 +2,8 @@ package io.github.oosquare.neocourse.domain.course.model;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseNameTest {
@@ -14,14 +16,14 @@ class CourseNameTest {
 
     @Test
     public void throwWhenCourseNameIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> CourseName.of(""));
-        assertThrows(IllegalArgumentException.class, () -> CourseName.of(" "));
+        assertThrows(ValueValidationException.class, () -> CourseName.of(""));
+        assertThrows(ValueValidationException.class, () -> CourseName.of(" "));
     }
 
     @Test
     public void throwWhenCourseNameHasLeadingOrTrailingSpaces() {
-        assertThrows(IllegalArgumentException.class, () -> CourseName.of(" leading-space"));
-        assertThrows(IllegalArgumentException.class, () -> CourseName.of("trailing-space "));
-        assertThrows(IllegalArgumentException.class, () -> CourseName.of(" both "));
+        assertThrows(ValueValidationException.class, () -> CourseName.of(" leading-space"));
+        assertThrows(ValueValidationException.class, () -> CourseName.of("trailing-space "));
+        assertThrows(ValueValidationException.class, () -> CourseName.of(" both "));
     }
 }

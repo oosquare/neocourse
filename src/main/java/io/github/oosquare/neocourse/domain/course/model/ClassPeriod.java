@@ -1,8 +1,9 @@
 package io.github.oosquare.neocourse.domain.course.model;
 
-import com.google.common.base.Preconditions;
 import lombok.ToString;
 import lombok.Value;
+
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
 
 @Value
 @ToString(includeFieldNames = false)
@@ -16,7 +17,10 @@ public class ClassPeriod {
     private final int value;
 
     private ClassPeriod(int value) {
-        Preconditions.checkArgument(value > 0, "Class period should not be zero or negative");
+        ValueValidationException.validator()
+            .ensure(value > 0)
+            .message("Class period should not be zero or negative")
+            .done();
         this.value = value;
     }
 

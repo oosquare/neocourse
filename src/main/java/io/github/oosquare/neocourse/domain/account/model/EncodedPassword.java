@@ -1,8 +1,9 @@
 package io.github.oosquare.neocourse.domain.account.model;
 
-import com.google.common.base.Preconditions;
 import lombok.NonNull;
 import lombok.Value;
+
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
 
 @Value
 public class EncodedPassword {
@@ -10,7 +11,10 @@ public class EncodedPassword {
     private final @NonNull String value;
 
     private EncodedPassword(@NonNull String value) {
-        Preconditions.checkArgument(!value.isBlank(), "Encoded password should not be blank");
+        ValueValidationException.validator()
+            .ensure(!value.isBlank())
+            .message("Encoded password should not be blank")
+            .done();
         this.value = value;
     }
 

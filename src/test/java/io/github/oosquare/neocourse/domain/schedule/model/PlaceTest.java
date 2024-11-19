@@ -2,6 +2,8 @@ package io.github.oosquare.neocourse.domain.schedule.model;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlaceTest {
@@ -14,6 +16,6 @@ class PlaceTest {
 
     @Test
     public void createPlaceThrowsWhenParameterIsBlank() {
-        assertThrows(IllegalArgumentException.class, () -> Place.of(""));
+        assertThrows(ValueValidationException.class, () -> Place.of(""));
     }
 }

@@ -1,8 +1,9 @@
 package io.github.oosquare.neocourse.domain.transcript.model;
 
-import com.google.common.base.Preconditions;
 import lombok.ToString;
 import lombok.Value;
+
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
 
 @Value
 @ToString(includeFieldNames = false)
@@ -16,10 +17,10 @@ public class Score {
     private final double value;
 
     private Score(double value) {
-        Preconditions.checkArgument(
-            Score.MIN_SCORE <= value && value <= Score.MAX_SCORE,
-            "Score should be greater than 0 and less than 100"
-        );
+        ValueValidationException.validator()
+            .ensure(Score.MIN_SCORE <= value && value <= Score.MAX_SCORE)
+            .message("Score should be greater than 0 and less than 100")
+            .done();
         this.value = value;
     }
 

@@ -2,10 +2,11 @@ package io.github.oosquare.neocourse.domain.common.model;
 
 import java.util.regex.Pattern;
 
-import com.google.common.base.Preconditions;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.Value;
+
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
 
 @Value
 @ToString(includeFieldNames = false)
@@ -15,11 +16,14 @@ public class Username {
     private String value;
 
     private Username(String value) {
-        Preconditions.checkArgument(!value.isBlank(), "Username should not be blank");
-        Preconditions.checkArgument(
-            USERNAME_PATTERN.matcher(value).matches(),
-            "Username should only contains ASCII alphabets, numbers, hyphens and underscores"
-        );
+        ValueValidationException.validator()
+            .ensure(!value.isBlank())
+            .message("Username should not be blank")
+            .done();
+        ValueValidationException.validator()
+            .ensure(USERNAME_PATTERN.matcher(value).matches())
+            .message("Username should only contains ASCII alphabets, numbers, hyphens and underscores")
+            .done();
         this.value = value;
     }
 

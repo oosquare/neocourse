@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.ToString;
 import lombok.Value;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import io.github.oosquare.neocourse.utility.exception.ValueValidationException;
 
 @Value
 @ToString(includeFieldNames = false)
@@ -13,11 +13,14 @@ public class CourseName {
     private final @NonNull String value;
 
     private CourseName(@NonNull String value) {
-        checkArgument(!value.isBlank(), "Course name should not be blank");
-        checkArgument(
-            value.strip().equals(value),
-            "Course name should not have leading and trailing spaces"
-        );
+        ValueValidationException.validator()
+            .ensure(!value.isBlank())
+            .message("Course name should not be blank")
+            .done();
+        ValueValidationException.validator()
+            .ensure(value.strip().equals(value))
+            .message("Course name should not have leading and trailing spaces")
+            .done();
         this.value = value;
     }
 
