@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
-import io.github.oosquare.neocourse.domain.course.exception.RemoveCourseException;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
 import io.github.oosquare.neocourse.domain.plan.service.PlanRepository;
 import io.github.oosquare.neocourse.domain.schedule.service.ScheduleRepository;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 
 @Service
 @AllArgsConstructor
@@ -29,29 +29,31 @@ public class CourseService {
     }
 
     private void checkNotIncludedInPlan(Course course) {
-        this.planRepository.findByIncludedCourse(course)
-            .ifPresent(plan -> {
-                throw new RemoveCourseException(String.format(
-                    "Course[id=%s, name=%s] is included in Plan[id=%s, name=%s]",
-                    course.getId(),
-                    course.getName(),
-                    plan.getId(),
-                    plan.getName()
-                ));
-            });
+        this.planRepository.findByIncludedCourse(course).ifPresent(plan -> {
+            throw RuleViolationException.builder()
+                .message("Course included in another Plan can't be removed")
+                .userMessage("Course is included in plan %s. Please exclude it from the plan first"
+                    .formatted(plan.getName().getValue()))
+                .context("course.id", course.getId())
+                .context("course.name", course.getName())
+                .context("plan.id", plan.getId())
+                .context("plan.name", plan.getName())
+                .build();
+        });
     }
 
     private void checkNotAssociatedWithSchedule(Course course) {
-        this.scheduleRepository.findByCourse(course)
-            .ifPresent(schedule -> {
-                throw new RemoveCourseException(String.format(
-                    "Course[id=%s, name=%s] is associated with Schedule[id=%s, time=%s, place=%s]",
-                    course.getId(),
-                    course.getName(),
-                    schedule.getId(),
-                    schedule.getTime().getStart(),
-                    schedule.getPlace()
-                ));
-            });
+        this.scheduleRepository.findByCourse(course).ifPresent(schedule -> {
+            throw RuleViolationException.builder()
+                .message("Course associated with another Schedule can't be removed")
+                .userMessage("Course is associated with a schedule (%s, %s). Please cancel the schedule first"
+                    .formatted(schedule.getTime().getStart(), schedule.getPlace().getValue()))
+                .context("course.id", course.getId())
+                .context("course.name", course.getName())
+                .context("schedule.id", course.getId())
+                .context("schedule.time.start", schedule.getTime().getStart())
+                .context("schedule.place", schedule.getPlace())
+                .build();
+        });
     }
 }

@@ -7,12 +7,12 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import io.github.oosquare.neocourse.domain.course.model.Course;
-import io.github.oosquare.neocourse.domain.schedule.exception.ScheduleException;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
 @Service
@@ -41,14 +41,19 @@ public class ScheduleFactory {
             .filter(existed -> existed.getTime().hasOverlap(timeRange))
             .findFirst();
         conflictSchedule.ifPresent(existed -> {
-            throw new ScheduleException(
-                String.format(
-                    "New schedule's time %s is conflicted with Schedule[id=%s, time=%s]",
-                    timeRange,
-                    existed.getId(),
-                    existed.getTime()
-                )
-            );
+            throw RuleViolationException.builder()
+                .message("TimeRange and Place of the new Schedule is conflicted with another one")
+                .userMessage("New schedule will be conflicted with existed one (%s, %s, %s)"
+                    .formatted(
+                        existed.getTime().getStart(),
+                        existed.getTime().getPeriod(),
+                        existed.getPlace().getValue()
+                    ))
+                .context("existed.id", existed.getId())
+                .context("existed.time", existed.getTime())
+                .context("existed.place", existed.getPlace())
+                .context("timeRange", timeRange)
+                .build();
         });
     }
 }

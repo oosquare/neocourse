@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import io.github.oosquare.neocourse.domain.course.exception.RemoveCourseException;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
@@ -25,6 +24,7 @@ import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
 import io.github.oosquare.neocourse.domain.schedule.service.ScheduleRepository;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,7 +68,7 @@ class CourseServiceTest {
         when(this.planRepository.findByIncludedCourse(course))
             .thenReturn(Optional.of(plan));
 
-        assertThrows(RemoveCourseException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.courseService.prepareRemovingCourse(course);
         });
     }
@@ -89,7 +89,7 @@ class CourseServiceTest {
         when(this.scheduleRepository.findByCourse(course))
             .thenReturn(Optional.of(schedule));
 
-        assertThrows(RemoveCourseException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.courseService.prepareRemovingCourse(course);
         });
     }

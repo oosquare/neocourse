@@ -11,9 +11,9 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
-import io.github.oosquare.neocourse.domain.schedule.exception.RegistrationException;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +35,7 @@ class ScheduleTest {
 
     @Test
     void requestRegistrationThrowsWhenScheduleIsFrozen() {
-        assertThrows(RegistrationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             var schedule = ScheduleTest.createTestSchedule(false);
             schedule.requestRegistration(
                 ScheduleTest.createTestStudent(0),
@@ -55,7 +55,7 @@ class ScheduleTest {
             ScheduleTest.createTestStudent(1),
             ScheduleTest.TEST_START_TIME.minusSeconds(1)
         );
-        assertThrows(RegistrationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             schedule.requestRegistration(
                 ScheduleTest.createTestStudent(2),
                 ScheduleTest.TEST_START_TIME.minusSeconds(1)
@@ -70,7 +70,7 @@ class ScheduleTest {
             ScheduleTest.createTestStudent(0),
             ScheduleTest.TEST_START_TIME.minusSeconds(1)
         );
-        assertThrows(RegistrationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             schedule.requestRegistration(
                 ScheduleTest.createTestStudent(0),
                 ScheduleTest.TEST_START_TIME.minusSeconds(1)
@@ -90,7 +90,7 @@ class ScheduleTest {
     @Test
     void cancelRegistrationThrowsWhenScheduleIsFrozen() {
         var schedule = ScheduleTest.createTestSchedule(true);
-        assertThrows(RegistrationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             schedule.cancelRegistration(
                 ScheduleTest.createTestStudent(0),
                 ScheduleTest.TEST_START_TIME.plusSeconds(1)
@@ -101,7 +101,7 @@ class ScheduleTest {
     @Test
     void cancelRegistrationThrowsWhenStudentDoesNotExist() {
         var schedule = ScheduleTest.createTestSchedule(true);
-        assertThrows(RegistrationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             schedule.cancelRegistration(
                 ScheduleTest.createTestStudent(2),
                 ScheduleTest.TEST_START_TIME.minusSeconds(1)

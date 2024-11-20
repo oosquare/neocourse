@@ -17,13 +17,13 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
-import io.github.oosquare.neocourse.domain.schedule.exception.ScheduleException;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Registration;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,6 +57,7 @@ class ScheduleServiceTest {
         assertTrue(teacher.isManagingSchedule(schedule));
     }
 
+    @Test
     void addNewScheduleThrowsStartTimeIsNotAfterNow() {
         var course = new Course(Id.of("course0"), CourseName.of("test course"), ClassPeriod.of(1));
         var teacher = new Teacher(
@@ -67,7 +68,7 @@ class ScheduleServiceTest {
         var place = Place.of("test place");
         var capacity = Capacity.of(2);
 
-        assertThrows(ScheduleException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.scheduleService.addNewSchedule(course, teacher, TEST_BASE_TIME, place, capacity);
         });
     }
@@ -95,7 +96,7 @@ class ScheduleServiceTest {
             .build();
         var teacher = createTestTeacher();
 
-        assertThrows(ScheduleException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.scheduleService.prepareRemovingSchedule(schedule, teacher);
         });
     }
@@ -105,7 +106,7 @@ class ScheduleServiceTest {
         var schedule = createTestSchedule(true);
         var teacher = createTestTeacher();
 
-        assertThrows(ScheduleException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.scheduleService.prepareRemovingSchedule(schedule, teacher);
         });
     }
@@ -120,7 +121,7 @@ class ScheduleServiceTest {
             .managedSchedules(new HashSet<>())
             .build();
 
-        assertThrows(ScheduleException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.scheduleService.prepareRemovingSchedule(schedule, teacher);
         });
     }

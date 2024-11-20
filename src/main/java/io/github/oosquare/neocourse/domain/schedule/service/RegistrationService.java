@@ -10,10 +10,10 @@ import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.service.PlanRepository;
-import io.github.oosquare.neocourse.domain.schedule.exception.RegistrationException;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.exception.UnreachableCodeExecutedException;
 
 @Service
@@ -68,24 +68,29 @@ public class RegistrationService {
 
     private void checkCourseIncludedInPlan(Student student, Course course, Plan plan) {
         if (!plan.isCourseIncluded(course.getId())) {
-            throw new RegistrationException(String.format(
-                "Course[id=%s, name=%s] is not included in Plan[id=%s] for Student[id=%s]",
-                course.getId(),
-                course.getName(),
-                plan.getId(),
-                student.getId()
-            ));
+            throw RuleViolationException.builder()
+                .message("Course is not included in this Plan for given Student")
+                .userMessage("Course not included in student's plan is not selectable")
+                .context("course.id", course.getId())
+                .context("course.name", course.getName())
+                .context("plan.id", plan.getId())
+                .context("plan.name", plan.getName())
+                .context("student.id", student.getId())
+                .context("student.username", student.getUsername())
+                .build();
         }
     }
 
     private void checkCourseSelectable(Student student, Course course, Transcript transcript) {
         if (!transcript.isCourseSelectable(course)) {
-            throw new RegistrationException(String.format(
-                "Course[id=%s, name=%s] is already selected by Student[id=%s]",
-                course.getId(),
-                course.getName(),
-                student.getId()
-            ));
+            throw RuleViolationException.builder()
+                .message("Course is already selected by Student")
+                .userMessage("Course is already selected")
+                .context("course.id", course.getId())
+                .context("course.name", course.getName())
+                .context("student.id", student.getId())
+                .context("student.username", student.getUsername())
+                .build();
         }
     }
 }

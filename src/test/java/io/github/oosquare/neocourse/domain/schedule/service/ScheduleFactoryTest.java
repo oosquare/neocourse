@@ -19,13 +19,13 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
-import io.github.oosquare.neocourse.domain.schedule.exception.ScheduleException;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Registration;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
@@ -87,7 +87,7 @@ class ScheduleFactoryTest {
         when(this.scheduleRepository.findByDateAndPlace(startTime, place))
             .thenReturn(List.of(createTestSchedule(0, 45)));
 
-        assertThrows(ScheduleException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.scheduleFactory.createSchedule(course, teacher, startTime, place, capacity);
         });
     }

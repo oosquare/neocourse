@@ -6,7 +6,7 @@ import java.util.Map;
 import lombok.NonNull;
 import lombok.Value;
 
-import io.github.oosquare.neocourse.domain.schedule.exception.RegistrationException;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
@@ -39,51 +39,50 @@ public class RegistrationSpecification {
         if (currentTime.isBefore(this.startTime)) {
             return;
         }
-        throw new RegistrationException(
-            String.format(
-                "Could not register for Schedule[id=%s] which is frozen since %s",
-                this.schedule,
-                this.startTime
-            )
-        );
+        throw RuleViolationException.builder()
+            .message("Frozen Schedule is not registrable")
+            .userMessage("Could not register for a frozen schedule which already started at %s"
+                .formatted(this.startTime))
+            .context("schedule.id", this.schedule)
+            .context("schedule.time.start", this.startTime)
+            .context("currentTime", currentTime)
+            .build();
     }
 
     private void checkRegistrationAvailable(Map<Id, Registration> registrations) {
         if (registrations.size() < this.capacity.getValue()) {
             return;
         }
-        throw new RegistrationException(
-            String.format(
-                "Could not register for a full Schedule[id=%s, capacity=%s]",
-                this.schedule,
-                this.capacity
-            )
-        );
+        throw RuleViolationException.builder()
+            .message("Full Schedule is not registrable")
+            .userMessage("Could not register for a full schedule with a capacity of %d"
+                .formatted(this.capacity.getValue()))
+            .context("schedule.id", this.schedule)
+            .context("schedule.capacity", this.capacity)
+            .build();
     }
 
     private void checkStudentNotRegistered(Map<Id, Registration> registrations, Id student) {
         if (!registrations.containsKey(student)) {
             return;
         }
-        throw new RegistrationException(
-            String.format(
-                "Student[id=%s] has already registered for Schedule[id=%s]",
-                student,
-                this.schedule
-            )
-        );
+        throw RuleViolationException.builder()
+            .message("Student already registered for this Schedule")
+            .userMessage("Student already registered for this Schedule")
+            .context("schedule.id", this.schedule)
+            .context("student.id", student)
+            .build();
     }
 
     private void checkStudentRegistered(Map<Id, Registration> registrations, Id student) {
         if (registrations.containsKey(student)) {
             return;
         }
-        throw new RegistrationException(
-            String.format(
-                "Student[id=%s] hasn't registered for Schedule[id=%s] yet",
-                student,
-                this.schedule
-            )
-        );
+        throw RuleViolationException.builder()
+            .message("Student hasn't registered for this Schedule")
+            .userMessage("Student hasn't registered for this Schedule")
+            .context("schedule.id", this.schedule)
+            .context("student.id", student)
+            .build();
     }
 }

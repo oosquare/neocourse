@@ -24,7 +24,6 @@ import io.github.oosquare.neocourse.domain.plan.model.CourseSet;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
 import io.github.oosquare.neocourse.domain.plan.service.PlanRepository;
-import io.github.oosquare.neocourse.domain.schedule.exception.RegistrationException;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Registration;
@@ -32,6 +31,7 @@ import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.exception.UnreachableCodeExecutedException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
@@ -106,7 +106,7 @@ class RegistrationServiceTest {
         var schedule = createTestSchedule(false);
         var transcript = createTestTranscript(0);
 
-        assertThrows(RegistrationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.registrationService.register(
                 student,
                 schedule,
