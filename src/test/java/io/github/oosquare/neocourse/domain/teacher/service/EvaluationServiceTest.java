@@ -3,10 +3,8 @@ package io.github.oosquare.neocourse.domain.teacher.service;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +24,7 @@ import io.github.oosquare.neocourse.domain.schedule.model.Registration;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
 import io.github.oosquare.neocourse.domain.schedule.model.TimeRange;
 import io.github.oosquare.neocourse.domain.student.model.Student;
-import io.github.oosquare.neocourse.domain.teacher.exception.EvaluationException;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
 import io.github.oosquare.neocourse.domain.transcript.model.Score;
 import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
@@ -68,7 +66,7 @@ class EvaluationServiceTest {
         var student = createTestStudent();
         var transcript = createTestTranscript();
 
-        assertThrows(EvaluationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.evaluationService.gradeStudent(teacher, schedule, student, transcript, Score.of(90));
         });
     }
@@ -86,7 +84,7 @@ class EvaluationServiceTest {
             .build();
         var transcript = createTestTranscript();
 
-        assertThrows(EvaluationException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             this.evaluationService.gradeStudent(teacher, schedule, student, transcript, Score.of(90));
         });
     }

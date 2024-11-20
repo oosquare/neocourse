@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
-import io.github.oosquare.neocourse.domain.transcript.exception.TranscriptException;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,7 +67,7 @@ class TranscriptTest {
             .plan(Id.of("plan0"))
             .courseScores(new HashMap<>())
             .build();
-        assertThrows(TranscriptException.class, () -> {
+        assertThrows(RuleViolationException.class, () -> {
             transcript.gradeCourse(createTestCourse(0), Score.of(60));
         });
     }

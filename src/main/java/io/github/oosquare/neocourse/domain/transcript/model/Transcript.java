@@ -13,7 +13,7 @@ import io.github.oosquare.neocourse.domain.Entity;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.plan.model.Plan;
-import io.github.oosquare.neocourse.domain.transcript.exception.TranscriptException;
+import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
@@ -46,14 +46,7 @@ public class Transcript implements Entity {
     }
 
     public void gradeCourse(@NonNull Course course, @NonNull Score score) {
-        if (!this.courseScores.containsKey(course.getId())) {
-            throw new TranscriptException(String.format(
-                "Transcript[id=%s] doesn't include Course[id=%s, name=%s]",
-                this.getId(),
-                course.getId(),
-                course.getName()
-            ));
-        }
+        this.checkIncludeCourse(course);
         this.courseScores.computeIfPresent(
             course.getId(),
             (key, item) -> item.assignScore(score)
@@ -61,17 +54,23 @@ public class Transcript implements Entity {
     }
 
     public void markAbsent(@NonNull Course course) {
-        if (!this.courseScores.containsKey(course.getId())) {
-            throw new TranscriptException(String.format(
-                "Transcript[id=%s] doesn't include Course[id=%s]",
-                this.getId(),
-                course.getName()
-            ));
-        }
+        this.checkIncludeCourse(course);
         this.courseScores.computeIfPresent(
             course.getId(),
             (key, item) -> item.markAbsent()
         );
+    }
+
+    private void checkIncludeCourse(Course course) {
+        if (!this.courseScores.containsKey(course.getId())) {
+            throw RuleViolationException.builder()
+                .message("Transcript doesn't include this Course")
+                .userMessage("Transcript doesn't include this course")
+                .context("transcript.id", this.getId())
+                .context("course.id", course.getId())
+                .context("course.name", course.getName())
+                .build();
+        }
     }
 
     public boolean isCourseSelectable(@NonNull Course course) {
