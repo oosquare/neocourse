@@ -1,8 +1,5 @@
 package io.github.oosquare.neocourse.infrastructure.repository.teacher;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +35,6 @@ class TeacherConcreteRepositoryTest {
             .id(Id.of("teacher0"))
             .username(Username.of("teacher"))
             .displayedUsername(DisplayedUsername.of("Test Teacher"))
-            .managedSchedules(new HashSet<>(Set.of(Id.of("schedule0"))))
             .build();
         this.teacherRepository.save(this.testTeacher);
     }
@@ -56,7 +52,6 @@ class TeacherConcreteRepositoryTest {
         assertEquals(this.testTeacher.getId(), teacher.getId());
         assertEquals(this.testTeacher.getUsername(), teacher.getUsername());
         assertEquals(this.testTeacher.getDisplayedUsername(), teacher.getDisplayedUsername());
-        assertEquals(this.testTeacher.getManagedSchedules(), teacher.getManagedSchedules());
     }
 
     @Test
@@ -73,7 +68,6 @@ class TeacherConcreteRepositoryTest {
         assertEquals(this.testTeacher.getId(), teacher.getId());
         assertEquals(this.testTeacher.getUsername(), teacher.getUsername());
         assertEquals(this.testTeacher.getDisplayedUsername(), teacher.getDisplayedUsername());
-        assertEquals(this.testTeacher.getManagedSchedules(), teacher.getManagedSchedules());
     }
 
     @Test
@@ -85,15 +79,13 @@ class TeacherConcreteRepositoryTest {
     @Test
     public void save() {
         var updatedTeacher = Teacher.builder()
-            .id(Id.of("teacher0"))
-            .username(Username.of("teacher"))
+            .id(Id.of("teacher1"))
+            .username(Username.of("teacher1"))
             .displayedUsername(DisplayedUsername.of("Test Teacher"))
-            .managedSchedules(new HashSet<>(Set.of(Id.of("updated-schedule"))))
             .build();
         this.teacherRepository.save(updatedTeacher);
         var teacher = this.teacherRepository.find(updatedTeacher.getId()).orElseThrow();
-        assertTrue(teacher.getManagedSchedules().contains(Id.of("updated-schedule")));
-        assertFalse(teacher.getManagedSchedules().contains(Id.of("schedule0")));
+        assertEquals(updatedTeacher.getId(), teacher.getId());
     }
 
     @Test

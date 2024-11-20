@@ -54,7 +54,7 @@ class ScheduleServiceTest {
             .thenReturn(createTestSchedule(false));
 
         var schedule = this.scheduleService.addNewSchedule(course, teacher, startTime, place, capacity);
-        assertTrue(teacher.isManagingSchedule(schedule));
+        assertEquals(teacher.getId(), schedule.getTeacher());
     }
 
     @Test
@@ -79,7 +79,6 @@ class ScheduleServiceTest {
         var teacher = createTestTeacher();
 
         this.scheduleService.prepareRemovingSchedule(schedule, teacher);
-        assertFalse(teacher.isManagingSchedule(schedule));
     }
 
     @Test
@@ -118,7 +117,6 @@ class ScheduleServiceTest {
             .id(Id.of("teacher1"))
             .username(Username.of("test-teacher1"))
             .displayedUsername(DisplayedUsername.of("test teacher1"))
-            .managedSchedules(new HashSet<>())
             .build();
 
         assertThrows(RuleViolationException.class, () -> {
@@ -147,7 +145,6 @@ class ScheduleServiceTest {
             .id(Id.of("teacher0"))
             .username(Username.of("test-teacher"))
             .displayedUsername(DisplayedUsername.of("test teacher"))
-            .managedSchedules(new HashSet<>(Set.of(Id.of("schedule0"))))
             .build();
     }
 }

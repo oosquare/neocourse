@@ -27,16 +27,13 @@ public class ScheduleService {
         @NonNull Capacity capacity
     ) {
         this.checkStartTimeIsAfterNow(startTime);
-        var schedule = this.scheduleFactory.createSchedule(course, teacher, startTime, place, capacity);
-        teacher.addManagedSchedule(schedule);
-        return schedule;
+        return this.scheduleFactory.createSchedule(course, teacher, startTime, place, capacity);
     }
 
     public void prepareRemovingSchedule(@NonNull Schedule schedule, @NonNull Teacher teacher) {
         this.checkStartTimeIsAfterNow(schedule.getTime().getStart());
         this.checkScheduleHasNoRegistration(schedule);
         this.checkTeacherManagesSchedule(teacher, schedule);
-        teacher.removeManagedSchedule(schedule);
     }
 
     private void checkStartTimeIsAfterNow(ZonedDateTime startTime) {
@@ -63,7 +60,7 @@ public class ScheduleService {
     }
 
     private void checkTeacherManagesSchedule(Teacher teacher, Schedule schedule) {
-        if (!teacher.isManagingSchedule(schedule)) {
+        if (!schedule.getTeacher().equals(teacher.getId())) {
             throw RuleViolationException.builder()
                 .message("Teacher who doesn't manage this Schedule can't operate on it")
                 .userMessage("Teacher doesn't manage this schedule. Operations not permitted.")

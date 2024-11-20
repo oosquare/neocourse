@@ -1,14 +1,10 @@
 package io.github.oosquare.neocourse.infrastructure.repository.teacher;
 
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import java.util.Set;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -39,9 +35,4 @@ public class TeacherData {
 
     @Column(nullable = false, updatable = false)
     private String displayedUsername;
-
-    @ElementCollection
-    @CollectionTable(name = "teacher_managed_schedule_id", joinColumns = @JoinColumn(name = "teacher_id"))
-    @Column(name = "managed_schedule_id", nullable = false)
-    private Set<String> managedScheduleIds;
 }

@@ -1,8 +1,5 @@
 package io.github.oosquare.neocourse.infrastructure.repository.teacher;
 
-import java.util.HashSet;
-import java.util.stream.Collectors;
-
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
@@ -21,10 +18,6 @@ public class TeacherConverter implements DataConverter<Teacher, TeacherData> {
             .id(Id.of(data.getId()))
             .username(Username.of(data.getUsername()))
             .displayedUsername(DisplayedUsername.of(data.getDisplayedUsername()))
-            .managedSchedules(data.getManagedScheduleIds()
-                .stream()
-                .map(Id::of)
-                .collect(Collectors.toCollection(HashSet::new)))
             .build();
     }
 
@@ -34,10 +27,6 @@ public class TeacherConverter implements DataConverter<Teacher, TeacherData> {
             .id(entity.getId().getValue())
             .username(entity.getUsername().getValue())
             .displayedUsername(entity.getDisplayedUsername().getValue())
-            .managedScheduleIds(entity.getManagedSchedules()
-                .stream()
-                .map(Id::getValue)
-                .collect(Collectors.toSet()))
             .build();
     }
 }

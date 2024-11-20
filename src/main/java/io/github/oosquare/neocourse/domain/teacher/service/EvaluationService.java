@@ -48,7 +48,7 @@ public class EvaluationService {
     }
 
     private void checkTeacherManagesSchedule(Teacher teacher, Schedule schedule) {
-        if (!teacher.isManagingSchedule(schedule)) {
+        if (!schedule.getTeacher().equals(teacher.getId())) {
             throw new EvaluationException(String.format(
                 "Teacher[id=%s] doesn't manage Schedule[id=%s, course=%s, teacher=%s]",
                 teacher.getId(),

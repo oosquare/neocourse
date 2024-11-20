@@ -5,9 +5,7 @@ import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +65,6 @@ class ScheduleConcreteRepositoryTest {
             .id(Id.of("teacher1"))
             .username(Username.of("test-teacher"))
             .displayedUsername(DisplayedUsername.of("Test Teacher"))
-            .managedSchedules(new HashSet<>(Set.of(Id.of("schedule1"))))
             .build();
         this.testPlace = Place.of("Test Place");
         this.testSchedule1 = Schedule.builder()

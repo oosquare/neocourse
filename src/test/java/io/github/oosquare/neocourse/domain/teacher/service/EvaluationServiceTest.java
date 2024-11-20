@@ -63,7 +63,6 @@ class EvaluationServiceTest {
             .id(Id.of("teacher0"))
             .username(Username.of("teacher0"))
             .displayedUsername(DisplayedUsername.of("teacher 0"))
-            .managedSchedules(new HashSet<>())
             .build();
         var schedule = createTestSchedule(1);
         var student = createTestStudent();
@@ -123,7 +122,6 @@ class EvaluationServiceTest {
             .id(Id.of("teacher0"))
             .username(Username.of("teacher0"))
             .displayedUsername(DisplayedUsername.of("teacher 0"))
-            .managedSchedules(new HashSet<>(Set.of(Id.of("schedule0"))))
             .build();
     }
 
