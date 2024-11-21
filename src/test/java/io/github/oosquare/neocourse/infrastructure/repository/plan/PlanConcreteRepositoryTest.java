@@ -51,6 +51,7 @@ class PlanConcreteRepositoryTest {
         this.testPlan = Plan.builder()
             .id(Id.of("plan0"))
             .name(PlanName.of("Test Plan"))
+            .requiredClassPeriod(ClassPeriod.of(2))
             .includedCourses(CourseSet.ofInternally(new HashSet<>(Set.of(
                 Id.of("course0"),
                 Id.of("course1")
@@ -122,6 +123,7 @@ class PlanConcreteRepositoryTest {
         var updatedPlan = Plan.builder()
             .id(this.testPlan.getId())
             .name(this.testPlan.getName())
+            .requiredClassPeriod(ClassPeriod.of(2))
             .includedCourses(CourseSet.ofInternally(new HashSet<>(Set.of(
                 Id.of("course1"),
                 Id.of("new-course")

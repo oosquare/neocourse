@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import io.github.oosquare.neocourse.domain.Entity;
+import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
@@ -17,11 +18,13 @@ public class Plan implements Entity {
 
     private final @NonNull Id id;
     private final @NonNull PlanName name;
+    private @NonNull ClassPeriod requiredClassPeriod;
     private @NonNull CourseSet includedCourses;
 
     public Plan(@NonNull Id id, @NonNull PlanName name) {
         this.id = id;
         this.name = name;
+        this.requiredClassPeriod = ClassPeriod.of(0);
         this.includedCourses = CourseSet.of();
     }
 
@@ -37,6 +40,7 @@ public class Plan implements Entity {
                 .build();
         }
         this.includedCourses = this.includedCourses.addCourse(course.getId());
+        this.requiredClassPeriod = this.requiredClassPeriod.plus(course.getClassPeriod());
     }
 
     public void excludeCourse(@NonNull Course course) {
@@ -51,6 +55,7 @@ public class Plan implements Entity {
                 .build();
         }
         this.includedCourses = this.includedCourses.removeCourse(course.getId());
+        this.requiredClassPeriod = this.requiredClassPeriod.minus(course.getClassPeriod());
     }
 
     public boolean isCourseIncluded(@NonNull Id course) {

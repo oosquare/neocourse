@@ -17,12 +17,14 @@ public class PlanRepresentation {
 
     private @NonNull String id;
     private @NonNull String name;
+    private @NonNull Integer requiredClassPeriod;
     private @NonNull Set<String> includedCourseIds;
 
     public static PlanRepresentation fromData(@NonNull PlanData data) {
         return PlanRepresentation.builder()
             .id(data.getId())
             .name(data.getName())
+            .requiredClassPeriod(data.getRequiredClassPeriod())
             .includedCourseIds(data.getIncludedCourseIds())
             .build();
     }

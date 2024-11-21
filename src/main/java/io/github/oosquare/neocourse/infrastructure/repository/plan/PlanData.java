@@ -45,6 +45,9 @@ public class PlanData {
     @Column(nullable = false, updatable = false, unique = true)
     private String name;
 
+    @Column(nullable = false)
+    private Integer requiredClassPeriod;
+
     @ElementCollection
     @CollectionTable(name = "plan_included_course_id", joinColumns = @JoinColumn(name = "plan_id"))
     @Column(name = "included_course_id", nullable = false)
