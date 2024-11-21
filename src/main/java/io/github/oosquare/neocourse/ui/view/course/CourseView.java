@@ -16,9 +16,10 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
+import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-@Route("courses")
+@Route(value = "courses", layout = MainLayout.class)
 public class CourseView extends VerticalLayout {
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
