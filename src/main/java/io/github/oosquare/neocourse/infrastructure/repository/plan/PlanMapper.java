@@ -1,6 +1,7 @@
 package io.github.oosquare.neocourse.infrastructure.repository.plan;
 
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 import lombok.NonNull;
@@ -31,5 +32,11 @@ public class PlanMapper extends DataMapper<PlanData> {
             .setMaxResults(1)
             .getResultList();
         return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
+    }
+
+    public List<PlanData> findAll() {
+        return this.getEntityManager()
+            .createNamedQuery("PlanData.findAll", this.getDataClass())
+            .getResultList();
     }
 }

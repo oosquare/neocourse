@@ -33,7 +33,7 @@ public class CourseCommandService {
         this.courseRepository.save(course);
 
         log.info(
-            "Created Course[id={}, name={}] by {}",
+            "Added Course[id={}, name={}] by {}",
             course.getId(),
             course.getName(),
             account.toLoggingString()

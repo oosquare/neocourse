@@ -32,6 +32,10 @@ import lombok.Setter;
     name = "PlanData.findByIncludedCourse",
     query = "SELECT p FROM PlanData p WHERE :includedCourse MEMBER OF p.includedCourseIds"
 )
+@NamedQuery(
+    name = "PlanData.findAll",
+    query = "SELECT p FROM PlanData p"
+)
 public class PlanData {
 
     @Id
