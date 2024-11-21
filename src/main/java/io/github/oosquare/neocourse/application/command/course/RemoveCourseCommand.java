@@ -4,12 +4,11 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import io.github.oosquare.neocourse.domain.account.model.Account;
+import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
 @Builder
 public class RemoveCourseCommand {
 
-    private final @NonNull String courseId;
-    private final @NonNull Account account;
+    private final @NonNull Id courseId;
 }

@@ -4,13 +4,13 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import io.github.oosquare.neocourse.domain.account.model.Account;
+import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
+import io.github.oosquare.neocourse.domain.course.model.CourseName;
 
 @Value
 @Builder
 public class AddCourseCommand {
 
-    private final @NonNull String courseName;
-    private final @NonNull Integer classPeriod;
-    private final @NonNull Account account;
+    private final @NonNull CourseName courseName;
+    private final @NonNull ClassPeriod classPeriod;
 }

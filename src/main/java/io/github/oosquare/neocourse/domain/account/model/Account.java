@@ -21,4 +21,8 @@ public class Account implements Entity {
     private final @NonNull DisplayedUsername displayedUsername;
     private final @NonNull EncodedPassword encodedPassword;
     private final @NonNull Id user;
+
+    public String toLoggingString() {
+        return "Account[id=%s, username=%s, kind=%s]".formatted(id, username, kind);
+    }
 }
