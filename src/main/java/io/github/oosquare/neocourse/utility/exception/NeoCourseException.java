@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NonNull;
 
 @Getter
-@AllArgsConstructor
 public class NeoCourseException extends RuntimeException {
 
     private static final String DEFAULT_USER_MESSAGE = "An error occurred";

@@ -8,11 +8,11 @@ import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.admin.model.Administrator;
 import io.github.oosquare.neocourse.domain.admin.service.AdministratorRepository;
-import io.github.oosquare.neocourse.domain.common.exception.UserException;
 import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.domain.student.service.StudentRepository;
 import io.github.oosquare.neocourse.domain.teacher.model.Teacher;
 import io.github.oosquare.neocourse.domain.teacher.service.TeacherRepository;
+import io.github.oosquare.neocourse.utility.exception.UserAuthorizationException;
 
 @Service
 @AllArgsConstructor
@@ -24,12 +24,14 @@ public class UserService {
 
     public void checkIsUser(@NonNull Account account, @NonNull AccountKind kind) {
         if (account.getKind() != kind) {
-            throw new UserException(String.format(
-                "Account[id=%s, username=%s] is not a %s user",
-                account.getId(),
-                account.getUsername(),
-                kind
-            ));
+            throw UserAuthorizationException.builder()
+                .message("Account is not of a given kind")
+                .userMessage("Require a(n) %s account to proceed")
+                .context("account.id", account.getId())
+                .context("account.username", account.getUsername())
+                .context("account.kind", account.getKind())
+                .context("kind", kind)
+                .build();
         }
     }
 
