@@ -31,7 +31,7 @@ public class ScheduleConverter implements DataConverter<Schedule, ScheduleData> 
         var registrations = data.getRegistrations()
             .stream()
             .collect(Collectors.toMap(
-                entry -> Id.of(entry.getStudentId()),
+                entry -> Id.of(entry.getId().getStudentId()),
                 this.registrationConverter::convertToDomain
             ));
         return Schedule.builder()
@@ -50,7 +50,7 @@ public class ScheduleConverter implements DataConverter<Schedule, ScheduleData> 
         var registrations = entity.getRegistrations()
             .values()
             .stream()
-            .map(this.registrationConverter::convertToData)
+            .map(data -> this.registrationConverter.convertToData(data, entity.getId()))
             .collect(Collectors.toSet());
         var startTime = entity.getTime()
             .getStart()
