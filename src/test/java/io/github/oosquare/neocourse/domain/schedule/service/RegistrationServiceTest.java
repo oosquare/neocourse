@@ -95,6 +95,7 @@ class RegistrationServiceTest {
         var plan = Plan.builder()
             .id(Id.of("plan0"))
             .name(PlanName.of("plan 0"))
+            .totalClassPeriod(ClassPeriod.of(1))
             .requiredClassPeriod(ClassPeriod.of(1))
             .includedCourses(CourseSet.ofInternally(Set.of(Id.of("course1"))))
             .build();
@@ -140,6 +141,7 @@ class RegistrationServiceTest {
         return Plan.builder()
             .id(Id.of("plan0"))
             .name(PlanName.of("plan 0"))
+            .totalClassPeriod(ClassPeriod.of(1))
             .requiredClassPeriod(ClassPeriod.of(1))
             .includedCourses(CourseSet.ofInternally(Set.of(Id.of("course0"))))
             .build();

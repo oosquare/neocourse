@@ -76,6 +76,7 @@ public class PlanCommandServiceTest {
         var plan = Plan.builder()
             .id(Id.of("plan0"))
             .name(PlanName.of("Test Plan"))
+            .totalClassPeriod(course.getClassPeriod())
             .requiredClassPeriod(course.getClassPeriod())
             .includedCourses(CourseSet.ofInternally(Set.of(course.getId())))
             .build();
@@ -108,6 +109,7 @@ public class PlanCommandServiceTest {
         return Plan.builder()
             .id(Id.of("plan0"))
             .name(PlanName.of("Test Plan"))
+            .totalClassPeriod(ClassPeriod.of(0))
             .requiredClassPeriod(ClassPeriod.of(0))
             .includedCourses(CourseSet.of())
             .build();

@@ -18,12 +18,14 @@ public class Plan implements Entity {
 
     private final @NonNull Id id;
     private final @NonNull PlanName name;
+    private @NonNull ClassPeriod totalClassPeriod;
     private @NonNull ClassPeriod requiredClassPeriod;
     private @NonNull CourseSet includedCourses;
 
     public Plan(@NonNull Id id, @NonNull PlanName name) {
         this.id = id;
         this.name = name;
+        this.totalClassPeriod = ClassPeriod.of(0);
         this.requiredClassPeriod = ClassPeriod.of(0);
         this.includedCourses = CourseSet.of();
     }
@@ -40,7 +42,7 @@ public class Plan implements Entity {
                 .build();
         }
         this.includedCourses = this.includedCourses.addCourse(course.getId());
-        this.requiredClassPeriod = this.requiredClassPeriod.plus(course.getClassPeriod());
+        this.totalClassPeriod = this.totalClassPeriod.plus(course.getClassPeriod());
     }
 
     public void excludeCourse(@NonNull Course course) {
@@ -55,10 +57,24 @@ public class Plan implements Entity {
                 .build();
         }
         this.includedCourses = this.includedCourses.removeCourse(course.getId());
-        this.requiredClassPeriod = this.requiredClassPeriod.minus(course.getClassPeriod());
+        this.totalClassPeriod = this.totalClassPeriod.minus(course.getClassPeriod());
+        this.requiredClassPeriod = this.requiredClassPeriod.withUpperBound(this.totalClassPeriod);
     }
 
     public boolean isCourseIncluded(@NonNull Id course) {
         return this.includedCourses.contains(course);
+    }
+
+    public void assignRequiredClassPeriod(@NonNull ClassPeriod newRequiredClassPeriod) {
+        if (newRequiredClassPeriod.isExceedUpperBound(this.totalClassPeriod)) {
+            throw RuleViolationException.builder()
+                .message("newRequiredClassPeriod should be less than totalClassPeriod")
+                .userMessage("Sum of all courses' class period is not enough for the required class period")
+                .context("schedule.id", id)
+                .context("schedule.totalClassPeriod", this.totalClassPeriod)
+                .context("newRequiredClassPeriod", newRequiredClassPeriod)
+                .build();
+        }
+        this.requiredClassPeriod = newRequiredClassPeriod;
     }
 }

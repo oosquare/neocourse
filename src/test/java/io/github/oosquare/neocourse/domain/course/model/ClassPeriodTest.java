@@ -33,4 +33,10 @@ class ClassPeriodTest {
         var period2 = ClassPeriod.of(1);
         assertEquals(1, period1.minus(period2).getValue());
     }
+
+    @Test
+    public void withUpperBoundSucceeds() {
+        assertEquals(1, ClassPeriod.of(1).withUpperBound(ClassPeriod.of(2)).getValue());
+        assertEquals(2, ClassPeriod.of(3).withUpperBound(ClassPeriod.of(2)).getValue());
+    }
 }

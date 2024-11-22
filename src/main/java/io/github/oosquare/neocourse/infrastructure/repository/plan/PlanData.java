@@ -46,6 +46,9 @@ public class PlanData {
     private String name;
 
     @Column(nullable = false)
+    private Integer totalClassPeriod;
+
+    @Column(nullable = false)
     private Integer requiredClassPeriod;
 
     @ElementCollection

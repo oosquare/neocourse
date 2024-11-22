@@ -48,4 +48,16 @@ public class ClassPeriod {
     public ClassPeriod minus(@NonNull ClassPeriod other) {
         return ClassPeriod.of(this.getValue() - other.getValue());
     }
+
+    public ClassPeriod withUpperBound(@NonNull ClassPeriod bound) {
+        if (this.isExceedUpperBound(bound)) {
+            return bound;
+        } else {
+            return this;
+        }
+    }
+
+    public boolean isExceedUpperBound(@NonNull ClassPeriod bound) {
+        return this.getValue() > bound.getValue();
+    }
 }

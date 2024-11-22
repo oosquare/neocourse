@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,7 @@ class PlanConcreteRepositoryTest {
         this.testPlan = Plan.builder()
             .id(Id.of("plan0"))
             .name(PlanName.of("Test Plan"))
+            .totalClassPeriod(ClassPeriod.of(2))
             .requiredClassPeriod(ClassPeriod.of(2))
             .includedCourses(CourseSet.ofInternally(new HashSet<>(Set.of(
                 Id.of("course0"),
@@ -123,6 +125,7 @@ class PlanConcreteRepositoryTest {
         var updatedPlan = Plan.builder()
             .id(this.testPlan.getId())
             .name(this.testPlan.getName())
+            .totalClassPeriod(ClassPeriod.of(2))
             .requiredClassPeriod(ClassPeriod.of(2))
             .includedCourses(CourseSet.ofInternally(new HashSet<>(Set.of(
                 Id.of("course1"),
