@@ -87,4 +87,32 @@ public class PlanCommandService {
             account.toLoggingString()
         );
     }
+
+    @Transactional
+    public void assignRequiredClassPeriod(
+        @NonNull AssignRequiredClassPeriodCommand command,
+        @NonNull Account account
+    ) {
+        log.info(
+            "{} requests AssignRequiredClassPeriodCommand with {}",
+            account.toLoggingString(),
+            command
+        );
+
+        var planId = command.getPlanId();
+        var requredClassPeriod = command.getRequiredClassPeriod();
+
+        this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
+        var plan = this.planRepository.findOrThrow(planId);
+        plan.assignRequiredClassPeriod(requredClassPeriod);
+        this.planRepository.save(plan);
+
+        log.info(
+            "Modified Plan[id={}, name={}, requredClassPeriod={}] by {}",
+            plan.getId(),
+            plan.getName(),
+            plan.getRequiredClassPeriod(),
+            account.toLoggingString()
+        );
+    }
 }

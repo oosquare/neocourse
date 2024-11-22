@@ -51,7 +51,7 @@ public class PlanCommandServiceTest {
     }
 
     @Test
-    public void includeCourseToPlan() {
+    public void includeCourseToPlanSucceeds() {
         var account = createTestAccount();
         var plan = createTestPlan();
         var course = createTestCourse();
@@ -70,7 +70,7 @@ public class PlanCommandServiceTest {
     }
 
     @Test
-    public void excludeCourseFromPlan() {
+    public void excludeCourseFromPlanSucceeds() {
         var account = createTestAccount();
         var course = createTestCourse();
         var plan = Plan.builder()
@@ -92,6 +92,30 @@ public class PlanCommandServiceTest {
 
         this.planCommandService.excludeCourseFromPlan(command, account);
         assertFalse(plan.isCourseIncluded(course.getId()));
+    }
+
+    @Test
+    public void assignRequiredClassPeriodSucceeds() {
+        var account = createTestAccount();
+        var course = createTestCourse();
+        var plan = Plan.builder()
+            .id(Id.of("plan0"))
+            .name(PlanName.of("Test Plan"))
+            .totalClassPeriod(course.getClassPeriod())
+            .requiredClassPeriod(ClassPeriod.of(0))
+            .includedCourses(CourseSet.ofInternally(Set.of(course.getId())))
+            .build();
+        var command = AssignRequiredClassPeriodCommand.builder()
+            .planId(plan.getId())
+            .requiredClassPeriod(course.getClassPeriod())
+            .build();
+
+        doNothing().when(this.userService).checkIsUser(account, AccountKind.ADMINISTRATOR);
+        when(this.planRepository.findOrThrow(plan.getId())).thenReturn(plan);
+        doNothing().when(this.planRepository).save(plan);
+
+        this.planCommandService.assignRequiredClassPeriod(command, account);
+        assertEquals(course.getClassPeriod(), plan.getRequiredClassPeriod());
     }
 
     private static Account createTestAccount() {
