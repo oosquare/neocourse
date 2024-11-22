@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.infrastructure.repository.schedule;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -7,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -34,6 +36,40 @@ import lombok.Setter;
     name = "ScheduleData.findByCourse",
     query = "SELECT s FROM ScheduleData s WHERE s.courseId = :course"
 )
+@NamedQuery(
+    name = "ScheduleData.findAllReturningSummaryProjection",
+    query = """
+        SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleSummaryProjection(
+            s.id,
+            c.name,
+            t.displayedUsername,
+            s.startTime,
+            s.period,
+            s.place,
+            s.capacity
+        ) FROM ScheduleData s
+        JOIN CourseData c ON s.courseId = c.id
+        JOIN TeacherData t ON s.teacherId = t.id
+    """
+)
+@NamedQuery(
+    name = "ScheduleData.findByIdReturningEvaluationProjection",
+    query = """
+        SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleEvaluationProjection(
+            s.id,
+            c.name,
+            (SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.RegistrationEvaluationProjection(
+                r.id.studentId,
+                st.displayedUsername,
+                r.participationStatus
+            ) FROM RegistrationData r
+            JOIN StudentData st ON st.id = r.id.studentId
+            WHERE r.id.scheduleId = s.id)
+        ) FROM ScheduleData s
+        JOIN CourseData c ON s.courseId = c.id
+        WHERE s.id = :id
+    """
+)
 public class ScheduleData {
 
     @Id
@@ -58,7 +94,6 @@ public class ScheduleData {
     @Column(nullable = false, updatable = false)
     private Integer capacity;
 
-    @ElementCollection
-    @CollectionTable(name = "schedule_registration", joinColumns = @JoinColumn(name = "schedule_id"))
+    @OneToMany(mappedBy = "id.scheduleId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RegistrationData> registrations;
 }

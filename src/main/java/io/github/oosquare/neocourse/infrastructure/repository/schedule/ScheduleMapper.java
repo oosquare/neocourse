@@ -53,12 +53,15 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
             .getResultList();
     }
 
-    public List<ScheduleEvaluationProjection> findByIdReturningEvaluationProjection() {
-        return this.getEntityManager()
+    public Optional<ScheduleEvaluationProjection> findByIdReturningEvaluationProjection(@NonNull String id) {
+        var data = this.getEntityManager()
             .createNamedQuery(
                 "ScheduleData.findByIdReturningEvaluationProjection",
                 ScheduleEvaluationProjection.class
             )
+            .setParameter("id", id)
+            .setMaxResults(1)
             .getResultList();
+        return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
     }
 }
