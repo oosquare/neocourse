@@ -14,13 +14,13 @@ import io.github.oosquare.neocourse.infrastructure.repository.course.CourseData;
 public class CourseRepresentation {
 
     private String id;
-    private String name;
+    private String courseName;
     private Integer classPeriod;
 
     public static CourseRepresentation fromData(@NonNull CourseData data) {
         return CourseRepresentation.builder()
             .id(data.getId())
-            .name(data.getName())
+            .courseName(data.getName())
             .classPeriod(data.getClassPeriod())
             .build();
     }

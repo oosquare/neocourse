@@ -10,7 +10,7 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
-import io.github.oosquare.neocourse.ui.view.course.CourseView;
+import io.github.oosquare.neocourse.ui.view.course.CourseListView;
 import io.github.oosquare.neocourse.ui.view.plan.PlanView;
 
 public class MainLayout extends AppLayout {
@@ -40,7 +40,7 @@ public class MainLayout extends AppLayout {
         this.addToNavbar(false, header);
 
         var sideNav = new SideNav();
-        sideNav.addItem(new SideNavItem("Courses", CourseView.class, VaadinIcon.OPEN_BOOK.create()));
+        sideNav.addItem(new SideNavItem("Courses", CourseListView.class, VaadinIcon.OPEN_BOOK.create()));
         sideNav.addItem(new SideNavItem("Plans", PlanView.class, VaadinIcon.PIN.create()));
 
         var scroller = new Scroller(sideNav);
