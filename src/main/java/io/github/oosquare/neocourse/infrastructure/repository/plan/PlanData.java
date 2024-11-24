@@ -4,6 +4,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
@@ -51,7 +52,7 @@ public class PlanData {
     @Column(nullable = false)
     private Integer requiredClassPeriod;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "plan_included_course_id", joinColumns = @JoinColumn(name = "plan_id"))
     @Column(name = "included_course_id", nullable = false)
     private Set<String> includedCourseIds;

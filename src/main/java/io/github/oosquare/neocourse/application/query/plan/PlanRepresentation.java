@@ -17,6 +17,7 @@ public class PlanRepresentation {
 
     private @NonNull String id;
     private @NonNull String name;
+    private @NonNull Integer totalClassPeriod;
     private @NonNull Integer requiredClassPeriod;
     private @NonNull Set<String> includedCourseIds;
 
@@ -24,6 +25,7 @@ public class PlanRepresentation {
         return PlanRepresentation.builder()
             .id(data.getId())
             .name(data.getName())
+            .totalClassPeriod(data.getTotalClassPeriod())
             .requiredClassPeriod(data.getRequiredClassPeriod())
             .includedCourseIds(data.getIncludedCourseIds())
             .build();

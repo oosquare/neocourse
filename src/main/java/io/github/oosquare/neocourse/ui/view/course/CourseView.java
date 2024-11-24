@@ -64,6 +64,10 @@ public class CourseView extends VerticalLayout {
             .classPeriod(ClassPeriod.of(classPeriod))
             .build();
         this.courseCommandService.addCourse(command, CURRENT_ACCOUNT);
+        this.updateUi();
+    }
+
+    private void updateUi() {
         getUI().ifPresent(ui -> ui.access(() -> {
             var courses = this.courseQueryService.getAllCourses(CURRENT_ACCOUNT);
             this.courseGrid.setItems(courses);

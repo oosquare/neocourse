@@ -33,7 +33,12 @@ public class PlanCommandService {
         var plan = this.planFactory.createPlan(planName);
         this.planRepository.save(plan);
 
-        log.info("Added Plan[id={}, name={}] by {}", plan.getId(), plan.getName(), account);
+        log.info(
+            "Added Plan[id={}, name={}] by {}",
+            plan.getId(),
+            plan.getName(),
+            account.toLoggingString()
+        );
     }
 
     @Transactional
