@@ -90,7 +90,7 @@ public class CourseEditDialog extends Dialog {
         TextField classPeriodField
     ) {
         var layout = new VerticalLayout(idField, courseNameField, classPeriodField);
-        layout.setPadding(false);
+        layout.setSpacing(false);
         layout.setPadding(false);
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
         layout.getStyle().set("width", "18rem").set("max-width", "100%");

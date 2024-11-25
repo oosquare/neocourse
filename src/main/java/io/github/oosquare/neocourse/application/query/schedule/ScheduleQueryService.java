@@ -20,6 +20,23 @@ public class ScheduleQueryService {
 
     private final @NonNull ScheduleMapper scheduleMapper;
 
+    public ScheduleSummaryRepresentation getScheduleByIdInSummaryRepresentation(
+        @NonNull Id scheduleId,
+        @NonNull Account account
+    ) {
+        log.info(
+            "{} requests getScheduleByIdInSummaryRepresentation with {}",
+            account.toLoggingString(),
+            scheduleId
+        );
+
+        return this.scheduleMapper.findByIdReturningSummaryProjection(scheduleId.getValue())
+            .map(ScheduleSummaryRepresentation::fromData)
+            .orElseThrow(() -> EntityNotFoundException.builder()
+                .entity(ScheduleEvaluationRepresentation.class)
+                .build());
+    }
+
     @Transactional
     public List<ScheduleSummaryRepresentation> getAllSchedulesInSummaryRepresentation(
         @NonNull Account account

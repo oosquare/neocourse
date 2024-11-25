@@ -26,7 +26,7 @@ public class UserService {
         if (account.getKind() != kind) {
             throw UserAuthorizationException.builder()
                 .message("Account is not of a given kind")
-                .userMessage("Require a(n) %s account to proceed")
+                .userMessage("Require a(n) %s account to proceed".formatted(kind))
                 .context("account.id", account.getId())
                 .context("account.username", account.getUsername())
                 .context("account.kind", account.getKind())

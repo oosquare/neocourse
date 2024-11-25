@@ -37,6 +37,23 @@ import lombok.Setter;
     query = "SELECT s FROM ScheduleData s WHERE s.courseId = :course"
 )
 @NamedQuery(
+    name = "ScheduleData.findByIdReturningSummaryProjection",
+    query = """
+        SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleSummaryProjection(
+            s.id,
+            c.name,
+            t.displayedUsername,
+            s.startTime,
+            s.period,
+            s.place,
+            s.capacity
+        ) FROM ScheduleData s
+        JOIN CourseData c ON s.courseId = c.id
+        JOIN TeacherData t ON s.teacherId = t.id
+        WHERE s.id = :id
+    """
+)
+@NamedQuery(
     name = "ScheduleData.findAllReturningSummaryProjection",
     query = """
         SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleSummaryProjection(

@@ -12,12 +12,21 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import io.github.oosquare.neocourse.ui.view.course.CourseListView;
 import io.github.oosquare.neocourse.ui.view.plan.PlanListView;
+import io.github.oosquare.neocourse.ui.view.schedule.ScheduleListView;
 
 public class MainLayout extends AppLayout {
 
     public MainLayout() {
         this.setPrimarySection(Section.NAVBAR);
 
+        var header = createHeader();
+        this.addToNavbar(false, header);
+
+        var scroller = createDrawer();
+        this.addToDrawer(scroller);
+    }
+
+    private static Header createHeader() {
         var drawerToggle = new DrawerToggle();
         drawerToggle.setAriaLabel("Menu toggle");
         drawerToggle.setTooltipText("Menu toggle");
@@ -36,16 +45,17 @@ public class MainLayout extends AppLayout {
             LumoUtility.Padding.End.MEDIUM,
             LumoUtility.Width.FULL
         );
+        return header;
+    }
 
-        this.addToNavbar(false, header);
-
+    private static Scroller createDrawer() {
         var sideNav = new SideNav();
         sideNav.addItem(new SideNavItem("Courses", CourseListView.class, VaadinIcon.OPEN_BOOK.create()));
         sideNav.addItem(new SideNavItem("Plans", PlanListView.class, VaadinIcon.PIN.create()));
+        sideNav.addItem(new SideNavItem("Schedules", ScheduleListView.class, VaadinIcon.CLOCK.create()));
 
         var scroller = new Scroller(sideNav);
         scroller.setClassName(LumoUtility.Padding.SMALL);
-
-        this.addToDrawer(scroller);
+        return scroller;
     }
 }

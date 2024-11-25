@@ -44,6 +44,18 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
         return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
     }
 
+    public Optional<ScheduleSummaryProjection> findByIdReturningSummaryProjection(@NonNull String id) {
+        var data = this.getEntityManager()
+            .createNamedQuery(
+                "ScheduleData.findByIdReturningSummaryProjection",
+                ScheduleSummaryProjection.class
+            )
+            .setParameter("id", id)
+            .setMaxResults(1)
+            .getResultList();
+        return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
+    }
+
     public List<ScheduleSummaryProjection> findAllReturningSummaryProjection() {
         return this.getEntityManager()
             .createNamedQuery(
