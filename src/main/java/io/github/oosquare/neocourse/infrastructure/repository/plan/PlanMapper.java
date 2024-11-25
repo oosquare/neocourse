@@ -34,9 +34,9 @@ public class PlanMapper extends DataMapper<PlanData> {
         return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
     }
 
-    public List<PlanData> findAll() {
+    public List<PlanSummaryProjection> findAllReturningSummaryProjection() {
         return this.getEntityManager()
-            .createNamedQuery("PlanData.findAll", this.getDataClass())
+            .createNamedQuery("PlanData.findAllReturningSummaryProjection", PlanSummaryProjection.class)
             .getResultList();
     }
 }

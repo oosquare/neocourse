@@ -9,6 +9,7 @@ import io.github.oosquare.neocourse.application.command.plan.AddPlanCommand;
 import io.github.oosquare.neocourse.application.command.plan.PlanCommandService;
 import io.github.oosquare.neocourse.application.query.plan.PlanQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanRepresentation;
+import io.github.oosquare.neocourse.application.query.plan.PlanSummaryRepresentation;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -33,7 +34,7 @@ public class PlanView extends VerticalLayout {
     private final @NonNull PlanCommandService planCommandService;
     private final @NonNull PlanQueryService planQueryService;
 
-    private final @NonNull Grid<PlanRepresentation> planGrid;
+    private final @NonNull Grid<PlanSummaryRepresentation> planGrid;
     private final @NonNull PlanAddComponent planAddComponent;
 
     public PlanView(
@@ -43,12 +44,12 @@ public class PlanView extends VerticalLayout {
         this.planCommandService = planCommandService;
         this.planQueryService = planQueryService;
 
-        this.planGrid = new Grid<>(PlanRepresentation.class, false);
-        this.planGrid.addColumn(PlanRepresentation::getId).setHeader("ID");
-        this.planGrid.addColumn(PlanRepresentation::getName).setHeader("Plan Name");
-        this.planGrid.addColumn(PlanRepresentation::getTotalClassPeriod).setHeader("Total Class Period");
-        this.planGrid.addColumn(PlanRepresentation::getRequiredClassPeriod).setHeader("Required Class Period");
-        this.planGrid.setItems(this.planQueryService.getAllPlans(CURRENT_ACCOUNT));
+        this.planGrid = new Grid<>(PlanSummaryRepresentation.class, false);
+        this.planGrid.addColumn(PlanSummaryRepresentation::getId).setHeader("ID");
+        this.planGrid.addColumn(PlanSummaryRepresentation::getName).setHeader("Plan Name");
+        this.planGrid.addColumn(PlanSummaryRepresentation::getTotalClassPeriod).setHeader("Total Class Period");
+        this.planGrid.addColumn(PlanSummaryRepresentation::getRequiredClassPeriod).setHeader("Required Class Period");
+        this.planGrid.setItems(this.planQueryService.getAllPlansInSummaryRepresentation(CURRENT_ACCOUNT));
         this.planGrid.setSizeFull();
         this.planGrid.addSelectionListener(selection -> {
             selection.getFirstSelectedItem().ifPresent(this::selectPlan);
@@ -69,13 +70,13 @@ public class PlanView extends VerticalLayout {
         this.updateUi();
     }
 
-    private void selectPlan(@NonNull PlanRepresentation selection) {
+    private void selectPlan(@NonNull PlanSummaryRepresentation selection) {
         getUI().ifPresent(ui -> ui.navigate(PlanEditView.class, selection.getId()));
     }
 
     private void updateUi() {
         getUI().ifPresent(ui -> ui.access(() -> {
-            var plans = this.planQueryService.getAllPlans(CURRENT_ACCOUNT);
+            var plans = this.planQueryService.getAllPlansInSummaryRepresentation(CURRENT_ACCOUNT);
             this.planGrid.setItems(plans);
         }));
     }

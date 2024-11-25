@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.infrastructure.repository.plan.PlanMapper;
+import io.github.oosquare.neocourse.utility.exception.EntityNotFoundException;
+import io.github.oosquare.neocourse.utility.id.Id;
 
 @Service
 @AllArgsConstructor
@@ -19,12 +21,24 @@ public class PlanQueryService {
     private final @NonNull PlanMapper planMapper;
 
     @Transactional
-    public List<PlanRepresentation> getAllPlans(@NonNull Account account) {
-        log.info("{} requests getAllPlans", account.toLoggingString());
+    public PlanRepresentation getPlanById(@NonNull Id planId, @NonNull Account account) {
+        log.info("{} requests getPlanById with {}", account.toLoggingString(), planId);
 
-        return this.planMapper.findAll()
-            .stream()
+        return this.planMapper.find(planId.getValue())
             .map(PlanRepresentation::fromData)
+            .orElseThrow(() -> EntityNotFoundException.builder()
+                .entity(PlanRepresentation.class)
+                .context("planId", planId)
+                .build());
+    }
+
+    @Transactional
+    public List<PlanSummaryRepresentation> getAllPlansInSummaryRepresentation(@NonNull Account account) {
+        log.info("{} requests getAllPlansInSummaryRepresentation", account.toLoggingString());
+
+        return this.planMapper.findAllReturningSummaryProjection()
+            .stream()
+            .map(PlanSummaryRepresentation::fromData)
             .toList();
     }
 }
