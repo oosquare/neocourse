@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleMapper;
 import io.github.oosquare.neocourse.utility.exception.EntityNotFoundException;
+import io.github.oosquare.neocourse.utility.id.Id;
 
 @Service
 @AllArgsConstructor
@@ -32,17 +33,15 @@ public class ScheduleQueryService {
     }
 
     @Transactional
-    public ScheduleEvaluationRepresentation getScheduleInEvaluationRepresentation(
-        @NonNull ScheduleEvaluationQuery query,
+    public ScheduleEvaluationRepresentation getScheduleByIdInEvaluationRepresentation(
+        @NonNull Id scheduleId,
         @NonNull Account account
     ) {
         log.info(
-            "{} requests getScheduleInEvaluationRepresentation with {}",
+            "{} requests getScheduleByIdInEvaluationRepresentation with {}",
             account.toLoggingString(),
-            query
+            scheduleId
         );
-
-        var scheduleId = query.getScheduleId();
 
         return this.scheduleMapper.findByIdReturningEvaluationProjection(scheduleId.getValue())
             .map(ScheduleEvaluationRepresentation::fromData)
