@@ -1,5 +1,8 @@
 package io.github.oosquare.neocourse.ui.view.plan;
 
+import java.util.Optional;
+
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -10,6 +13,7 @@ import com.vaadin.flow.router.Route;
 import lombok.NonNull;
 
 import io.github.oosquare.neocourse.application.command.plan.PlanCommandService;
+import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanSummaryRepresentation;
 import io.github.oosquare.neocourse.domain.account.model.Account;
@@ -34,15 +38,18 @@ public class PlanListView extends VerticalLayout {
 
     private final @NonNull PlanCommandService planCommandService;
     private final @NonNull PlanQueryService planQueryService;
+    private final @NonNull CourseQueryService courseQueryService;
 
     private final @NonNull Grid<PlanSummaryRepresentation> planGrid;
 
     public PlanListView(
         @NonNull PlanCommandService planCommandService,
-        @NonNull PlanQueryService planQueryService
+        @NonNull PlanQueryService planQueryService,
+        @NonNull CourseQueryService courseQueryService
     ) {
         this.planCommandService = planCommandService;
         this.planQueryService = planQueryService;
+        this.courseQueryService = courseQueryService;
 
         var newPlanButton = new Button("New Plan");
         newPlanButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -87,6 +94,7 @@ public class PlanListView extends VerticalLayout {
         var planEditDialog = new PlanEditDialog(
             this.planCommandService,
             this.planQueryService,
+            this.courseQueryService,
             planId,
             this::updateView
         );
@@ -94,7 +102,7 @@ public class PlanListView extends VerticalLayout {
     }
 
     private void updateView() {
-        getUI().ifPresent(ui -> ui.access(() -> {
+        Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.access(() -> {
             var account = this.getCurrentAccount();
             var plans = this.planQueryService.getAllPlansInSummaryRepresentation(account);
             this.planGrid.setItems(plans);

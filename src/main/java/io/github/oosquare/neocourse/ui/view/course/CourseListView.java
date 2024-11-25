@@ -1,5 +1,8 @@
 package io.github.oosquare.neocourse.ui.view.course;
 
+import java.util.Optional;
+
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -92,7 +95,7 @@ public class CourseListView extends VerticalLayout {
     }
 
     private void updateView() {
-        this.getUI().ifPresent(ui -> ui.access(() -> {
+        Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.access(() -> {
             var account = this.getCurrentAccount();
             var courses = this.courseQueryService.getAllCourses(account);
             this.courseGrid.setItems(courses);

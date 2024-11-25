@@ -1,9 +1,16 @@
 package io.github.oosquare.neocourse.ui.view.plan;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.google.common.collect.Sets;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -14,7 +21,11 @@ import lombok.Data;
 import lombok.NonNull;
 
 import io.github.oosquare.neocourse.application.command.plan.AssignRequiredClassPeriodCommand;
+import io.github.oosquare.neocourse.application.command.plan.ExcludeCourseCommand;
+import io.github.oosquare.neocourse.application.command.plan.IncludeCourseCommand;
 import io.github.oosquare.neocourse.application.command.plan.PlanCommandService;
+import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
+import io.github.oosquare.neocourse.application.query.course.CourseRepresentation;
 import io.github.oosquare.neocourse.application.query.plan.PlanQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanRepresentation;
 import io.github.oosquare.neocourse.domain.account.model.Account;
@@ -50,22 +61,25 @@ public class PlanEditDialog extends Dialog {
 
     private final @NonNull PlanCommandService planCommandService;
     private final @NonNull PlanQueryService planQueryService;
+    private final @NonNull CourseQueryService courseQueryService;
     private final @NonNull PlanRepresentation cachedPlan;
 
     private final @NonNull CloseEventListener closeEventListener;
 
-    private final @NonNull TextField requiredClassPeriodField;
     private final @NonNull Button applyButton;
+    private final @NonNull Grid<CourseRepresentation> courseGrid;
     private final @NonNull Binder<ClassPeriodEditModel> binder;
 
     public PlanEditDialog(
         @NonNull PlanCommandService planCommandService,
         @NonNull PlanQueryService planQueryService,
+        @NonNull CourseQueryService courseQueryService,
         @NonNull String planId,
         @NonNull CloseEventListener closeEventListener
     ) {
         this.planCommandService = planCommandService;
         this.planQueryService = planQueryService;
+        this.courseQueryService = courseQueryService;
         this.closeEventListener = closeEventListener;
 
         var plan = this.planQueryService.getPlanById(Id.of(planId), this.getCurrentAccount());
@@ -87,7 +101,6 @@ public class PlanEditDialog extends Dialog {
 
         var requiredClassPeriodField = new TextField("Required Class Period");
         requiredClassPeriodField.setValue(plan.getRequiredClassPeriod().toString());
-        this.requiredClassPeriodField = requiredClassPeriodField;
 
         var leftDialogLayout = createLeftDialogLayout(
             idField,
@@ -96,7 +109,10 @@ public class PlanEditDialog extends Dialog {
             requiredClassPeriodField
         );
 
-        this.add(leftDialogLayout);
+        this.courseGrid = this.createCourseGrid();
+
+        var dialogLayout = this.createDialogLayout(leftDialogLayout);
+        this.add(dialogLayout);
 
         var cancelButton = new Button("Cancel");
         cancelButton.addClickListener(event -> this.close());
@@ -108,7 +124,14 @@ public class PlanEditDialog extends Dialog {
         this.getFooter().add(applyButton);
         this.applyButton = applyButton;
 
-        this.binder = createBinder(this.requiredClassPeriodField);
+        this.binder = createBinder(requiredClassPeriodField);
+    }
+
+    private HorizontalLayout createDialogLayout(VerticalLayout leftDialogLayout) {
+        var layout = new HorizontalLayout(leftDialogLayout, this.courseGrid);
+        layout.setPadding(false);
+        layout.setSizeFull();
+        return layout;
     }
 
     private static VerticalLayout createLeftDialogLayout(
@@ -126,8 +149,28 @@ public class PlanEditDialog extends Dialog {
         layout.setPadding(false);
         layout.setPadding(false);
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        layout.getStyle().set("width", "18rem").set("max-width", "100%");
+        layout.setWidth("18rem");
+        layout.setMaxWidth("50%");
         return layout;
+    }
+
+    private Grid<CourseRepresentation> createCourseGrid() {
+        var courseGrid = new Grid<>(CourseRepresentation.class, false);
+        courseGrid.addColumn(CourseRepresentation::getCourseName)
+            .setHeader("Course Name");
+        courseGrid.setSelectionMode(Grid.SelectionMode.MULTI);
+        courseGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+        courseGrid.setWidth("18rem");
+        courseGrid.setMaxWidth("50%");
+        courseGrid.setHeightFull();
+
+        var courses = this.courseQueryService.getAllCourses(this.getCurrentAccount());
+        courseGrid.setItems(courses);
+        courses.stream()
+            .filter(course -> this.cachedPlan.getIncludedCourseIds().contains(course.getId()))
+            .forEach(courseGrid::select);
+
+        return courseGrid;
     }
 
     private static Binder<ClassPeriodEditModel> createBinder(TextField requiredClassPeriodField) {
@@ -147,6 +190,7 @@ public class PlanEditDialog extends Dialog {
             var model = new ClassPeriodEditModel();
             this.binder.writeBean(model);
 
+            this.modifyIncludedCourses(this.courseGrid.getSelectedItems());
             this.modifyRequiredClassPeriod(model);
 
             this.close();
@@ -168,6 +212,32 @@ public class PlanEditDialog extends Dialog {
             .build();
         var account = this.getCurrentAccount();
         this.planCommandService.assignRequiredClassPeriod(command, account);
+    }
+
+    private void modifyIncludedCourses(Set<CourseRepresentation> selectedCourses) {
+        var selectedIds = selectedCourses.stream()
+            .map(CourseRepresentation::getId)
+            .collect(Collectors.toSet());
+        var courseIdsToInclude = Sets.difference(selectedIds, this.cachedPlan.getIncludedCourseIds());
+        var courseIdsToExclude = Sets.difference(this.cachedPlan.getIncludedCourseIds(), selectedIds);
+
+        var account = this.getCurrentAccount();
+
+        courseIdsToInclude.forEach(courseId -> {
+            var command = IncludeCourseCommand.builder()
+                .planId(Id.of(this.cachedPlan.getId()))
+                .courseId(Id.of(courseId))
+                .build();
+            this.planCommandService.includeCourseToPlan(command, account);
+        });
+
+        courseIdsToExclude.forEach(courseId -> {
+            var command = ExcludeCourseCommand.builder()
+                .planId(Id.of(this.cachedPlan.getId()))
+                .courseId(Id.of(courseId))
+                .build();
+            this.planCommandService.excludeCourseFromPlan(command, account);
+        });
     }
 
     private Account getCurrentAccount() {
