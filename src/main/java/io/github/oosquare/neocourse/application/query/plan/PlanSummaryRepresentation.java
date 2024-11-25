@@ -14,14 +14,14 @@ import io.github.oosquare.neocourse.infrastructure.repository.plan.PlanSummaryPr
 public class PlanSummaryRepresentation {
 
     private @NonNull String id;
-    private @NonNull String name;
+    private @NonNull String planName;
     private @NonNull Integer totalClassPeriod;
     private @NonNull Integer requiredClassPeriod;
 
     public static PlanSummaryRepresentation fromData(@NonNull PlanSummaryProjection data) {
         return PlanSummaryRepresentation.builder()
             .id(data.getId())
-            .name(data.getName())
+            .planName(data.getName())
             .totalClassPeriod(data.getTotalClassPeriod())
             .requiredClassPeriod(data.getRequiredClassPeriod())
             .build();

@@ -6,14 +6,8 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.converter.StringToIntegerConverter;
-import com.vaadin.flow.data.validator.IntegerRangeValidator;
-import lombok.Data;
 import lombok.NonNull;
 
-import io.github.oosquare.neocourse.application.command.course.AddCourseCommand;
 import io.github.oosquare.neocourse.application.command.course.CourseCommandService;
 import io.github.oosquare.neocourse.application.command.course.RemoveCourseCommand;
 import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
@@ -22,8 +16,6 @@ import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
-import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
-import io.github.oosquare.neocourse.domain.course.model.CourseName;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 public class CourseEditDialog extends Dialog {
@@ -62,7 +54,7 @@ public class CourseEditDialog extends Dialog {
         this.courseId = courseId;
         this.closeEventListener = closeEventListener;
 
-        var course = this.courseQueryService.getCourseById(Id.of(courseId), CURRENT_ACCOUNT);
+        var course = this.courseQueryService.getCourseById(Id.of(courseId), this.getCurrentAccount());
 
         this.setHeaderTitle("Edit Course");
 

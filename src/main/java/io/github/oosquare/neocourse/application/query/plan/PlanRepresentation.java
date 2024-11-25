@@ -16,7 +16,7 @@ import io.github.oosquare.neocourse.infrastructure.repository.plan.PlanData;
 public class PlanRepresentation {
 
     private @NonNull String id;
-    private @NonNull String name;
+    private @NonNull String planName;
     private @NonNull Integer totalClassPeriod;
     private @NonNull Integer requiredClassPeriod;
     private @NonNull Set<String> includedCourseIds;
@@ -24,7 +24,7 @@ public class PlanRepresentation {
     public static PlanRepresentation fromData(@NonNull PlanData data) {
         return PlanRepresentation.builder()
             .id(data.getId())
-            .name(data.getName())
+            .planName(data.getName())
             .totalClassPeriod(data.getTotalClassPeriod())
             .requiredClassPeriod(data.getRequiredClassPeriod())
             .includedCourseIds(data.getIncludedCourseIds())
