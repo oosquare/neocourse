@@ -73,6 +73,7 @@ public class PlanListView extends VerticalLayout {
             .setHeader("Required Class Period");
         planGrid.addColumn(createPlanGridEditRender())
             .setHeader("Operation")
+            .setAutoWidth(true)
             .setFlexGrow(0);
         planGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         planGrid.setSizeFull();

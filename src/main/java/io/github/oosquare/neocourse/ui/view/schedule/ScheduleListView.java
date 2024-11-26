@@ -81,15 +81,19 @@ public class ScheduleListView extends VerticalLayout {
             .setFlexGrow(0);
         scheduleGrid.addColumn(this.createPlanGridPeriodRender())
             .setHeader("Period")
+            .setAutoWidth(true)
             .setFlexGrow(0);
         scheduleGrid.addColumn(ScheduleSummaryRepresentation::getPlace)
             .setHeader("Place")
+            .setAutoWidth(true)
             .setFlexGrow(0);
         scheduleGrid.addColumn(ScheduleSummaryRepresentation::getCapacity)
             .setHeader("Capacity")
+            .setAutoWidth(true)
             .setFlexGrow(0);
         scheduleGrid.addColumn(this.createPlanGridEditRender())
             .setHeader("Operation")
+            .setAutoWidth(true)
             .setFlexGrow(0);
         scheduleGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         scheduleGrid.setSizeFull();

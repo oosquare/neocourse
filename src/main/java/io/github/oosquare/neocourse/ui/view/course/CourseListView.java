@@ -67,6 +67,7 @@ public class CourseListView extends VerticalLayout {
             .setHeader("Class Period");
         courseGrid.addColumn(createCourseGridEditRender())
             .setHeader("Operation")
+            .setAutoWidth(true)
             .setFlexGrow(0);
         courseGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         courseGrid.setSizeFull();
