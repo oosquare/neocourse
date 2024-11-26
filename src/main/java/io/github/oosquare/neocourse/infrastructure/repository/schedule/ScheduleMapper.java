@@ -65,6 +65,16 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
             .getResultList();
     }
 
+    public List<ScheduleSummaryProjection> findByStudentReturningSummaryProjection(@NonNull String studentId) {
+        return this.getEntityManager()
+            .createNamedQuery(
+                "ScheduleData.findByStudentReturningSummaryProjection",
+                ScheduleSummaryProjection.class
+            )
+            .setParameter("studentId", studentId)
+            .getResultList();
+    }
+
     public Optional<ScheduleEvaluationProjection> findByIdReturningEvaluationProjection(@NonNull String id) {
         var data = this.getEntityManager()
             .createNamedQuery(

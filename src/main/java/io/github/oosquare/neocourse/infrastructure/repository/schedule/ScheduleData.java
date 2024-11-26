@@ -1,12 +1,9 @@
 package io.github.oosquare.neocourse.infrastructure.repository.schedule;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -67,6 +64,24 @@ import lombok.Setter;
         ) FROM ScheduleData s
         JOIN CourseData c ON s.courseId = c.id
         JOIN TeacherData t ON s.teacherId = t.id
+    """
+)
+@NamedQuery(
+    name = "ScheduleData.findByStudentReturningSummaryProjection",
+    query = """
+        SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleSummaryProjection(
+            s.id,
+            c.name,
+            t.displayedUsername,
+            s.startTime,
+            s.period,
+            s.place,
+            s.capacity
+        ) FROM ScheduleData s
+        JOIN CourseData c ON s.courseId = c.id
+        JOIN TeacherData t ON s.teacherId = t.id
+        JOIN RegistrationData r ON r.id.scheduleId = s.id
+        WHERE r.id.studentId = :studentId
     """
 )
 @NamedQuery(
