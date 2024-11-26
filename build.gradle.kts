@@ -1,5 +1,6 @@
 plugins {
     java
+    "jvm-test-suite"
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
     idea
@@ -10,19 +11,9 @@ plugins {
 group = "io.github.oosquare"
 version = "0.0.1-SNAPSHOT"
 
-java {
-    toolchain {
-	    languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-vaadin {
-    optimizeBundle = false
-}
-
 configurations {
     compileOnly {
-	    extendsFrom(configurations.annotationProcessor.get())
+        extendsFrom(configurations.annotationProcessor.get())
     }
 }
 
@@ -47,10 +38,6 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 dependencyManagement {
     imports {
         mavenBom("com.vaadin:vaadin-bom:24.5.0")
@@ -58,3 +45,43 @@ dependencyManagement {
 }
 
 defaultTasks("clean", "vaadinBuildFrontend", "build")
+
+java {
+    toolchain {
+	    languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+vaadin {
+    optimizeBundle = false
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+        }
+
+        register<JvmTestSuite>("integrationTest") {
+            dependencies {
+                implementation(project())
+            }
+
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn(testing.suites.named("integrationTest"))
+}
