@@ -1,7 +1,9 @@
 package io.github.oosquare.neocourse.infrastructure.repository.transcript;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,11 +15,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Embeddable
+@Entity
+@Table(name = "transcript_course_score")
 public class TranscriptItemData {
 
-    @Column(nullable = false)
-    private String courseId;
+    @EmbeddedId
+    @Column(nullable = false, updatable = false, unique = true)
+    private TranscriptItemId id;
 
     @Column(nullable = false)
     private Integer classPeriod;

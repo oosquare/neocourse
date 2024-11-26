@@ -6,16 +6,14 @@ import org.springframework.stereotype.Component;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.transcript.model.Score;
 import io.github.oosquare.neocourse.domain.transcript.model.TranscriptItem;
-import io.github.oosquare.neocourse.infrastructure.repository.DataConverter;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Component
-public class TranscriptItemConverter implements DataConverter<TranscriptItem, TranscriptItemData> {
+public class TranscriptItemConverter {
 
-    @Override
     public TranscriptItem convertToDomain(@NonNull TranscriptItemData data) {
         return TranscriptItem.ofInternally(
-            Id.of(data.getCourseId()),
+            Id.of(data.getId().getCourseId()),
             ClassPeriod.of(data.getClassPeriod()),
             Score.of(data.getScore()),
             data.getEvaluated(),
@@ -23,10 +21,9 @@ public class TranscriptItemConverter implements DataConverter<TranscriptItem, Tr
         );
     }
 
-    @Override
-    public TranscriptItemData convertToData(@NonNull TranscriptItem entity) {
+    public TranscriptItemData convertToData(@NonNull TranscriptItem entity, @NonNull Id transcriptId) {
         return TranscriptItemData.builder()
-            .courseId(entity.getCourse().getValue())
+            .id(new TranscriptItemId(transcriptId.getValue(), entity.getCourse().getValue()))
             .classPeriod(entity.getClassPeriod().getValue())
             .score(entity.getScore().map(Score::getValue).orElse(0.0))
             .evaluated(entity.isEvaluated())

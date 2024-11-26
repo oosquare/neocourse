@@ -22,7 +22,7 @@ public class TranscriptConverter implements DataConverter<Transcript, Transcript
         var courseScores = data.getCourseScores()
             .stream()
             .collect(Collectors.toMap(
-                entry -> Id.of(entry.getCourseId()),
+                entry -> Id.of(entry.getId().getCourseId()),
                 this.transcriptItemConverter::convertToDomain
             ));
         return Transcript.builder()
@@ -37,7 +37,7 @@ public class TranscriptConverter implements DataConverter<Transcript, Transcript
         var courseScores = entity.getCourseScores()
             .values()
             .stream()
-            .map(this.transcriptItemConverter::convertToData)
+            .map(item -> this.transcriptItemConverter.convertToData(item, entity.getId()))
             .collect(Collectors.toSet());
         return TranscriptData.builder()
             .id(entity.getId().getValue())

@@ -1,13 +1,11 @@
 package io.github.oosquare.neocourse.infrastructure.repository.transcript;
 
-import jakarta.persistence.CollectionTable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 import java.util.Set;
 
 import lombok.AccessLevel;
@@ -33,7 +31,6 @@ public class TranscriptData {
     @Column(nullable = false, updatable = false)
     private String planId;
 
-    @ElementCollection
-    @CollectionTable(name = "transcript_course_score", joinColumns = @JoinColumn(name = "schedule_id"))
+    @OneToMany(mappedBy = "id.transcriptId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TranscriptItemData> courseScores;
 }

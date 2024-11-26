@@ -1,7 +1,6 @@
 package io.github.oosquare.neocourse.infrastructure.repository.transcript;
 
 import jakarta.persistence.EntityManager;
-import java.util.Optional;
 
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
