@@ -1,7 +1,5 @@
 package io.github.oosquare.neocourse.ui.view.schedule;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
@@ -11,8 +9,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.Route;
 import lombok.NonNull;
 
@@ -25,6 +21,7 @@ import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.ui.component.ScheduleGrid;
 import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.utility.id.Id;
 
@@ -68,29 +65,7 @@ public class ScheduleListView extends VerticalLayout {
     }
 
     private Grid<ScheduleSummaryRepresentation> createScheduleGrid() {
-        var scheduleGrid = new Grid<>(ScheduleSummaryRepresentation.class, false);
-        scheduleGrid.addColumn(ScheduleSummaryRepresentation::getCourseName)
-            .setHeader("Course Name");
-        scheduleGrid.addColumn(ScheduleSummaryRepresentation::getTeacherDisplayedUsername)
-            .setHeader("Teacher")
-            .setAutoWidth(true)
-            .setFlexGrow(0);
-        scheduleGrid.addColumn(this.createPlanGridStartTimeRender())
-            .setHeader("Start Time")
-            .setAutoWidth(true)
-            .setFlexGrow(0);
-        scheduleGrid.addColumn(this.createPlanGridPeriodRender())
-            .setHeader("Period")
-            .setAutoWidth(true)
-            .setFlexGrow(0);
-        scheduleGrid.addColumn(ScheduleSummaryRepresentation::getPlace)
-            .setHeader("Place")
-            .setAutoWidth(true)
-            .setFlexGrow(0);
-        scheduleGrid.addColumn(ScheduleSummaryRepresentation::getCapacity)
-            .setHeader("Capacity")
-            .setAutoWidth(true)
-            .setFlexGrow(0);
+        var scheduleGrid = new ScheduleGrid();
         scheduleGrid.addColumn(this.createPlanGridEditRender())
             .setHeader("Operation")
             .setAutoWidth(true)
@@ -98,17 +73,6 @@ public class ScheduleListView extends VerticalLayout {
         scheduleGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         scheduleGrid.setSizeFull();
         return scheduleGrid;
-    }
-
-    private LocalDateTimeRenderer<ScheduleSummaryRepresentation> createPlanGridStartTimeRender() {
-        return new LocalDateTimeRenderer<>(
-            schedule -> schedule.getStartTime().toLocalDateTime(),
-            () -> DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
-        );
-    }
-
-    private TextRenderer<ScheduleSummaryRepresentation> createPlanGridPeriodRender() {
-        return new TextRenderer<>(schedule -> schedule.getPeriod().toMinutes() + " min");
     }
 
     private LitRenderer<ScheduleSummaryRepresentation> createPlanGridEditRender() {

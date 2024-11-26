@@ -12,6 +12,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import io.github.oosquare.neocourse.ui.view.course.CourseListView;
 import io.github.oosquare.neocourse.ui.view.plan.PlanListView;
+import io.github.oosquare.neocourse.ui.view.registration.RegistrationListView;
 import io.github.oosquare.neocourse.ui.view.schedule.ScheduleListView;
 
 public class MainLayout extends AppLayout {
@@ -53,6 +54,7 @@ public class MainLayout extends AppLayout {
         sideNav.addItem(new SideNavItem("Courses", CourseListView.class, VaadinIcon.OPEN_BOOK.create()));
         sideNav.addItem(new SideNavItem("Plans", PlanListView.class, VaadinIcon.PIN.create()));
         sideNav.addItem(new SideNavItem("Schedules", ScheduleListView.class, VaadinIcon.CLOCK.create()));
+        sideNav.addItem(new SideNavItem("Registrations", RegistrationListView.class, VaadinIcon.PENCIL.create()));
 
         var scroller = new Scroller(sideNav);
         scroller.setClassName(LumoUtility.Padding.SMALL);
