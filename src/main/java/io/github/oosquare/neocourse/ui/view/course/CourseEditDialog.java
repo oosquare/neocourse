@@ -2,7 +2,6 @@ package io.github.oosquare.neocourse.ui.view.course;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,15 +15,10 @@ import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class CourseEditDialog extends Dialog {
-
-    @FunctionalInterface
-    public interface CloseEventListener {
-
-        void onCloseEvent();
-    }
+public class CourseEditDialog extends CloseCallbackDialog {
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
         .id(Id.of("account0"))
@@ -39,8 +33,6 @@ public class CourseEditDialog extends Dialog {
     private final @NonNull CourseQueryService courseQueryService;
     private final @NonNull String courseId;
 
-    private final @NonNull CloseEventListener closeEventListener;
-
     private final @NonNull Button removeButton;
 
     public CourseEditDialog(
@@ -49,10 +41,10 @@ public class CourseEditDialog extends Dialog {
         @NonNull String courseId,
         @NonNull CloseEventListener closeEventListener
     ) {
+        super(closeEventListener);
         this.courseCommandService = courseCommandService;
         this.courseQueryService = courseQueryService;
         this.courseId = courseId;
-        this.closeEventListener = closeEventListener;
 
         var course = this.courseQueryService.getCourseById(Id.of(courseId), this.getCurrentAccount());
 
@@ -108,7 +100,6 @@ public class CourseEditDialog extends Dialog {
             this.courseCommandService.removeCourse(command, account);
 
             this.close();
-            this.closeEventListener.onCloseEvent();
         } finally {
             this.removeButton.setEnabled(true);
         }

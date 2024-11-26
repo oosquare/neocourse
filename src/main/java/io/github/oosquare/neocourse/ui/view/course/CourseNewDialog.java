@@ -2,7 +2,6 @@ package io.github.oosquare.neocourse.ui.view.course;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -22,21 +21,16 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
+import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class CourseNewDialog extends Dialog {
+public class CourseNewDialog extends CloseCallbackDialog {
 
     @Data
     private static class CourseEditModel {
 
         private String courseName = "";
         private Integer classPeriod = 0;
-    }
-
-    @FunctionalInterface
-    public interface CloseEventListener {
-
-        void onCloseEvent();
     }
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
@@ -50,8 +44,6 @@ public class CourseNewDialog extends Dialog {
 
     private final @NonNull CourseCommandService courseCommandService;
 
-    private final @NonNull CloseEventListener closeEventListener;
-
     private final @NonNull Button addButton;
     private final @NonNull Binder<CourseEditModel> binder;
 
@@ -59,8 +51,8 @@ public class CourseNewDialog extends Dialog {
         @NonNull CourseCommandService courseCommandService,
         @NonNull CloseEventListener closeEventListener
     ) {
+        super(closeEventListener);
         this.courseCommandService = courseCommandService;
-        this.closeEventListener = closeEventListener;
 
         this.setHeaderTitle("New Course");
 
@@ -126,7 +118,6 @@ public class CourseNewDialog extends Dialog {
             this.courseCommandService.addCourse(command, account);
 
             this.close();
-            this.closeEventListener.onCloseEvent();
         } catch (ValidationException ignored) {
             // Error message is already shown in UI. Nothing needed here.
         } finally {

@@ -7,7 +7,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -32,9 +31,10 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
+import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class ScheduleNewDialog extends Dialog {
+public class ScheduleNewDialog extends CloseCallbackDialog {
 
     @Data
     private static class ScheduleEditModel {
@@ -43,12 +43,6 @@ public class ScheduleNewDialog extends Dialog {
         private LocalDateTime startTime;
         private String place;
         private Integer capacity;
-    }
-
-    @FunctionalInterface
-    public interface CloseEventListener {
-
-        void onCloseEvent();
     }
 
     private class CourseIdConverter implements Converter<CourseRepresentation, String> {
@@ -76,8 +70,6 @@ public class ScheduleNewDialog extends Dialog {
     private final @NonNull ScheduleCommandService scheduleCommandService;
     private final @NonNull CourseQueryService courseQueryService;
 
-    private final @NonNull CloseEventListener closeEventListener;
-
     private final @NonNull Button addButton;
     private final @NonNull Binder<ScheduleEditModel> binder;
 
@@ -86,9 +78,9 @@ public class ScheduleNewDialog extends Dialog {
         @NonNull CourseQueryService courseQueryService,
         @NonNull CloseEventListener closeEventListener
     ) {
+        super(closeEventListener);
         this.scheduleCommandService = scheduleCommandService;
         this.courseQueryService = courseQueryService;
-        this.closeEventListener = closeEventListener;
 
         this.setHeaderTitle("New Schedule");
 
@@ -171,7 +163,6 @@ public class ScheduleNewDialog extends Dialog {
             this.addSchedule(model);
 
             this.close();
-            this.closeEventListener.onCloseEvent();
         } catch (ValidationException ignored) {
             // Error message is already shown in UI. Nothing needed here.
         } finally {

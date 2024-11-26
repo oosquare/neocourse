@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Sets;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -34,20 +33,15 @@ import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
+import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class PlanEditDialog extends Dialog {
+public class PlanEditDialog extends CloseCallbackDialog {
 
     @Data
     private static class ClassPeriodEditModel {
 
         private Integer classPeriod = 0;
-    }
-
-    @FunctionalInterface
-    public interface CloseEventListener {
-
-        void onCloseEvent();
     }
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
@@ -64,8 +58,6 @@ public class PlanEditDialog extends Dialog {
     private final @NonNull CourseQueryService courseQueryService;
     private final @NonNull PlanRepresentation cachedPlan;
 
-    private final @NonNull CloseEventListener closeEventListener;
-
     private final @NonNull Button applyButton;
     private final @NonNull Grid<CourseRepresentation> courseGrid;
     private final @NonNull Binder<ClassPeriodEditModel> binder;
@@ -77,10 +69,10 @@ public class PlanEditDialog extends Dialog {
         @NonNull String planId,
         @NonNull CloseEventListener closeEventListener
     ) {
+        super(closeEventListener);
         this.planCommandService = planCommandService;
         this.planQueryService = planQueryService;
         this.courseQueryService = courseQueryService;
-        this.closeEventListener = closeEventListener;
 
         var plan = this.planQueryService.getPlanById(Id.of(planId), this.getCurrentAccount());
         this.cachedPlan = plan;
@@ -194,7 +186,6 @@ public class PlanEditDialog extends Dialog {
             this.modifyRequiredClassPeriod(model);
 
             this.close();
-            this.closeEventListener.onCloseEvent();
         } catch (ValidationException ignored) {
             // Error message is already shown in UI. Nothing needed here.
         } finally {

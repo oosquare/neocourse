@@ -5,7 +5,6 @@ import java.time.format.FormatStyle;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -21,15 +20,10 @@ import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class ScheduleEditDialog extends Dialog {
-
-    @FunctionalInterface
-    public interface CloseEventListener {
-
-        void onCloseEvent();
-    }
+public class ScheduleEditDialog extends CloseCallbackDialog {
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
         .id(Id.of("account1"))
@@ -43,8 +37,6 @@ public class ScheduleEditDialog extends Dialog {
     private final @NonNull ScheduleCommandService scheduleCommandService;
     private final @NonNull String scheduleId;
 
-    private final @NonNull CloseEventListener closeEventListener;
-    
     private final @NonNull Button removeButton;
 
     public ScheduleEditDialog(
@@ -53,8 +45,8 @@ public class ScheduleEditDialog extends Dialog {
         @NonNull String scheduleId,
         @NonNull CloseEventListener closeEventListener
     ) {
+        super(closeEventListener);
         this.scheduleCommandService = scheduleCommandService;
-        this.closeEventListener = closeEventListener;
         this.scheduleId = scheduleId;
 
         this.setHeaderTitle("Edit Schedule");
@@ -135,7 +127,6 @@ public class ScheduleEditDialog extends Dialog {
             this.removeSchedule();
 
             this.close();
-            this.closeEventListener.onCloseEvent();
         } finally {
             this.removeButton.setEnabled(true);
         }
