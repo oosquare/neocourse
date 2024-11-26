@@ -93,9 +93,12 @@ import lombok.Setter;
             (SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.RegistrationEvaluationProjection(
                 r.id.studentId,
                 st.displayedUsername,
-                r.participationStatus
+                r.participationStatus,
+                t.evaluated,
+                t.score
             ) FROM RegistrationData r
             JOIN StudentData st ON st.id = r.id.studentId
+            JOIN TranscriptItemData t ON t.id.transcriptId = st.transcriptId AND t.id.courseId = s.courseId
             WHERE r.id.scheduleId = s.id)
         ) FROM ScheduleData s
         JOIN CourseData c ON s.courseId = c.id

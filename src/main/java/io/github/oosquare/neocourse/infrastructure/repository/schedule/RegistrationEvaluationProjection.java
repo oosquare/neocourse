@@ -10,4 +10,6 @@ public class RegistrationEvaluationProjection {
     private String studentId;
     private String studentName;
     private ParticipationStatusData participationStatus;
+    private Boolean evaluated;
+    private Double score;
 }

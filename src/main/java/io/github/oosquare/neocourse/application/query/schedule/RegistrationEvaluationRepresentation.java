@@ -16,6 +16,8 @@ public class RegistrationEvaluationRepresentation {
     private final @NonNull String studentId;
     private final @NonNull String studentName;
     private final @NonNull String participationStatus;
+    private final @NonNull Boolean evaluated;
+    private final @NonNull Double score;
 
     public static RegistrationEvaluationRepresentation fromData(
         @NonNull RegistrationEvaluationProjection data
@@ -28,6 +30,8 @@ public class RegistrationEvaluationRepresentation {
             .studentId(data.getStudentId())
             .studentName(data.getStudentName())
             .participationStatus(participationStatus)
+            .evaluated(data.getEvaluated())
+            .score(data.getScore())
             .build();
     }
 }
