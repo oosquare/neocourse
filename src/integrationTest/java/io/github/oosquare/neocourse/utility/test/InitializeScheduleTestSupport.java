@@ -2,9 +2,12 @@ package io.github.oosquare.neocourse.utility.test;
 
 import java.time.ZonedDateTime;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.domain.schedule.model.Schedule;
+import io.github.oosquare.neocourse.domain.schedule.service.ScheduleRepository;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 public interface InitializeScheduleTestSupport
@@ -14,7 +17,7 @@ public interface InitializeScheduleTestSupport
 
     ZonedDateTime TEST_START_TIME = ZonedDateTime.now().plusDays(1);
 
-    void getScheduleRepository();
+    ScheduleRepository getScheduleRepository();
 
     default Schedule createTestSchedule() {
         return new Schedule(
@@ -25,5 +28,10 @@ public interface InitializeScheduleTestSupport
             Place.of("Test Place"),
             Capacity.of(5)
         );
+    }
+
+    @BeforeEach
+    default void setUpDefaultSchedule() {
+        this.getScheduleRepository().save(this.createTestSchedule());
     }
 }
