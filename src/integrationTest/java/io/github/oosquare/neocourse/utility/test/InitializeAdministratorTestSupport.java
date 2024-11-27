@@ -36,10 +36,8 @@ public interface InitializeAdministratorTestSupport {
         return new Account(
             Id.of("test-administrator-account"),
             AccountKind.ADMINISTRATOR,
-            Username.of("test-administrator"),
-            DisplayedUsername.of("Test Administrator"),
-            EncodedPassword.of("password"),
-            Id.of("test-administrator")
+            this.createTestAdministrator(),
+            EncodedPassword.of("password")
         );
     }
 }

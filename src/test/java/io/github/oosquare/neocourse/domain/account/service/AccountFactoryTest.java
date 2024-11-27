@@ -13,6 +13,7 @@ import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
+import io.github.oosquare.neocourse.domain.student.model.Student;
 import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
@@ -36,10 +37,8 @@ class AccountFactoryTest {
 
         var account = this.accountFactory.createAccount(
             AccountKind.STUDENT,
-            Username.of("student0"),
-            DisplayedUsername.of("test student"),
-            EncodedPassword.of("test password"),
-            Id.of("student0")
+            createTestStudent(),
+            EncodedPassword.of("test password")
         );
 
         assertEquals(Id.of("account0"), account.getId());
@@ -60,11 +59,19 @@ class AccountFactoryTest {
         assertThrows(FieldDuplicationException.class, () -> {
             this.accountFactory.createAccount(
                 AccountKind.STUDENT,
-                Username.of("student0"),
-                DisplayedUsername.of("test student"),
-                EncodedPassword.of("test password"),
-                Id.of("student0")
+                createTestStudent(),
+                EncodedPassword.of("test password")
             );
         });
+    }
+
+    private static Student createTestStudent() {
+        return Student.builder()
+            .id(Id.of("student0"))
+            .username(Username.of("student0"))
+            .displayedUsername(DisplayedUsername.of("test student"))
+            .plan(Id.of("plan0"))
+            .transcript(Id.of("transcript0"))
+            .build();
     }
 }

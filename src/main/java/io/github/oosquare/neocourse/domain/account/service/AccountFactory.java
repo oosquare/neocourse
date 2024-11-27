@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
-import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
+import io.github.oosquare.neocourse.domain.common.model.User;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.utility.exception.FieldDuplicationException;
-import io.github.oosquare.neocourse.utility.id.Id;
 import io.github.oosquare.neocourse.utility.id.IdGenerator;
 
 @Service
@@ -22,21 +21,12 @@ public class AccountFactory {
 
     public Account createAccount(
         @NonNull AccountKind kind,
-        @NonNull Username username,
-        @NonNull DisplayedUsername displayedUsername,
-        @NonNull EncodedPassword encodedPassword,
-        @NonNull Id user
+        @NonNull User user,
+        @NonNull EncodedPassword encodedPassword
     ) {
-        this.checkUsernameNotDuplicated(username);
+        this.checkUsernameNotDuplicated(user.getUsername());
         var id = this.idGenerator.generate();
-        return new Account(
-            id,
-            kind,
-            username,
-            displayedUsername,
-            encodedPassword,
-            user
-        );
+        return new Account(id, kind, user, encodedPassword);
     }
 
     private void checkUsernameNotDuplicated(Username username) {

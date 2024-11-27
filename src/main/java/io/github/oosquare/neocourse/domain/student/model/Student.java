@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.domain.student.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import io.github.oosquare.neocourse.domain.transcript.model.Transcript;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class Student implements User {
 

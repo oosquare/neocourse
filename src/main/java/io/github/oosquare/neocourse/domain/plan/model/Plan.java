@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.domain.plan.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import io.github.oosquare.neocourse.utility.exception.RuleViolationException;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class Plan implements Entity {
 

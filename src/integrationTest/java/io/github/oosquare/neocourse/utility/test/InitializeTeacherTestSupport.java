@@ -36,10 +36,8 @@ public interface InitializeTeacherTestSupport {
         return new Account(
             Id.of("test-teacher-account"),
             AccountKind.TEACHER,
-            Username.of("test-teacher"),
-            DisplayedUsername.of("Test Teacher"),
-            EncodedPassword.of("password"),
-            Id.of("test-teacher")
+            this.createTestTeacher(),
+            EncodedPassword.of("password")
         );
     }
 }
