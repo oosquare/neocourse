@@ -17,6 +17,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     public LoginView() {
         this.loginForm = new LoginForm();
         this.loginForm.setAction("login");
+        this.loginForm.setForgotPasswordButtonVisible(false);
 
         this.add(new H1("NeoCourse"), loginForm);
 
