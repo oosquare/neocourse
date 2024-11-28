@@ -84,6 +84,21 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
             .setParameter("id", id)
             .setMaxResults(1)
             .getResultList();
-        return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
+
+        if (data.isEmpty()) {
+            return Optional.empty();
+        }
+
+        var res = data.getFirst();
+        var registrations = this.getEntityManager()
+            .createNamedQuery(
+                "RegistrationData.findByScheduleAndCourseReturningEvaluationProjection",
+                RegistrationEvaluationProjection.class
+            )
+            .setParameter("scheduleId", id)
+            .setParameter("courseId", res.getCourseId())
+            .getResultList();
+        res.setRegistrations(registrations);
+        return Optional.of(res);
     }
 }
