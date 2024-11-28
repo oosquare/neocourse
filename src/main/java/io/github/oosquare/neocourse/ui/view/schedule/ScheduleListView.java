@@ -23,6 +23,7 @@ import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.ui.component.ScheduleGrid;
 import io.github.oosquare.neocourse.ui.layout.MainLayout;
+import io.github.oosquare.neocourse.ui.view.evaluation.EvaluationView;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "schedules", layout = MainLayout.class)
@@ -76,9 +77,15 @@ public class ScheduleListView extends VerticalLayout {
     }
 
     private LitRenderer<ScheduleSummaryRepresentation> createPlanGridEditRender() {
-        var button = "<vaadin-button @click=${handleClick}>Edit</vaadin-button>";
-        return LitRenderer.<ScheduleSummaryRepresentation>of(button)
-            .withFunction("handleClick", item -> this.openScheduleEditDialog(item.getId()));
+        var buttons = """
+            <div>
+                <vaadin-button @click=${handleEditClick}>Edit</vaadin-button>
+                <vaadin-button @click=${handleEvaluateClick}>Evaluate</vaadin-button>
+            </div>
+        """;
+        return LitRenderer.<ScheduleSummaryRepresentation>of(buttons)
+            .withFunction("handleEditClick", item -> this.openScheduleEditDialog(item.getId()))
+            .withFunction("handleEvaluateClick", item -> this.navigateToEvaluationView(item.getId()));
     }
 
     private void openScheduleNewDialog() {
@@ -98,6 +105,12 @@ public class ScheduleListView extends VerticalLayout {
             this::updateView
         );
         scheduleEditDialog.open();
+    }
+
+    private void navigateToEvaluationView(String scheduleId) {
+        Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> {
+            ui.navigate(EvaluationView.class, scheduleId);
+        });
     }
 
     private void updateView() {
