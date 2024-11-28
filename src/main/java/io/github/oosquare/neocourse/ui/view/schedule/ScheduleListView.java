@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.ui.view.schedule;
 
+import jakarta.annotation.security.RolesAllowed;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
@@ -16,6 +17,7 @@ import io.github.oosquare.neocourse.application.command.schedule.ScheduleCommand
 import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleQueryService;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleSummaryRepresentation;
+import io.github.oosquare.neocourse.application.security.Roles;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -27,6 +29,7 @@ import io.github.oosquare.neocourse.ui.view.evaluation.EvaluationView;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "schedules", layout = MainLayout.class)
+@RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})
 public class ScheduleListView extends VerticalLayout {
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()

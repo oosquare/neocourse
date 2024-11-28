@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.ui.view.evaluation;
 
+import jakarta.annotation.security.RolesAllowed;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
@@ -19,6 +20,7 @@ import io.github.oosquare.neocourse.application.command.evaluation.MarkStudentAb
 import io.github.oosquare.neocourse.application.query.schedule.RegistrationEvaluationRepresentation;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleEvaluationRepresentation;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleQueryService;
+import io.github.oosquare.neocourse.application.security.Roles;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -31,6 +33,7 @@ import io.github.oosquare.neocourse.ui.view.schedule.ScheduleListView;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "evaluation", layout = MainLayout.class)
+@RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})
 public class EvaluationView extends VerticalLayout
     implements HasUrlParameter<String> {
 

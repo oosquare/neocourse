@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.ui.view.registration;
 
+import jakarta.annotation.security.PermitAll;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
@@ -27,6 +28,7 @@ import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "registrations", layout = MainLayout.class)
+@PermitAll
 public class RegistrationListView extends VerticalLayout {
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()

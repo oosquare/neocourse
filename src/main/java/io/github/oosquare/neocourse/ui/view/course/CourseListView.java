@@ -1,5 +1,6 @@
 package io.github.oosquare.neocourse.ui.view.course;
 
+import jakarta.annotation.security.RolesAllowed;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
@@ -15,6 +16,7 @@ import lombok.NonNull;
 import io.github.oosquare.neocourse.application.command.course.CourseCommandService;
 import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
 import io.github.oosquare.neocourse.application.query.course.CourseRepresentation;
+import io.github.oosquare.neocourse.application.security.Roles;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -24,6 +26,7 @@ import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "courses", layout = MainLayout.class)
+@RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})
 public class CourseListView extends VerticalLayout {
 
     private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
