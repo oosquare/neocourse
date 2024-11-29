@@ -34,6 +34,15 @@ public class PlanMapper extends DataMapper<PlanData> {
         return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
     }
 
+    public Optional<PlanSummaryProjection> findByIdReturningSummaryProjection(@NonNull String id) {
+        var data = this.getEntityManager()
+            .createNamedQuery("PlanData.findByIdReturningSummaryProjection", PlanSummaryProjection.class)
+            .setParameter("id", id)
+            .setMaxResults(1)
+            .getResultList();
+        return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
+    }
+
     public List<PlanSummaryProjection> findAllReturningSummaryProjection() {
         return this.getEntityManager()
             .createNamedQuery("PlanData.findAllReturningSummaryProjection", PlanSummaryProjection.class)

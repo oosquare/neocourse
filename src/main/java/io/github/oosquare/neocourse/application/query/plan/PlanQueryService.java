@@ -33,9 +33,30 @@ public class PlanQueryService {
     }
 
     @Transactional
+    public PlanSummaryRepresentation getPlanByIdInSummaryRepresentation(@NonNull Id planId) {
+        log.info("Anonymous requests getPlanById with {}", planId);
+
+        return this.planMapper.findByIdReturningSummaryProjection(planId.getValue())
+            .map(PlanSummaryRepresentation::fromData)
+            .orElseThrow(() -> EntityNotFoundException.builder()
+                .entity(PlanSummaryRepresentation.class)
+                .context("planId", planId)
+                .build());
+    }
+
+    @Transactional
     public List<PlanSummaryRepresentation> getAllPlansInSummaryRepresentation(@NonNull Account account) {
         log.info("{} requests getAllPlansInSummaryRepresentation", account.toLoggingString());
+        return getAllPlansInSummaryRepresentationImpl();
+    }
 
+    @Transactional
+    public List<PlanSummaryRepresentation> getAllPlansInSummaryRepresentation() {
+        log.info("Anonymous requests getAllPlansInSummaryRepresentation");
+        return getAllPlansInSummaryRepresentationImpl();
+    }
+
+    private List<PlanSummaryRepresentation> getAllPlansInSummaryRepresentationImpl() {
         return this.planMapper.findAllReturningSummaryProjection()
             .stream()
             .map(PlanSummaryRepresentation::fromData)

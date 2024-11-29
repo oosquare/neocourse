@@ -34,6 +34,18 @@ import lombok.Setter;
     query = "SELECT p FROM PlanData p WHERE :includedCourse MEMBER OF p.includedCourseIds"
 )
 @NamedQuery(
+    name = "PlanData.findByIdReturningSummaryProjection",
+    query = """
+        SELECT new io.github.oosquare.neocourse.infrastructure.repository.plan.PlanSummaryProjection(
+            p.id,
+            p.name,
+            p.totalClassPeriod,
+            p.requiredClassPeriod
+        ) FROM PlanData p
+        WHERE p.id = :id
+    """
+)
+@NamedQuery(
     name = "PlanData.findAllReturningSummaryProjection",
     query = """
         SELECT new io.github.oosquare.neocourse.infrastructure.repository.plan.PlanSummaryProjection(
