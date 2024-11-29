@@ -8,8 +8,10 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
+import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import io.github.oosquare.neocourse.ui.component.LogoutButton;
 import io.github.oosquare.neocourse.ui.view.course.CourseListView;
 import io.github.oosquare.neocourse.ui.view.plan.PlanListView;
 import io.github.oosquare.neocourse.ui.view.registration.RegistrationListView;
@@ -39,7 +41,10 @@ public class MainLayout extends AppLayout {
             LumoUtility.Flex.GROW
         );
 
-        var header = new Header(drawerToggle, mainTitle);
+        var logoutButton = new LogoutButton();
+        logoutButton.getStyle().setJustifyContent(Style.JustifyContent.END);
+
+        var header = new Header(drawerToggle, mainTitle, logoutButton);
         header.addClassNames(
             LumoUtility.AlignItems.CENTER,
             LumoUtility.Display.FLEX,
