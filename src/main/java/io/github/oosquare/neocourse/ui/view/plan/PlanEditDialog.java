@@ -27,6 +27,7 @@ import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
 import io.github.oosquare.neocourse.application.query.course.CourseRepresentation;
 import io.github.oosquare.neocourse.application.query.plan.PlanQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanRepresentation;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -36,22 +37,14 @@ import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class PlanEditDialog extends CloseCallbackDialog {
+public class PlanEditDialog extends CloseCallbackDialog
+    implements CurrentAccountAwareSupport {
 
     @Data
     private static class ClassPeriodEditModel {
 
         private Integer classPeriod = 0;
     }
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account0"))
-        .kind(AccountKind.ADMINISTRATOR)
-        .username(Username.of("test-account"))
-        .displayedUsername(DisplayedUsername.of("Test Account"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-user"))
-        .build();
 
     private final @NonNull PlanCommandService planCommandService;
     private final @NonNull PlanQueryService planQueryService;
@@ -229,9 +222,5 @@ public class PlanEditDialog extends CloseCallbackDialog {
                 .build();
             this.planCommandService.excludeCourseFromPlan(command, account);
         });
-    }
-
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
     }
 }

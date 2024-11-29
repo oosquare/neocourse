@@ -4,12 +4,14 @@ import java.util.Collection;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
 
+@Getter
 @AllArgsConstructor(staticName = "of")
 public class AccountUserDetailsAdapter implements UserDetails {
 

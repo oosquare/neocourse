@@ -13,6 +13,7 @@ import lombok.NonNull;
 
 import io.github.oosquare.neocourse.application.command.plan.AddPlanCommand;
 import io.github.oosquare.neocourse.application.command.plan.PlanCommandService;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -21,7 +22,8 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class PlanNewDialog extends Dialog {
+public class PlanNewDialog extends Dialog
+    implements CurrentAccountAwareSupport {
 
     @Data
     private static class PlanEditModel {
@@ -34,15 +36,6 @@ public class PlanNewDialog extends Dialog {
 
         void onCloseEvent();
     }
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account0"))
-        .kind(AccountKind.ADMINISTRATOR)
-        .username(Username.of("test-account"))
-        .displayedUsername(DisplayedUsername.of("Test Account"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-user"))
-        .build();
 
     private final @NonNull PlanCommandService planCommandService;
 
@@ -115,9 +108,5 @@ public class PlanNewDialog extends Dialog {
         } finally {
             this.addButton.setEnabled(true);
         }
-    }
-
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
     }
 }

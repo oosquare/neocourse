@@ -17,6 +17,7 @@ import io.github.oosquare.neocourse.application.command.plan.PlanCommandService;
 import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanSummaryRepresentation;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.application.security.Roles;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
@@ -28,16 +29,8 @@ import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "plans", layout = MainLayout.class)
 @RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})
-public class PlanListView extends VerticalLayout {
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account0"))
-        .kind(AccountKind.ADMINISTRATOR)
-        .username(Username.of("test-account"))
-        .displayedUsername(DisplayedUsername.of("Test Account"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-user"))
-        .build();
+public class PlanListView extends VerticalLayout
+    implements CurrentAccountAwareSupport {
 
     private final @NonNull PlanCommandService planCommandService;
     private final @NonNull PlanQueryService planQueryService;
@@ -111,9 +104,5 @@ public class PlanListView extends VerticalLayout {
             var plans = this.planQueryService.getAllPlansInSummaryRepresentation(account);
             this.planGrid.setItems(plans);
         }));
-    }
-
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
     }
 }

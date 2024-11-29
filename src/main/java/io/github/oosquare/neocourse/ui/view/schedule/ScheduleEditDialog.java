@@ -15,6 +15,7 @@ import io.github.oosquare.neocourse.application.command.schedule.RemoveScheduleC
 import io.github.oosquare.neocourse.application.command.schedule.ScheduleCommandService;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleQueryService;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleSummaryRepresentation;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -23,16 +24,8 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class ScheduleEditDialog extends CloseCallbackDialog {
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account1"))
-        .kind(AccountKind.TEACHER)
-        .username(Username.of("test-teacher"))
-        .displayedUsername(DisplayedUsername.of("Test Teacher"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-teacher"))
-        .build();
+public class ScheduleEditDialog extends CloseCallbackDialog
+    implements CurrentAccountAwareSupport {
 
     private final @NonNull ScheduleCommandService scheduleCommandService;
     private final @NonNull String scheduleId;
@@ -140,7 +133,4 @@ public class ScheduleEditDialog extends CloseCallbackDialog {
         this.scheduleCommandService.removeSchedule(command, account);
     }
 
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
-    }
 }

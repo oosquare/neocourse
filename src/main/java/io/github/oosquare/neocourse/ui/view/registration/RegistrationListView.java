@@ -18,6 +18,7 @@ import io.github.oosquare.neocourse.application.command.registration.CancelRegis
 import io.github.oosquare.neocourse.application.command.registration.RegistrationCommandService;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleQueryService;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleSummaryRepresentation;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -29,16 +30,8 @@ import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "registrations", layout = MainLayout.class)
 @PermitAll
-public class RegistrationListView extends VerticalLayout {
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account2"))
-        .kind(AccountKind.STUDENT)
-        .username(Username.of("test-student"))
-        .displayedUsername(DisplayedUsername.of("Test Student"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-student"))
-        .build();
+public class RegistrationListView extends VerticalLayout
+    implements CurrentAccountAwareSupport {
 
     private final @NonNull RegistrationCommandService registrationCommandService;
     private final @NonNull ScheduleQueryService scheduleQueryService;
@@ -119,9 +112,5 @@ public class RegistrationListView extends VerticalLayout {
             var schedules = this.scheduleQueryService.getAllSchedulesInSummaryRepresentation(account);
             this.scheduleGrid.setItems(schedules);
         }));
-    }
-
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
     }
 }

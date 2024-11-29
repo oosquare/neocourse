@@ -20,6 +20,7 @@ import io.github.oosquare.neocourse.application.command.evaluation.MarkStudentAb
 import io.github.oosquare.neocourse.application.query.schedule.RegistrationEvaluationRepresentation;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleEvaluationRepresentation;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleQueryService;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.application.security.Roles;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
@@ -35,16 +36,7 @@ import io.github.oosquare.neocourse.utility.id.Id;
 @Route(value = "evaluation", layout = MainLayout.class)
 @RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})
 public class EvaluationView extends VerticalLayout
-    implements HasUrlParameter<String> {
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account1"))
-        .kind(AccountKind.TEACHER)
-        .username(Username.of("test-teacher"))
-        .displayedUsername(DisplayedUsername.of("Test Teacher"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-teacher"))
-        .build();
+    implements HasUrlParameter<String>, CurrentAccountAwareSupport {
 
     private final @NonNull EvaluationCommandService evaluationCommandService;
     private final @NonNull ScheduleQueryService scheduleQueryService;
@@ -122,9 +114,5 @@ public class EvaluationView extends VerticalLayout
 
     private void navigateToScheduleList() {
         Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.navigate(ScheduleListView.class));
-    }
-
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
     }
 }

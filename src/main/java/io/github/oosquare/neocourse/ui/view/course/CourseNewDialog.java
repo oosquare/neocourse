@@ -14,6 +14,7 @@ import lombok.NonNull;
 
 import io.github.oosquare.neocourse.application.command.course.AddCourseCommand;
 import io.github.oosquare.neocourse.application.command.course.CourseCommandService;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -24,7 +25,8 @@ import io.github.oosquare.neocourse.domain.course.model.CourseName;
 import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class CourseNewDialog extends CloseCallbackDialog {
+public class CourseNewDialog extends CloseCallbackDialog
+    implements CurrentAccountAwareSupport {
 
     @Data
     private static class CourseEditModel {
@@ -32,15 +34,6 @@ public class CourseNewDialog extends CloseCallbackDialog {
         private String courseName = "";
         private Integer classPeriod = 0;
     }
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account0"))
-        .kind(AccountKind.ADMINISTRATOR)
-        .username(Username.of("test-account"))
-        .displayedUsername(DisplayedUsername.of("Test Account"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-user"))
-        .build();
 
     private final @NonNull CourseCommandService courseCommandService;
 
@@ -123,9 +116,5 @@ public class CourseNewDialog extends CloseCallbackDialog {
         } finally {
             this.addButton.setEnabled(true);
         }
-    }
-
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
     }
 }

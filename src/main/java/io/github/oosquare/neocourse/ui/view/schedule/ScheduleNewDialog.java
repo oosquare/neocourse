@@ -24,6 +24,7 @@ import io.github.oosquare.neocourse.application.command.schedule.AddScheduleComm
 import io.github.oosquare.neocourse.application.command.schedule.ScheduleCommandService;
 import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
 import io.github.oosquare.neocourse.application.query.course.CourseRepresentation;
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
@@ -34,7 +35,8 @@ import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;
 
-public class ScheduleNewDialog extends CloseCallbackDialog {
+public class ScheduleNewDialog extends CloseCallbackDialog
+    implements CurrentAccountAwareSupport {
 
     @Data
     private static class ScheduleEditModel {
@@ -57,15 +59,6 @@ public class ScheduleNewDialog extends CloseCallbackDialog {
             return courseQueryService.getCourseById(Id.of(courseId), getCurrentAccount());
         }
     }
-
-    private static final @NonNull Account CURRENT_ACCOUNT = Account.builder()
-        .id(Id.of("account1"))
-        .kind(AccountKind.TEACHER)
-        .username(Username.of("test-teacher"))
-        .displayedUsername(DisplayedUsername.of("Test Teacher"))
-        .encodedPassword(EncodedPassword.of("password"))
-        .user(Id.of("test-teacher"))
-        .build();
 
     private final @NonNull ScheduleCommandService scheduleCommandService;
     private final @NonNull CourseQueryService courseQueryService;
@@ -179,9 +172,5 @@ public class ScheduleNewDialog extends CloseCallbackDialog {
             .build();
         var account = this.getCurrentAccount();
         this.scheduleCommandService.addSchedule(command, account);
-    }
-
-    private Account getCurrentAccount() {
-        return CURRENT_ACCOUNT;
     }
 }
