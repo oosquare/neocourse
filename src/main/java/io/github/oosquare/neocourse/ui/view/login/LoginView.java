@@ -5,6 +5,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
@@ -35,7 +36,6 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
 
         var formLayout = new VerticalLayout(this.loginForm, signUpLink);
         formLayout.setWidth("22rem");
-        formLayout.setMaxWidth("50%");
         formLayout.setSpacing(false);
         formLayout.setPadding(false);
         formLayout.setAlignItems(Alignment.CENTER);
@@ -47,6 +47,7 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
         this.setSizeFull();
         this.setAlignItems(Alignment.CENTER);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
+        this.getStyle().setFlexWrap(Style.FlexWrap.WRAP);
     }
 
     private VerticalLayout createTitleLayout() {
@@ -55,7 +56,6 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
         var layout = new VerticalLayout(title, subtitle);
         layout.setJustifyContentMode(JustifyContentMode.CENTER);
         layout.setWidth("22rem");
-        layout.setMaxWidth("50%");
         return layout;
     }
 

@@ -4,32 +4,34 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.dom.Style;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.ui.component.LogoutButton;
 import io.github.oosquare.neocourse.ui.view.course.CourseListView;
+import io.github.oosquare.neocourse.ui.view.index.IndexView;
 import io.github.oosquare.neocourse.ui.view.plan.PlanListView;
 import io.github.oosquare.neocourse.ui.view.registration.RegistrationListView;
 import io.github.oosquare.neocourse.ui.view.schedule.ScheduleListView;
 
-public class MainLayout extends AppLayout {
+public class MainLayout extends AppLayout implements CurrentAccountAwareSupport {
 
     public MainLayout() {
         this.setPrimarySection(Section.NAVBAR);
 
-        var header = createHeader();
-        this.addToNavbar(false, header);
-
-        var scroller = createDrawer();
-        this.addToDrawer(scroller);
+        this.addToNavbar(false, this.createHeader());
+        this.addToDrawer(createDrawer());
     }
 
-    private static Header createHeader() {
+    private Header createHeader() {
         var drawerToggle = new DrawerToggle();
         drawerToggle.setAriaLabel("Menu toggle");
         drawerToggle.setTooltipText("Menu toggle");
@@ -40,11 +42,19 @@ public class MainLayout extends AppLayout {
             LumoUtility.Margin.NONE,
             LumoUtility.Flex.GROW
         );
+        var mainTitleWithLink = new RouterLink(IndexView.class);
+        mainTitleWithLink.add(mainTitle);
+        mainTitleWithLink.getStyle().setTextDecoration("none");
+        var mainTitleBlock = new HorizontalLayout(mainTitleWithLink);
+        mainTitleBlock.addClassNames(LumoUtility.Margin.NONE, LumoUtility.Flex.GROW);
+
+        var welcomeMessage = new Paragraph(this.getWelcomeMessage());
+        welcomeMessage.addClassNames(LumoUtility.TextColor.SECONDARY, LumoUtility.Margin.SMALL);
 
         var logoutButton = new LogoutButton();
         logoutButton.getStyle().setJustifyContent(Style.JustifyContent.END);
 
-        var header = new Header(drawerToggle, mainTitle, logoutButton);
+        var header = new Header(drawerToggle, mainTitleBlock, welcomeMessage, logoutButton);
         header.addClassNames(
             LumoUtility.AlignItems.CENTER,
             LumoUtility.Display.FLEX,
@@ -64,5 +74,10 @@ public class MainLayout extends AppLayout {
         var scroller = new Scroller(sideNav);
         scroller.setClassName(LumoUtility.Padding.SMALL);
         return scroller;
+    }
+
+    private String getWelcomeMessage() {
+        var name = this.getCurrentAccount().getDisplayedUsername().getValue();
+        return "Welcome, %s!".formatted(name);
     }
 }

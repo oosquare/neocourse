@@ -89,13 +89,13 @@ public class SignUpView extends HorizontalLayout {
         var formLayout = new VerticalLayout(signUpTabs, this.tabContainer, loginLink);
 
         formLayout.setWidth("22rem");
-        formLayout.setMaxWidth("50%");
 
         this.add(titleLayout, formLayout);
 
         this.setSizeFull();
         this.setAlignItems(Alignment.CENTER);
         this.setJustifyContentMode(JustifyContentMode.CENTER);
+        this.getStyle().setFlexWrap(Style.FlexWrap.WRAP);
     }
 
     private VerticalLayout createTitleLayout() {
@@ -104,7 +104,6 @@ public class SignUpView extends HorizontalLayout {
         var layout = new VerticalLayout(title, subtitle);
         layout.setJustifyContentMode(JustifyContentMode.CENTER);
         layout.setWidth("22rem");
-        layout.setMaxWidth("50%");
         return layout;
     }
 
