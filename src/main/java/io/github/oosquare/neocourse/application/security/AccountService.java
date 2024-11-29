@@ -2,7 +2,6 @@ package io.github.oosquare.neocourse.application.security;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +12,6 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 
 @Service
 @AllArgsConstructor
-@Profile("production")
 public class AccountService implements UserDetailsService {
 
     private final @NonNull AccountRepository accountRepository;

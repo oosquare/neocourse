@@ -85,8 +85,10 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
 
     testClassesDirs = integrationTest.output.classesDirs
     classpath = sourceSets["integrationTest"].runtimeClasspath
+    systemProperty("spring.profiles.active", "test")
 
     shouldRunAfter("test")
+
 }
 
 tasks.named("check") {

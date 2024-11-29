@@ -1,0 +1,5 @@
+neocourse:
+  administrator:
+    username: ${NEOCOURSE_ADMINISTRATOR_USERNAME:}
+    displayed-username: ${NEOCOURSE_ADMINISTRATOR_DISPLAYED_USERNAME:}
+    password: ${NEOCOURSE_ADMINISTRATOR_PASSWORD:}

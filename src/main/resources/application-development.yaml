@@ -1,0 +1,5 @@
+neocourse:
+  administrator:
+    username: administrator
+    displayed-username: Administrator
+    password: password
