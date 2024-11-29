@@ -51,7 +51,14 @@ class EvaluationServiceTest {
         var student = createTestStudent();
         var transcript = createTestTranscript();
 
-        this.evaluationService.gradeStudent(teacher, schedule, student, transcript, Score.of(90));
+        this.evaluationService.gradeStudent(
+            teacher,
+            schedule,
+            student,
+            transcript,
+            Score.of(90),
+            ZonedDateTime.now().plusDays(1)
+        );
         assertEquals(Optional.of(Score.of(90)), transcript.getScore(createTestCourse()));
     }
 
@@ -67,7 +74,14 @@ class EvaluationServiceTest {
         var transcript = createTestTranscript();
 
         assertThrows(RuleViolationException.class, () -> {
-            this.evaluationService.gradeStudent(teacher, schedule, student, transcript, Score.of(90));
+            this.evaluationService.gradeStudent(
+                teacher,
+                schedule,
+                student,
+                transcript,
+                Score.of(90),
+                ZonedDateTime.now().plusDays(1)
+            );
         });
     }
 
@@ -85,7 +99,14 @@ class EvaluationServiceTest {
         var transcript = createTestTranscript();
 
         assertThrows(RuleViolationException.class, () -> {
-            this.evaluationService.gradeStudent(teacher, schedule, student, transcript, Score.of(90));
+            this.evaluationService.gradeStudent(
+                teacher,
+                schedule,
+                student,
+                transcript,
+                Score.of(90),
+                ZonedDateTime.now().plusDays(1)
+            );
         });
     }
 
@@ -97,7 +118,14 @@ class EvaluationServiceTest {
         var transcript = createTestTranscript();
 
         assertThrows(UnreachableCodeExecutedException.class, () -> {
-            this.evaluationService.gradeStudent(teacher, schedule, student, transcript, Score.of(90));
+            this.evaluationService.gradeStudent(
+                teacher,
+                schedule,
+                student,
+                transcript,
+                Score.of(90),
+                ZonedDateTime.now().plusDays(1)
+            );
         });
     }
 

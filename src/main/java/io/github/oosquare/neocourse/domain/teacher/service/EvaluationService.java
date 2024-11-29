@@ -1,5 +1,7 @@
 package io.github.oosquare.neocourse.domain.teacher.service;
 
+import java.time.ZonedDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,11 @@ public class EvaluationService {
         @NonNull Schedule schedule,
         @NonNull Student student,
         @NonNull Transcript transcript,
-        @NonNull Score score
+        @NonNull Score score,
+        @NonNull ZonedDateTime currentTime
     ) {
         this.checkTeacherManagesSchedule(teacher, schedule);
+        this.checkScheduleEvaluableNow(schedule, currentTime);
         this.checkStudentRegistered(student, schedule);
         schedule.markStudentAttended(student);
         var course = this.getCourseBySchedule(schedule);
@@ -56,6 +60,18 @@ public class EvaluationService {
                 .context("teacher.username", teacher.getUsername())
                 .context("schedule.id", schedule.getId())
                 .context("schedule.teacher", schedule.getTeacher())
+                .build();
+        }
+    }
+
+    private void checkScheduleEvaluableNow(Schedule schedule, ZonedDateTime currentTime) {
+        if (!currentTime.isAfter(schedule.getTime().getStart())) {
+            throw RuleViolationException.builder()
+                .message("Teacher can't evaluate this schedule before it starts")
+                .userMessage("Could not do evaluation before the schedule's start time")
+                .context("schedule.id", schedule.getId())
+                .context("schedule.time.start", schedule.getTime().getStart())
+                .context("currentTime", currentTime)
                 .build();
         }
     }

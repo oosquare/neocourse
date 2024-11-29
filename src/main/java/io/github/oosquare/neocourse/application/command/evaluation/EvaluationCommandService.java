@@ -1,5 +1,7 @@
 package io.github.oosquare.neocourse.application.command.evaluation;
 
+import java.time.ZonedDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +38,9 @@ public class EvaluationCommandService {
         var schedule = this.scheduleRepository.findOrThrow(scheduleId);
         var student = this.studentRepository.findOrThrow(studentId);
         var transcript = this.transcriptRepository.findOrThrow(student.getTranscript());
+        var currentTime = ZonedDateTime.now();
 
-        this.evaluationService.gradeStudent(teacher, schedule, student, transcript, score);
+        this.evaluationService.gradeStudent(teacher, schedule, student, transcript, score, currentTime);
 
         this.scheduleRepository.save(schedule);
         this.transcriptRepository.save(transcript);
