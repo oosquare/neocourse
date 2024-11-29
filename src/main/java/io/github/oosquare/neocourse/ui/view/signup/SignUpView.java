@@ -127,6 +127,7 @@ public class SignUpView extends HorizontalLayout {
             .build();
         this.userCommandService.signUpStudent(command);
         this.showSuccessMessage();
+        this.navigateToLogin();
     }
     
     private void signUpTeacher(TeacherSignUpArea.TeacherSignUpEditModel model) {
@@ -138,6 +139,7 @@ public class SignUpView extends HorizontalLayout {
             .build();
         this.userCommandService.signUpTeacher(command);
         this.showSuccessMessage();
+        this.navigateToLogin();
     }
 
     private void showSuccessMessage() {
@@ -146,5 +148,9 @@ public class SignUpView extends HorizontalLayout {
             notification.setPosition(Notification.Position.TOP_END);
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         }));
+    }
+
+    private void navigateToLogin() {
+        Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.navigate(LoginView.class));
     }
 }
