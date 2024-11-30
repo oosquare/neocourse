@@ -49,13 +49,10 @@ public class MainLayout extends AppLayout implements CurrentAccountAwareSupport 
         var mainTitleBlock = new HorizontalLayout(mainTitleWithLink);
         mainTitleBlock.addClassNames(LumoUtility.Margin.NONE, LumoUtility.Flex.GROW);
 
-        var welcomeMessage = new Paragraph(this.getWelcomeMessage());
-        welcomeMessage.addClassNames(LumoUtility.TextColor.SECONDARY, LumoUtility.Margin.SMALL);
-
         var logoutButton = new LogoutButton();
         logoutButton.getStyle().setJustifyContent(Style.JustifyContent.END);
 
-        var header = new Header(drawerToggle, mainTitleBlock, welcomeMessage, logoutButton);
+        var header = new Header(drawerToggle, mainTitleBlock, logoutButton);
         header.addClassNames(
             LumoUtility.AlignItems.CENTER,
             LumoUtility.Display.FLEX,
@@ -92,10 +89,5 @@ public class MainLayout extends AppLayout implements CurrentAccountAwareSupport 
         var scroller = new Scroller(sideNav);
         scroller.setClassName(LumoUtility.Padding.SMALL);
         return scroller;
-    }
-
-    private String getWelcomeMessage() {
-        var name = this.getCurrentAccount().getDisplayedUsername().getValue();
-        return "Welcome, %s!".formatted(name);
     }
 }

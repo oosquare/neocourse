@@ -5,14 +5,16 @@ import jakarta.annotation.security.PermitAll;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.ui.layout.MainLayout;
 
 @Route(value = "", layout = MainLayout.class)
 @PermitAll
-public class IndexView extends VerticalLayout {
+public class IndexView extends VerticalLayout implements CurrentAccountAwareSupport {
 
     public IndexView() {
         this.setAlignItems(Alignment.CENTER);
@@ -21,10 +23,21 @@ public class IndexView extends VerticalLayout {
 
         var title = new H1("NeoCourse");
 
-        var content = new Div();
-        content.setText("Yet another course selection system");
-        content.addClassName(LumoUtility.FontSize.XLARGE);
+        var description = new Div();
+        description.setText("Yet another course selection system");
+        description.addClassName(LumoUtility.FontSize.XLARGE);
+        description.getStyle().setTextAlign(Style.TextAlign.CENTER);
 
-        this.add(title, content);
+        var welcome = new Div();
+        welcome.setText(this.getWelcomeMessage());
+        welcome.getStyle().setFont(LumoUtility.TextColor.SECONDARY);
+        welcome.getStyle().setTextAlign(Style.TextAlign.CENTER);
+
+        this.add(title, description, welcome);
+    }
+
+    private String getWelcomeMessage() {
+        var name = this.getCurrentAccount().getDisplayedUsername().getValue();
+        return "Welcome, %s!".formatted(name);
     }
 }
