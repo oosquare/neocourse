@@ -11,7 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRole;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
@@ -85,11 +86,10 @@ public class ScheduleCommandServiceTest {
     private static Account createTestAccount() {
         return Account.builder()
             .id(Id.of("account0"))
-            .kind(AccountKind.TEACHER)
             .username(Username.of("test-teacher"))
             .displayedUsername(DisplayedUsername.of("Test Teacher"))
             .encodedPassword(EncodedPassword.of("encoded-password"))
-            .user(Id.of("teacher0"))
+            .role(AccountRoleKind.TEACHER, AccountRole.of(AccountRoleKind.TEACHER, Id.of("teacher0")))
             .build();
     }
 

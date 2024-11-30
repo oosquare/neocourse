@@ -1,7 +1,7 @@
 package io.github.oosquare.neocourse.application.security;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 
 @Getter
 @AllArgsConstructor(staticName = "of")
@@ -29,11 +30,17 @@ public class AccountUserDetailsAdapter implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        var authority = switch (this.account.getKind()) {
+        return this.account.getRoleKinds()
+            .stream()
+            .map(this::roleKindToAuthority)
+            .collect(Collectors.toSet());
+    }
+
+    private GrantedAuthority roleKindToAuthority(AccountRoleKind roleKind) {
+        return switch (roleKind) {
             case STUDENT -> Roles.toGrantedAuthority(Roles.STUDENT);
             case TEACHER -> Roles.toGrantedAuthority(Roles.TEACHER);
             case ADMINISTRATOR -> Roles.toGrantedAuthority(Roles.ADMINISTRATOR);
         };
-        return List.of(authority);
     }
 }

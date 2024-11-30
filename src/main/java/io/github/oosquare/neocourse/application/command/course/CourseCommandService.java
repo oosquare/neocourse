@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.common.service.UserService;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
 import io.github.oosquare.neocourse.domain.course.service.CourseService;
@@ -28,7 +28,7 @@ public class CourseCommandService {
         var courseName = command.getCourseName();
         var classPeriod = command.getClassPeriod();
 
-        this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         var course = this.courseService.addCourse(courseName, classPeriod);
         this.courseRepository.save(course);
 
@@ -46,7 +46,7 @@ public class CourseCommandService {
 
         var courseId = command.getCourseId();
 
-        this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         var course = this.courseRepository.findOrThrow(courseId);
         this.courseService.prepareRemovingCourse(course);
         this.courseRepository.remove(course);

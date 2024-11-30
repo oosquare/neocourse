@@ -28,11 +28,6 @@ import io.github.oosquare.neocourse.application.query.course.CourseRepresentatio
 import io.github.oosquare.neocourse.application.query.plan.PlanQueryService;
 import io.github.oosquare.neocourse.application.query.plan.PlanRepresentation;
 import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
-import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
-import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
-import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
-import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
 import io.github.oosquare.neocourse.utility.id.Id;

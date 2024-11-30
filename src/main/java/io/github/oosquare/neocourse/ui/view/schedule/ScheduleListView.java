@@ -19,15 +19,9 @@ import io.github.oosquare.neocourse.application.query.schedule.ScheduleQueryServ
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleSummaryRepresentation;
 import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.application.security.Roles;
-import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
-import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
-import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
-import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.ui.component.ScheduleGrid;
 import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.ui.view.evaluation.EvaluationView;
-import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "schedules", layout = MainLayout.class)
 @RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})

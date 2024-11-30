@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.service.AccountFactory;
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
 import io.github.oosquare.neocourse.domain.admin.service.AdministratorFactory;
@@ -48,7 +48,7 @@ public class UserCommandService {
         var res = this.studentFactory.createStudentAndTranscript(username, displayedUsername, plan);
         var student = res.getStudent();
         var transcript = res.getTranscript();
-        var account = this.accountFactory.createAccount(AccountKind.STUDENT, student, encodedPassword);
+        var account = this.accountFactory.createAccount(AccountRoleKind.STUDENT, student, encodedPassword);
 
         this.studentRepository.save(student);
         this.transcriptRepository.save(transcript);
@@ -60,7 +60,7 @@ public class UserCommandService {
             student.getUsername(),
             student.getPlan(),
             account.getId(),
-            account.getKind(),
+            account.roleKindsToString(),
             transcript.getId()
         );
     }
@@ -74,7 +74,7 @@ public class UserCommandService {
         var encodedPassword = command.getEncodedPassword();
 
         var teacher = this.teacherFactory.createTeacher(username, displayedUsername);
-        var account = this.accountFactory.createAccount(AccountKind.TEACHER, teacher, encodedPassword);
+        var account = this.accountFactory.createAccount(AccountRoleKind.TEACHER, teacher, encodedPassword);
 
         this.teacherRepository.save(teacher);
         this.accountRepository.save(account);
@@ -84,7 +84,7 @@ public class UserCommandService {
             teacher.getId(),
             teacher.getUsername(),
             account.getId(),
-            account.getKind()
+            account.roleKindsToString()
         );
     }
 
@@ -97,7 +97,7 @@ public class UserCommandService {
         var encodedPassword = command.getEncodedPassword();
 
         var administrator = this.administratorFactory.createAdministrator(username, displayedUsername);
-        var account = this.accountFactory.createAccount(AccountKind.ADMINISTRATOR, administrator, encodedPassword);
+        var account = this.accountFactory.createAccount(AccountRoleKind.ADMINISTRATOR, administrator, encodedPassword);
 
         this.administratorRepository.save(administrator);
         this.accountRepository.save(account);
@@ -107,7 +107,7 @@ public class UserCommandService {
             administrator.getId(),
             administrator.getUsername(),
             account.getId(),
-            account.getKind()
+            account.roleKindsToString()
         );
     }
 }

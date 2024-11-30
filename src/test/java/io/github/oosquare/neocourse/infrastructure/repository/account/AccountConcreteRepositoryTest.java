@@ -8,7 +8,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRole;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
@@ -36,11 +37,10 @@ class AccountConcreteRepositoryTest {
     public void setUp() {
         this.testAccount = Account.builder()
             .id(Id.of("account0"))
-            .kind(AccountKind.STUDENT)
             .username(Username.of("student01"))
             .displayedUsername(DisplayedUsername.of("Test Student"))
             .encodedPassword(EncodedPassword.of("encodedPassword123"))
-            .user(Id.of("student01"))
+            .role(AccountRoleKind.STUDENT, AccountRole.of(AccountRoleKind.STUDENT, Id.of("student01")))
             .build();
         this.accountRepository.save(this.testAccount);
     }
@@ -54,9 +54,6 @@ class AccountConcreteRepositoryTest {
     public void findByUsernameWhenDataExists() {
         var account = this.accountRepository.findByUsername(this.testAccount.getUsername()).orElseThrow();
         assertEquals(account.getId(), this.testAccount.getId());
-        assertEquals(account.getUsername(), this.testAccount.getUsername());
-        assertEquals(account.getDisplayedUsername(), this.testAccount.getDisplayedUsername());
-        assertEquals(account.getKind(), this.testAccount.getKind());
     }
 
     @Test
@@ -69,9 +66,6 @@ class AccountConcreteRepositoryTest {
     public void findWhenDataExists() {
         var account = this.accountRepository.find(this.testAccount.getId()).orElseThrow();
         assertEquals(this.testAccount.getId(), account.getId());
-        assertEquals(this.testAccount.getUsername(), account.getUsername());
-        assertEquals(this.testAccount.getDisplayedUsername(), account.getDisplayedUsername());
-        assertEquals(this.testAccount.getKind(), account.getKind());
     }
 
     @Test
@@ -84,11 +78,10 @@ class AccountConcreteRepositoryTest {
     public void save() {
         var anotherAccount = Account.builder()
             .id(Id.of("account1"))
-            .kind(AccountKind.TEACHER)
             .username(Username.of("teacher0"))
             .displayedUsername(DisplayedUsername.of("Test Teacher"))
             .encodedPassword(EncodedPassword.of("encodedPassword456"))
-            .user(Id.of("teacher0"))
+            .role(AccountRoleKind.TEACHER, AccountRole.of(AccountRoleKind.TEACHER, Id.of("teacher0")))
             .build();
 
         this.accountRepository.save(anotherAccount);
@@ -96,7 +89,7 @@ class AccountConcreteRepositoryTest {
         assertEquals(anotherAccount.getId(), account.getId());
         assertEquals(anotherAccount.getUsername(), account.getUsername());
         assertEquals(anotherAccount.getDisplayedUsername(), account.getDisplayedUsername());
-        assertEquals(anotherAccount.getKind(), account.getKind());
+        assertEquals(anotherAccount.getRoleKinds(), account.getRoleKinds());
     }
 
     @Test

@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
+import io.github.oosquare.neocourse.domain.account.model.AccountRole;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
@@ -19,25 +20,26 @@ public class AccountConverter implements DataConverter<Account, AccountData> {
 
     @Override
     public Account convertToDomain(@NonNull AccountData data) {
+        var roleKind = this.accountKindConverter.convertToDomain(data.getKind());
         return Account.builder()
             .id(Id.of(data.getId()))
-            .kind(this.accountKindConverter.convertToDomain(data.getKind()))
             .username(Username.of(data.getUsername()))
             .displayedUsername(DisplayedUsername.of(data.getDisplayedUsername()))
             .encodedPassword(EncodedPassword.of(data.getEncodedPassword()))
-            .user(Id.of(data.getUserId()))
+            .role(roleKind, AccountRole.of(roleKind, Id.of(data.getUserId())))
             .build();
     }
 
     @Override
     public AccountData convertToData(@NonNull Account entity) {
+        var roleKind = entity.getRoleKinds().stream().findFirst().orElseThrow();
         return AccountData.builder()
             .id(entity.getId().getValue())
-            .kind(this.accountKindConverter.convertToData(entity.getKind()))
+            .kind(this.accountKindConverter.convertToData(roleKind))
             .username(entity.getUsername().getValue())
             .displayedUsername(entity.getDisplayedUsername().getValue())
             .encodedPassword(entity.getEncodedPassword().getValue())
-            .userId(entity.getUser().getValue())
+            .userId(entity.getRoles().get(roleKind).getUserData().getValue())
             .build();
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.common.service.UserService;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
 import io.github.oosquare.neocourse.domain.plan.service.PlanFactory;
@@ -29,7 +29,7 @@ public class PlanCommandService {
 
         var planName = command.getPlanName();
 
-        this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         var plan = this.planFactory.createPlan(planName);
         this.planRepository.save(plan);
 
@@ -51,7 +51,7 @@ public class PlanCommandService {
         var planId = command.getPlanId();
         var courseId = command.getCourseId();
 
-        this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         var plan = this.planRepository.findOrThrow(planId);
         var course = this.courseRepository.findOrThrow(courseId);
         plan.includeCourse(course);
@@ -77,7 +77,7 @@ public class PlanCommandService {
         var planId = command.getPlanId();
         var courseId = command.getCourseId();
 
-        this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         var plan = this.planRepository.findOrThrow(planId);
         var course = this.courseRepository.findOrThrow(courseId);
         plan.excludeCourse(course);
@@ -107,7 +107,7 @@ public class PlanCommandService {
         var planId = command.getPlanId();
         var requredClassPeriod = command.getRequiredClassPeriod();
 
-        this.userService.checkIsUser(account, AccountKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         var plan = this.planRepository.findOrThrow(planId);
         plan.assignRequiredClassPeriod(requredClassPeriod);
         this.planRepository.save(plan);

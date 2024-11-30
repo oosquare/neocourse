@@ -25,11 +25,6 @@ import io.github.oosquare.neocourse.application.command.schedule.ScheduleCommand
 import io.github.oosquare.neocourse.application.query.course.CourseQueryService;
 import io.github.oosquare.neocourse.application.query.course.CourseRepresentation;
 import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
-import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
-import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
-import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
-import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.schedule.model.Capacity;
 import io.github.oosquare.neocourse.domain.schedule.model.Place;
 import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;

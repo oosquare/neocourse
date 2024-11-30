@@ -3,7 +3,7 @@ package io.github.oosquare.neocourse.utility.test;
 import org.junit.jupiter.api.BeforeEach;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
@@ -35,7 +35,7 @@ public interface InitializeTeacherTestSupport {
     default Account createTestTeacherAccount() {
         return new Account(
             Id.of("test-teacher-account"),
-            AccountKind.TEACHER,
+            AccountRoleKind.TEACHER,
             this.createTestTeacher(),
             EncodedPassword.of("password")
         );

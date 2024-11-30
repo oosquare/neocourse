@@ -7,7 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRole;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
@@ -42,7 +43,7 @@ public class CourseCommandServiceTest {
             .classPeriod(command.getClassPeriod())
             .build();
 
-        doNothing().when(this.userService).checkIsUser(account, AccountKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         when(this.courseService.addCourse(command.getCourseName(), command.getClassPeriod()))
             .thenReturn(course);
         doNothing().when(this.courseRepository).save(course);
@@ -62,7 +63,7 @@ public class CourseCommandServiceTest {
             .classPeriod(ClassPeriod.of(1))
             .build();
 
-        doNothing().when(this.userService).checkIsUser(account, AccountKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         doNothing().when(this.courseService).prepareRemovingCourse(course);
         doNothing().when(this.courseRepository).remove(course);
@@ -73,11 +74,10 @@ public class CourseCommandServiceTest {
     private static Account createTestAccount() {
         return Account.builder()
             .id(Id.of("account0"))
-            .kind(AccountKind.ADMINISTRATOR)
             .username(Username.of("test-account"))
             .displayedUsername(DisplayedUsername.of("Test Account"))
             .encodedPassword(EncodedPassword.of("encoded-password"))
-            .user(Id.of("user0"))
+            .role(AccountRoleKind.ADMINISTRATOR, AccountRole.of(AccountRoleKind.ADMINISTRATOR, Id.of("user0")))
             .build();
     }
 }

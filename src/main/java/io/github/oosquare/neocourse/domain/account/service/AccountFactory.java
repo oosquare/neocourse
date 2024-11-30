@@ -5,7 +5,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.User;
 import io.github.oosquare.neocourse.domain.common.model.Username;
@@ -20,7 +20,7 @@ public class AccountFactory {
     private final @NonNull AccountRepository accountRepository;
 
     public Account createAccount(
-        @NonNull AccountKind kind,
+        @NonNull AccountRoleKind kind,
         @NonNull User user,
         @NonNull EncodedPassword encodedPassword
     ) {

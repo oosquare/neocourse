@@ -15,15 +15,9 @@ import lombok.NonNull;
 import io.github.oosquare.neocourse.application.command.course.AddCourseCommand;
 import io.github.oosquare.neocourse.application.command.course.CourseCommandService;
 import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
-import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
-import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
-import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
-import io.github.oosquare.neocourse.domain.common.model.Username;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
 import io.github.oosquare.neocourse.ui.component.CloseCallbackDialog;
-import io.github.oosquare.neocourse.utility.id.Id;
 
 public class CourseNewDialog extends CloseCallbackDialog
     implements CurrentAccountAwareSupport {

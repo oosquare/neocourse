@@ -9,7 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountKind;
+import io.github.oosquare.neocourse.domain.account.model.AccountRole;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
@@ -36,7 +37,7 @@ class AccountFactoryTest {
             .thenReturn(Optional.empty());
 
         var account = this.accountFactory.createAccount(
-            AccountKind.STUDENT,
+            AccountRoleKind.STUDENT,
             createTestStudent(),
             EncodedPassword.of("test password")
         );
@@ -49,16 +50,15 @@ class AccountFactoryTest {
         when(this.accountRepository.findByUsername(Username.of("student0")))
             .thenReturn(Optional.of(Account.builder()
                 .id(Id.of("account0"))
-                .kind(AccountKind.STUDENT)
                 .username(Username.of("student0"))
                 .displayedUsername(DisplayedUsername.of("test student"))
                 .encodedPassword(EncodedPassword.of("test password"))
-                .user(Id.of("student0"))
+                .role(AccountRoleKind.STUDENT, AccountRole.of(AccountRoleKind.STUDENT, Id.of("student0")))
                 .build()));
 
         assertThrows(FieldDuplicationException.class, () -> {
             this.accountFactory.createAccount(
-                AccountKind.STUDENT,
+                AccountRoleKind.STUDENT,
                 createTestStudent(),
                 EncodedPassword.of("test password")
             );
