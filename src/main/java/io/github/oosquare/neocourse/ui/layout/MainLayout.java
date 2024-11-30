@@ -15,6 +15,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
+import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.ui.component.LogoutButton;
 import io.github.oosquare.neocourse.ui.view.course.CourseListView;
 import io.github.oosquare.neocourse.ui.view.index.IndexView;
@@ -28,7 +29,7 @@ public class MainLayout extends AppLayout implements CurrentAccountAwareSupport 
         this.setPrimarySection(Section.NAVBAR);
 
         this.addToNavbar(false, this.createHeader());
-        this.addToDrawer(createDrawer());
+        this.addToDrawer(this.createDrawer());
     }
 
     private Header createHeader() {
@@ -64,12 +65,22 @@ public class MainLayout extends AppLayout implements CurrentAccountAwareSupport 
         return header;
     }
 
-    private static Scroller createDrawer() {
+    private Scroller createDrawer() {
         var sideNav = new SideNav();
-        sideNav.addItem(new SideNavItem("Courses", CourseListView.class, VaadinIcon.OPEN_BOOK.create()));
-        sideNav.addItem(new SideNavItem("Plans", PlanListView.class, VaadinIcon.PIN.create()));
-        sideNav.addItem(new SideNavItem("Schedules", ScheduleListView.class, VaadinIcon.CLOCK.create()));
-        sideNav.addItem(new SideNavItem("Registrations", RegistrationListView.class, VaadinIcon.PENCIL.create()));
+        var account = this.getCurrentAccount();
+
+        if (account.hasRole(AccountRoleKind.ADMINISTRATOR) || account.hasRole(AccountRoleKind.TEACHER)) {
+            sideNav.addItem(new SideNavItem("Courses", CourseListView.class, VaadinIcon.OPEN_BOOK.create()));
+        }
+        if (account.hasRole(AccountRoleKind.ADMINISTRATOR) || account.hasRole(AccountRoleKind.TEACHER)) {
+            sideNav.addItem(new SideNavItem("Plans", PlanListView.class, VaadinIcon.PIN.create()));
+        }
+        if (account.hasRole(AccountRoleKind.ADMINISTRATOR) || account.hasRole(AccountRoleKind.TEACHER)) {
+            sideNav.addItem(new SideNavItem("Schedules", ScheduleListView.class, VaadinIcon.CLOCK.create()));
+        }
+        if (account.hasRole(AccountRoleKind.STUDENT)) {
+            sideNav.addItem(new SideNavItem("Registrations", RegistrationListView.class, VaadinIcon.PENCIL.create()));
+        }
 
         var scroller = new Scroller(sideNav);
         scroller.setClassName(LumoUtility.Padding.SMALL);
