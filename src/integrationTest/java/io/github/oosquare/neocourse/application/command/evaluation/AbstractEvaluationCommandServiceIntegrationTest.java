@@ -70,7 +70,7 @@ public abstract class AbstractEvaluationCommandServiceIntegrationTest
             .id(Id.of("test-schedule"))
             .course(course.getId())
             .teacher(this.createTestTeacher().getId())
-            .time(TimeRange.of(TEST_START_TIME, course.getActualPeriod()))
+            .time(TimeRange.of(TEST_START_TIME.minusDays(2), course.getActualPeriod()))
             .place(Place.of("Test Place"))
             .capacity(Capacity.of(5))
             .registrations(Map.of(student.getId(), Registration.of(student.getId())))
