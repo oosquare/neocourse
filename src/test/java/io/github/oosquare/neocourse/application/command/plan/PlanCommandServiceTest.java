@@ -44,7 +44,7 @@ public class PlanCommandServiceTest {
         var account = createTestAccount();
         var plan = createTestPlan();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.planFactory.createPlan(command.getPlanName())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
 
@@ -61,7 +61,7 @@ public class PlanCommandServiceTest {
             .courseId(course.getId())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         when(this.planRepository.findOrThrow(plan.getId())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
@@ -86,7 +86,7 @@ public class PlanCommandServiceTest {
             .courseId(course.getId())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         when(this.planRepository.findOrThrow(plan.getId())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
@@ -111,7 +111,7 @@ public class PlanCommandServiceTest {
             .requiredClassPeriod(course.getClassPeriod())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.planRepository.findOrThrow(plan.getId())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
 
@@ -125,7 +125,7 @@ public class PlanCommandServiceTest {
             .username(Username.of("test-account"))
             .displayedUsername(DisplayedUsername.of("Test Account"))
             .encodedPassword(EncodedPassword.of("encoded-password"))
-            .role(AccountRoleKind.ADMINISTRATOR, AccountRole.of(AccountRoleKind.ADMINISTRATOR, Id.of("user0")))
+            .role(AccountRoleKind.TEACHER, AccountRole.of(AccountRoleKind.TEACHER, Id.of("user0")))
             .build();
     }
 

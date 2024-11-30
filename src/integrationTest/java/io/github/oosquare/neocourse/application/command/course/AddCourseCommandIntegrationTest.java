@@ -9,11 +9,11 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
-import io.github.oosquare.neocourse.domain.admin.service.AdministratorRepository;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
-import io.github.oosquare.neocourse.utility.test.InitializeAdministratorTestSupport;
+import io.github.oosquare.neocourse.domain.teacher.service.TeacherRepository;
+import io.github.oosquare.neocourse.utility.test.InitializeTeacherTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -21,10 +21,10 @@ import static org.mockito.Mockito.*;
 @Getter
 @SpringBootTest
 @Transactional
-public class AddCourseCommandIntegrationTest implements InitializeAdministratorTestSupport {
+public class AddCourseCommandIntegrationTest implements InitializeTeacherTestSupport {
 
     @Autowired
-    private AdministratorRepository administratorRepository;
+    private TeacherRepository teacherRepository;
     @Autowired
     private AccountRepository accountRepository;
     @SpyBean
@@ -43,7 +43,7 @@ public class AddCourseCommandIntegrationTest implements InitializeAdministratorT
             .courseName(CourseName.of("Test Course"))
             .classPeriod(ClassPeriod.of(1))
             .build();
-        var account = this.createTestAdministratorAccount();
+        var account = this.createTestTeacherAccount();
 
         this.courseCommandService.addCourse(command, account);
 

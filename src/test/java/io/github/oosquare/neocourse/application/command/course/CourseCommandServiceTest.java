@@ -43,7 +43,7 @@ public class CourseCommandServiceTest {
             .classPeriod(command.getClassPeriod())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseService.addCourse(command.getCourseName(), command.getClassPeriod()))
             .thenReturn(course);
         doNothing().when(this.courseRepository).save(course);
@@ -63,7 +63,7 @@ public class CourseCommandServiceTest {
             .classPeriod(ClassPeriod.of(1))
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         doNothing().when(this.courseService).prepareRemovingCourse(course);
         doNothing().when(this.courseRepository).remove(course);
@@ -77,7 +77,7 @@ public class CourseCommandServiceTest {
             .username(Username.of("test-account"))
             .displayedUsername(DisplayedUsername.of("Test Account"))
             .encodedPassword(EncodedPassword.of("encoded-password"))
-            .role(AccountRoleKind.ADMINISTRATOR, AccountRole.of(AccountRoleKind.ADMINISTRATOR, Id.of("user0")))
+            .role(AccountRoleKind.TEACHER, AccountRole.of(AccountRoleKind.TEACHER, Id.of("user0")))
             .build();
     }
 }

@@ -9,10 +9,10 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
-import io.github.oosquare.neocourse.domain.admin.service.AdministratorRepository;
 import io.github.oosquare.neocourse.domain.plan.model.PlanName;
 import io.github.oosquare.neocourse.domain.plan.service.PlanRepository;
-import io.github.oosquare.neocourse.utility.test.InitializeAdministratorTestSupport;
+import io.github.oosquare.neocourse.domain.teacher.service.TeacherRepository;
+import io.github.oosquare.neocourse.utility.test.InitializeTeacherTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -20,10 +20,10 @@ import static org.mockito.Mockito.*;
 @Getter
 @SpringBootTest
 @Transactional
-public class AddPlanCommandIntegrationTest implements InitializeAdministratorTestSupport {
+public class AddPlanCommandIntegrationTest implements InitializeTeacherTestSupport {
 
     @Autowired
-    private AdministratorRepository administratorRepository;
+    private TeacherRepository teacherRepository;
     @Autowired
     private AccountRepository accountRepository;
     @SpyBean
@@ -41,7 +41,7 @@ public class AddPlanCommandIntegrationTest implements InitializeAdministratorTes
         var command = AddPlanCommand.builder()
             .planName(PlanName.of("Test Plan"))
             .build();
-        var account = this.createTestAdministratorAccount();
+        var account = this.createTestTeacherAccount();
 
         this.planCommandService.addPlan(command, account);
 

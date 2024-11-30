@@ -28,7 +28,7 @@ public class CourseCommandService {
         var courseName = command.getCourseName();
         var classPeriod = command.getClassPeriod();
 
-        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.TEACHER);
         var course = this.courseService.addCourse(courseName, classPeriod);
         this.courseRepository.save(course);
 
@@ -46,7 +46,7 @@ public class CourseCommandService {
 
         var courseId = command.getCourseId();
 
-        this.userService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        this.userService.checkHasRole(account, AccountRoleKind.TEACHER);
         var course = this.courseRepository.findOrThrow(courseId);
         this.courseService.prepareRemovingCourse(course);
         this.courseRepository.remove(course);

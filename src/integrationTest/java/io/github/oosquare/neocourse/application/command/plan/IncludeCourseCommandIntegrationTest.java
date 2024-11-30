@@ -7,12 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
-import io.github.oosquare.neocourse.domain.admin.service.AdministratorRepository;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
 import io.github.oosquare.neocourse.domain.plan.service.PlanRepository;
-import io.github.oosquare.neocourse.utility.test.InitializeAdministratorTestSupport;
+import io.github.oosquare.neocourse.domain.teacher.service.TeacherRepository;
 import io.github.oosquare.neocourse.utility.test.InitializeCourseTestSupport;
 import io.github.oosquare.neocourse.utility.test.InitializePlanTestSupport;
+import io.github.oosquare.neocourse.utility.test.InitializeTeacherTestSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,12 +22,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class IncludeCourseCommandIntegrationTest
     implements
-        InitializeAdministratorTestSupport,
+        InitializeTeacherTestSupport,
         InitializePlanTestSupport,
         InitializeCourseTestSupport {
 
     @Autowired
-    private AdministratorRepository administratorRepository;
+    private TeacherRepository teacherRepository;
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
@@ -46,7 +46,7 @@ public class IncludeCourseCommandIntegrationTest
             .planId(plan.getId())
             .courseId(course.getId())
             .build();
-        var account = this.createTestAdministratorAccount();
+        var account = this.createTestTeacherAccount();
 
         this.planCommandService.includeCourseToPlan(command, account);
 
