@@ -51,6 +51,10 @@ public class Account implements Entity {
         return this.roles.containsKey(roleKind);
     }
 
+    public Id getUserData(@NonNull AccountRoleKind roleKind) {
+        return this.roles.get(roleKind).getUserData();
+    }
+
     public String toLoggingString() {
         return "Account[id=%s, username=%s, kind=%s]".formatted(id, username, this.roleKindsToString());
     }

@@ -81,6 +81,13 @@ public class MainLayout extends AppLayout implements CurrentAccountAwareSupport 
         if (account.hasRole(AccountRoleKind.STUDENT)) {
             sideNav.addItem(new SideNavItem("Registrations", RegistrationListView.class, VaadinIcon.PENCIL.create()));
         }
+        if (account.hasRole(AccountRoleKind.STUDENT)) {
+            sideNav.addItem(new SideNavItem(
+                "My Registrations",
+                "registrations/" + RegistrationListView.CURRENT_ACCOUNT_REGISTRATION_PATH,
+                VaadinIcon.TABLE.create())
+            );
+        }
 
         var scroller = new Scroller(sideNav);
         scroller.setClassName(LumoUtility.Padding.SMALL);

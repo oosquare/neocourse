@@ -8,7 +8,7 @@ import io.github.oosquare.neocourse.utility.id.Id;
 
 @Value
 @Builder
-public class ByStudentQuery {
+public class ByAccountQuery {
 
-    private final @NonNull Id studentId;
+    private final @NonNull Id accountId;
 }

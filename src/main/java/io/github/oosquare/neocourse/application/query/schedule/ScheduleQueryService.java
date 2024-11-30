@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
+import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
+import io.github.oosquare.neocourse.domain.common.service.UserService;
 import io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleMapper;
 import io.github.oosquare.neocourse.utility.exception.EntityNotFoundException;
 import io.github.oosquare.neocourse.utility.id.Id;
@@ -18,6 +20,8 @@ import io.github.oosquare.neocourse.utility.id.Id;
 @Slf4j
 public class ScheduleQueryService {
 
+    private final @NonNull AccountRepository accountRepository;
+    private final @NonNull UserService userService;
     private final @NonNull ScheduleMapper scheduleMapper;
 
     public ScheduleSummaryRepresentation getScheduleByIdInSummaryRepresentation(
@@ -50,18 +54,22 @@ public class ScheduleQueryService {
     }
 
     @Transactional
-    public List<ScheduleSummaryRepresentation> getAllSchedulesByStudentInSummaryRepresentation(
-        @NonNull ByStudentQuery query,
+    public List<ScheduleSummaryRepresentation> getAllSchedulesByAccountInSummaryRepresentation(
+        @NonNull ByAccountQuery query,
         @NonNull Account account
     ) {
         log.info(
-            "{} requests getAllSchedulesByStudentInSummaryRepresentation with {}",
+            "{} requests getAllSchedulesByAccountInSummaryRepresentation with {}",
             account.toLoggingString(),
             query
         );
 
-        var studentId = query.getStudentId();
-        return this.scheduleMapper.findAllByStudentReturningSummaryProjection(studentId.getValue())
+        var accountId = query.getAccountId();
+
+        var accountToQuery = this.accountRepository.findOrThrow(accountId);
+        var student = this.userService.getStudentUser(accountToQuery);
+
+        return this.scheduleMapper.findAllByStudentReturningSummaryProjection(student.getId().getValue())
             .stream()
             .map(ScheduleSummaryRepresentation::fromData)
             .toList();

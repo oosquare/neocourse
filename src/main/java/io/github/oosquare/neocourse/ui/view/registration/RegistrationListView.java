@@ -1,6 +1,7 @@
 package io.github.oosquare.neocourse.ui.view.registration;
 
 import jakarta.annotation.security.PermitAll;
+import java.util.List;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
@@ -10,12 +11,16 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
 import lombok.NonNull;
 
 import io.github.oosquare.neocourse.application.command.registration.AddRegistrationCommand;
 import io.github.oosquare.neocourse.application.command.registration.CancelRegistrationCommand;
 import io.github.oosquare.neocourse.application.command.registration.RegistrationCommandService;
+import io.github.oosquare.neocourse.application.query.schedule.ByAccountQuery;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleQueryService;
 import io.github.oosquare.neocourse.application.query.schedule.ScheduleSummaryRepresentation;
 import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
@@ -26,12 +31,16 @@ import io.github.oosquare.neocourse.utility.id.Id;
 @Route(value = "registrations", layout = MainLayout.class)
 @PermitAll
 public class RegistrationListView extends VerticalLayout
-    implements CurrentAccountAwareSupport {
+    implements CurrentAccountAwareSupport, HasUrlParameter<String> {
+
+    public static final String CURRENT_ACCOUNT_REGISTRATION_PATH = "self";
 
     private final @NonNull RegistrationCommandService registrationCommandService;
     private final @NonNull ScheduleQueryService scheduleQueryService;
 
     private final @NonNull Grid<ScheduleSummaryRepresentation> scheduleGrid;
+
+    private String accountId;
 
     public RegistrationListView(
         @NonNull RegistrationCommandService registrationCommandService,
@@ -71,6 +80,16 @@ public class RegistrationListView extends VerticalLayout
             .withFunction("handleCancelClick", this::cancelRegistration);
     }
 
+    @Override
+    public void setParameter(BeforeEvent event, @OptionalParameter String mayBeAccountId) {
+        if (CURRENT_ACCOUNT_REGISTRATION_PATH.equals(mayBeAccountId)) {
+            this.accountId = this.getCurrentAccount().getId().getValue();
+        } else {
+            this.accountId = mayBeAccountId;
+        }
+        this.updateView();
+    }
+
     private void addRegistration(ScheduleSummaryRepresentation schedule) {
         var command = AddRegistrationCommand.builder()
             .scheduleId(Id.of(schedule.getId()))
@@ -103,9 +122,23 @@ public class RegistrationListView extends VerticalLayout
 
     private void updateView() {
         Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.access(() -> {
-            var account = this.getCurrentAccount();
-            var schedules = this.scheduleQueryService.getAllSchedulesInSummaryRepresentation(account);
+            var schedules = this.getAllSchedules();
             this.scheduleGrid.setItems(schedules);
         }));
+    }
+
+    private List<ScheduleSummaryRepresentation> getAllSchedules() {
+        var account = this.getCurrentAccount();
+        if (this.accountId == null) {
+            return this.scheduleQueryService.getAllSchedulesInSummaryRepresentation(account);
+        } else {
+            var query = ByAccountQuery.builder()
+                .accountId(Id.of(this.accountId))
+                .build();
+            return this.scheduleQueryService.getAllSchedulesByAccountInSummaryRepresentation(
+                query,
+                account
+            );
+        }
     }
 }
