@@ -18,7 +18,7 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
         super(entityManager, ScheduleData.class);
     }
 
-    public List<ScheduleData> findByDateAndPlace(@NonNull ZonedDateTime time, @NonNull String place) {
+    public List<ScheduleData> findAllByDateAndPlace(@NonNull ZonedDateTime time, @NonNull String place) {
         var localToday = time.toLocalDate().atStartOfDay();
         var zonedToday = localToday.atZone(time.getZone());
         var offsetToday = zonedToday.withZoneSameInstant(ZoneOffset.UTC).toOffsetDateTime();
@@ -28,7 +28,7 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
         var offsetTomorrow = zonedTomorrow.withZoneSameInstant(ZoneOffset.UTC).toOffsetDateTime();
 
         return this.getEntityManager()
-            .createNamedQuery("ScheduleData.findByDateAndPlace", this.getDataClass())
+            .createNamedQuery("ScheduleData.findAllByDateAndPlace", this.getDataClass())
             .setParameter("today", offsetToday)
             .setParameter("tomorrow", offsetTomorrow)
             .setParameter("place", place)
@@ -65,10 +65,10 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
             .getResultList();
     }
 
-    public List<ScheduleSummaryProjection> findByStudentReturningSummaryProjection(@NonNull String studentId) {
+    public List<ScheduleSummaryProjection> findAllByStudentReturningSummaryProjection(@NonNull String studentId) {
         return this.getEntityManager()
             .createNamedQuery(
-                "ScheduleData.findByStudentReturningSummaryProjection",
+                "ScheduleData.findAllByStudentReturningSummaryProjection",
                 ScheduleSummaryProjection.class
             )
             .setParameter("studentId", studentId)
@@ -92,7 +92,7 @@ public class ScheduleMapper extends DataMapper<ScheduleData> {
         var res = data.getFirst();
         var registrations = this.getEntityManager()
             .createNamedQuery(
-                "RegistrationData.findByScheduleAndCourseReturningEvaluationProjection",
+                "RegistrationData.findAllByScheduleAndCourseReturningEvaluationProjection",
                 RegistrationEvaluationProjection.class
             )
             .setParameter("scheduleId", id)

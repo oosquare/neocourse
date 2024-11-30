@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "schedule_registration")
 @NamedQuery(
-    name = "RegistrationData.findByScheduleAndCourseReturningEvaluationProjection",
+    name = "RegistrationData.findAllByScheduleAndCourseReturningEvaluationProjection",
     query = """
         SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.RegistrationEvaluationProjection(
             r.id.studentId,

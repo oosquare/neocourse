@@ -50,18 +50,18 @@ public class ScheduleQueryService {
     }
 
     @Transactional
-    public List<ScheduleSummaryRepresentation> getSchedulesByStudentInSummaryRepresentation(
+    public List<ScheduleSummaryRepresentation> getAllSchedulesByStudentInSummaryRepresentation(
         @NonNull ByStudentQuery query,
         @NonNull Account account
     ) {
         log.info(
-            "{} requests getSchedulesByStudentInSummaryRepresentation with {}",
+            "{} requests getAllSchedulesByStudentInSummaryRepresentation with {}",
             account.toLoggingString(),
             query
         );
 
         var studentId = query.getStudentId();
-        return this.scheduleMapper.findByStudentReturningSummaryProjection(studentId.getValue())
+        return this.scheduleMapper.findAllByStudentReturningSummaryProjection(studentId.getValue())
             .stream()
             .map(ScheduleSummaryRepresentation::fromData)
             .toList();

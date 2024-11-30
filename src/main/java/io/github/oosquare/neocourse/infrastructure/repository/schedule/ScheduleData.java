@@ -26,7 +26,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "schedule")
 @NamedQuery(
-    name = "ScheduleData.findByDateAndPlace",
+    name = "ScheduleData.findAllByDateAndPlace",
     query = "SELECT s FROM ScheduleData s WHERE s.startTime BETWEEN :today AND :tomorrow AND s.place = :place"
 )
 @NamedQuery(
@@ -67,7 +67,7 @@ import lombok.Setter;
     """
 )
 @NamedQuery(
-    name = "ScheduleData.findByStudentReturningSummaryProjection",
+    name = "ScheduleData.findAllByStudentReturningSummaryProjection",
     query = """
         SELECT new io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleSummaryProjection(
             s.id,

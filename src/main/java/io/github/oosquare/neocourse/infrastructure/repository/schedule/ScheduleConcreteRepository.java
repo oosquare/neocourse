@@ -24,7 +24,7 @@ public class ScheduleConcreteRepository implements ScheduleRepository {
 
     @Override
     public List<Schedule> findByDateAndPlace(@NonNull ZonedDateTime date, @NonNull Place place) {
-        return this.scheduleMapper.findByDateAndPlace(date, place.getValue())
+        return this.scheduleMapper.findAllByDateAndPlace(date, place.getValue())
             .stream()
             .map(this.scheduleConverter::convertToDomain)
             .collect(Collectors.toList());
