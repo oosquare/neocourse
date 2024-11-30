@@ -2,7 +2,6 @@ package io.github.oosquare.neocourse.domain.account.model;
 
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 

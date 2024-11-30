@@ -1,11 +1,13 @@
 package io.github.oosquare.neocourse.infrastructure.repository.account;
 
+import java.util.EnumMap;
+import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.account.model.AccountRole;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
@@ -16,30 +18,39 @@ import io.github.oosquare.neocourse.utility.id.Id;
 @AllArgsConstructor
 public class AccountConverter implements DataConverter<Account, AccountData> {
 
-    private final @NonNull AccountKindConverter accountKindConverter;
+    private final @NonNull AccountRoleConverter accountRoleConverter;
+    private final @NonNull AccountRoleKindConverter accountRoleKindConverter;
 
     @Override
     public Account convertToDomain(@NonNull AccountData data) {
-        var roleKind = this.accountKindConverter.convertToDomain(data.getKind());
+        var roles = data.getRoles()
+            .stream()
+            .collect(Collectors.toMap(
+                dat -> this.accountRoleKindConverter.convertToDomain(dat.getRoleKind()),
+                this.accountRoleConverter::convertToDomain
+            ));
         return Account.builder()
             .id(Id.of(data.getId()))
             .username(Username.of(data.getUsername()))
             .displayedUsername(DisplayedUsername.of(data.getDisplayedUsername()))
             .encodedPassword(EncodedPassword.of(data.getEncodedPassword()))
-            .role(roleKind, AccountRole.of(roleKind, Id.of(data.getUserId())))
+            .roles(new EnumMap<>(roles))
             .build();
     }
 
     @Override
     public AccountData convertToData(@NonNull Account entity) {
-        var roleKind = entity.getRoleKinds().stream().findFirst().orElseThrow();
+        var roles = entity.getRoles()
+            .values()
+            .stream()
+            .map(this.accountRoleConverter::convertToData)
+            .collect(Collectors.toSet());
         return AccountData.builder()
             .id(entity.getId().getValue())
-            .kind(this.accountKindConverter.convertToData(roleKind))
+            .roles(roles)
             .username(entity.getUsername().getValue())
             .displayedUsername(entity.getDisplayedUsername().getValue())
             .encodedPassword(entity.getEncodedPassword().getValue())
-            .userId(entity.getRoles().get(roleKind).getUserData().getValue())
             .build();
     }
 }

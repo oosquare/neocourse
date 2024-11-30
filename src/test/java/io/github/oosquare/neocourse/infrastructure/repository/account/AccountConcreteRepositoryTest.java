@@ -24,7 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
     AccountConcreteRepository.class,
     AccountMapper.class,
     AccountConverter.class,
-    AccountKindConverter.class,
+    AccountRoleConverter.class,
+    AccountRoleKindConverter.class,
 })
 @InfrastructureTestTag
 class AccountConcreteRepositoryTest {
@@ -82,6 +83,10 @@ class AccountConcreteRepositoryTest {
             .displayedUsername(DisplayedUsername.of("Test Teacher"))
             .encodedPassword(EncodedPassword.of("encodedPassword456"))
             .role(AccountRoleKind.TEACHER, AccountRole.of(AccountRoleKind.TEACHER, Id.of("teacher0")))
+            .role(
+                AccountRoleKind.ADMINISTRATOR,
+                AccountRole.of(AccountRoleKind.ADMINISTRATOR, Id.of("administrator0"))
+            )
             .build();
 
         this.accountRepository.save(anotherAccount);

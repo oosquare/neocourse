@@ -1,10 +1,15 @@
 package io.github.oosquare.neocourse.infrastructure.repository.account;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import java.util.Set;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,9 +35,6 @@ public class AccountData {
     @Column(nullable = false, updatable = false, unique = true)
     private String id;
 
-    @Column(nullable = false, updatable = false)
-    private AccountKindData kind;
-
     @Column(nullable = false, updatable = false, unique = true)
     private String username;
 
@@ -42,6 +44,8 @@ public class AccountData {
     @Column(nullable = false, updatable = false)
     private String encodedPassword;
 
-    @Column(nullable = false, updatable = false)
-    private String userId;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "account_roles_id", joinColumns = @JoinColumn(name = "account_id"))
+    @Column(name = "role_id", nullable = false)
+    private Set<AccountRoleData> roles;
 }

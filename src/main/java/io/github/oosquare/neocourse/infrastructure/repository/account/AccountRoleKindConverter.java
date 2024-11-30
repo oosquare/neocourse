@@ -7,10 +7,10 @@ import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.infrastructure.repository.DataConverter;
 
 @Component
-public class AccountKindConverter implements DataConverter<AccountRoleKind, AccountKindData> {
+public class AccountRoleKindConverter implements DataConverter<AccountRoleKind, AccountRoleKindData> {
 
     @Override
-    public AccountRoleKind convertToDomain(@NonNull AccountKindData data) {
+    public AccountRoleKind convertToDomain(@NonNull AccountRoleKindData data) {
         return switch (data) {
             case STUDENT -> AccountRoleKind.STUDENT;
             case TEACHER -> AccountRoleKind.TEACHER;
@@ -19,11 +19,11 @@ public class AccountKindConverter implements DataConverter<AccountRoleKind, Acco
     }
 
     @Override
-    public AccountKindData convertToData(@NonNull AccountRoleKind entity) {
+    public AccountRoleKindData convertToData(@NonNull AccountRoleKind entity) {
         return switch (entity) {
-            case STUDENT -> AccountKindData.STUDENT;
-            case TEACHER -> AccountKindData.TEACHER;
-            case ADMINISTRATOR -> AccountKindData.ADMINISTRATOR;
+            case STUDENT -> AccountRoleKindData.STUDENT;
+            case TEACHER -> AccountRoleKindData.TEACHER;
+            case ADMINISTRATOR -> AccountRoleKindData.ADMINISTRATOR;
         };
     }
 }
