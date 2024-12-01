@@ -1,4 +1,4 @@
-package io.github.oosquare.neocourse.domain.common.service;
+package io.github.oosquare.neocourse.domain.account.service;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ import io.github.oosquare.neocourse.utility.exception.UserAuthorizationException
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class AccountService {
 
     private final @NonNull StudentRepository studentRepository;
     private final @NonNull TeacherRepository teacherRepository;

@@ -12,7 +12,7 @@ import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class CourseCommandServiceTest {
 
-    private @Mock UserService userService;
+    private @Mock AccountService accountService;
     private @Mock CourseRepository courseRepository;
     private @Mock CourseService courseService;
     private @InjectMocks CourseCommandService courseCommandService;
@@ -43,7 +43,7 @@ public class CourseCommandServiceTest {
             .classPeriod(command.getClassPeriod())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
+        doNothing().when(this.accountService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseService.addCourse(command.getCourseName(), command.getClassPeriod()))
             .thenReturn(course);
         doNothing().when(this.courseRepository).save(course);
@@ -63,7 +63,7 @@ public class CourseCommandServiceTest {
             .classPeriod(ClassPeriod.of(1))
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
+        doNothing().when(this.accountService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         doNothing().when(this.courseService).prepareRemovingCourse(course);
         doNothing().when(this.courseRepository).remove(course);

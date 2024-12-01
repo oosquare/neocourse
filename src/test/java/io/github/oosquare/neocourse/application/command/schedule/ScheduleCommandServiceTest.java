@@ -16,7 +16,7 @@ import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class ScheduleCommandServiceTest {
 
-    private @Mock UserService userService;
+    private @Mock AccountService accountService;
     private @Mock ScheduleService scheduleService;
     private @Mock ScheduleRepository scheduleRepository;
     private @Mock CourseRepository courseRepository;
@@ -54,7 +54,7 @@ public class ScheduleCommandServiceTest {
             .capacity(schedule.getCapacity())
             .build();
 
-        when(this.userService.getTeacherUser(account)).thenReturn(teacher);
+        when(this.accountService.getTeacherUser(account)).thenReturn(teacher);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         when(this.scheduleService.addNewSchedule(
             course,
@@ -75,7 +75,7 @@ public class ScheduleCommandServiceTest {
         var schedule = createTestSchedule();
         var command = RemoveScheduleCommand.builder().scheduleId(schedule.getId()).build();
 
-        when(this.userService.getTeacherUser(account)).thenReturn(teacher);
+        when(this.accountService.getTeacherUser(account)).thenReturn(teacher);
         when(this.scheduleRepository.findOrThrow(schedule.getId())).thenReturn(schedule);
         doNothing().when(this.scheduleService).prepareRemovingSchedule(schedule, teacher);
         doNothing().when(this.scheduleRepository).remove(schedule);

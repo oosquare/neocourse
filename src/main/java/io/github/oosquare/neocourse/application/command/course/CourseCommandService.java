@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
 import io.github.oosquare.neocourse.domain.course.service.CourseService;
 
@@ -17,7 +17,7 @@ import io.github.oosquare.neocourse.domain.course.service.CourseService;
 @Slf4j
 public class CourseCommandService {
 
-    private final @NonNull UserService userService;
+    private final @NonNull AccountService accountService;
     private final @NonNull CourseRepository courseRepository;
     private final @NonNull CourseService courseService;
 
@@ -28,7 +28,7 @@ public class CourseCommandService {
         var courseName = command.getCourseName();
         var classPeriod = command.getClassPeriod();
 
-        this.userService.checkHasRole(account, AccountRoleKind.TEACHER);
+        this.accountService.checkHasRole(account, AccountRoleKind.TEACHER);
         var course = this.courseService.addCourse(courseName, classPeriod);
         this.courseRepository.save(course);
 
@@ -46,7 +46,7 @@ public class CourseCommandService {
 
         var courseId = command.getCourseId();
 
-        this.userService.checkHasRole(account, AccountRoleKind.TEACHER);
+        this.accountService.checkHasRole(account, AccountRoleKind.TEACHER);
         var course = this.courseRepository.findOrThrow(courseId);
         this.courseService.prepareRemovingCourse(course);
         this.courseRepository.remove(course);

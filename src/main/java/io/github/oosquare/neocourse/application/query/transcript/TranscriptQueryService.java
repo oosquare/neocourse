@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.plan.service.PlanRepository;
 import io.github.oosquare.neocourse.domain.transcript.service.TranscriptRepository;
 import io.github.oosquare.neocourse.infrastructure.repository.transcript.TranscriptMapper;
@@ -21,7 +21,7 @@ public class TranscriptQueryService {
     private final @NonNull AccountRepository accountRepository;
     private final @NonNull PlanRepository planRepository;
     private final @NonNull TranscriptRepository transcriptRepository;
-    private final @NonNull UserService userService;
+    private final @NonNull AccountService accountService;
     private final @NonNull TranscriptMapper transcriptMapper;
 
     @Transactional
@@ -38,7 +38,7 @@ public class TranscriptQueryService {
         var accountId = query.getAccountId();
 
         var accountToQuery = this.accountRepository.findOrThrow(accountId);
-        var student = this.userService.getStudentUser(accountToQuery);
+        var student = this.accountService.getStudentUser(accountToQuery);
         var transcript = this.transcriptRepository.findOrThrow(student.getTranscript());
         var plan = this.planRepository.findOrThrow(transcript.getPlan());
         var itemData = this.transcriptMapper.findAllByTranscriptReturningDetailedProjection(

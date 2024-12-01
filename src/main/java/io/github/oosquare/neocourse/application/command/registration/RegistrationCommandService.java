@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.schedule.service.RegistrationService;
 import io.github.oosquare.neocourse.domain.schedule.service.ScheduleRepository;
 import io.github.oosquare.neocourse.domain.transcript.service.TranscriptRepository;
@@ -19,7 +19,7 @@ import io.github.oosquare.neocourse.domain.transcript.service.TranscriptReposito
 @Slf4j
 public class RegistrationCommandService {
 
-    private final @NonNull UserService userService;
+    private final @NonNull AccountService accountService;
     private final @NonNull RegistrationService registrationService;
     private final @NonNull ScheduleRepository scheduleRepository;
     private final @NonNull TranscriptRepository transcriptRepository;
@@ -30,7 +30,7 @@ public class RegistrationCommandService {
 
         var scheduleId = command.getScheduleId();
 
-        var student = this.userService.getStudentUser(account);
+        var student = this.accountService.getStudentUser(account);
         var schedule = this.scheduleRepository.findOrThrow(scheduleId);
         var transcript = this.transcriptRepository.findOrThrow(student.getTranscript());
         var currentTime = ZonedDateTime.now();
@@ -49,7 +49,7 @@ public class RegistrationCommandService {
 
         var scheduleId = command.getScheduleId();
 
-        var student = this.userService.getStudentUser(account);
+        var student = this.accountService.getStudentUser(account);
         var schedule = this.scheduleRepository.findOrThrow(scheduleId);
         var transcript = this.transcriptRepository.findOrThrow(student.getTranscript());
         var currentTime = ZonedDateTime.now();

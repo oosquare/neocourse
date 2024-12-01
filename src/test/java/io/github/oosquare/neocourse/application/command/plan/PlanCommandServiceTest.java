@@ -14,7 +14,7 @@ import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.model.EncodedPassword;
 import io.github.oosquare.neocourse.domain.common.model.DisplayedUsername;
 import io.github.oosquare.neocourse.domain.common.model.Username;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.course.model.ClassPeriod;
 import io.github.oosquare.neocourse.domain.course.model.Course;
 import io.github.oosquare.neocourse.domain.course.model.CourseName;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class PlanCommandServiceTest {
 
-    private @Mock UserService userService;
+    private @Mock AccountService accountService;
     private @Mock PlanFactory planFactory;
     private @Mock PlanRepository planRepository;
     private @Mock CourseRepository courseRepository;
@@ -44,7 +44,7 @@ public class PlanCommandServiceTest {
         var account = createTestAccount();
         var plan = createTestPlan();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
+        doNothing().when(this.accountService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.planFactory.createPlan(command.getPlanName())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
 
@@ -61,7 +61,7 @@ public class PlanCommandServiceTest {
             .courseId(course.getId())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
+        doNothing().when(this.accountService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         when(this.planRepository.findOrThrow(plan.getId())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
@@ -86,7 +86,7 @@ public class PlanCommandServiceTest {
             .courseId(course.getId())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
+        doNothing().when(this.accountService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.courseRepository.findOrThrow(course.getId())).thenReturn(course);
         when(this.planRepository.findOrThrow(plan.getId())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
@@ -111,7 +111,7 @@ public class PlanCommandServiceTest {
             .requiredClassPeriod(course.getClassPeriod())
             .build();
 
-        doNothing().when(this.userService).checkHasRole(account, AccountRoleKind.TEACHER);
+        doNothing().when(this.accountService).checkHasRole(account, AccountRoleKind.TEACHER);
         when(this.planRepository.findOrThrow(plan.getId())).thenReturn(plan);
         doNothing().when(this.planRepository).save(plan);
 

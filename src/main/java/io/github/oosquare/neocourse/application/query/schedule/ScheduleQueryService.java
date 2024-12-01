@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.infrastructure.repository.schedule.ScheduleMapper;
 import io.github.oosquare.neocourse.utility.exception.EntityNotFoundException;
 import io.github.oosquare.neocourse.utility.id.Id;
@@ -21,7 +21,7 @@ import io.github.oosquare.neocourse.utility.id.Id;
 public class ScheduleQueryService {
 
     private final @NonNull AccountRepository accountRepository;
-    private final @NonNull UserService userService;
+    private final @NonNull AccountService accountService;
     private final @NonNull ScheduleMapper scheduleMapper;
 
     public ScheduleSummaryRepresentation getScheduleByIdInSummaryRepresentation(
@@ -67,7 +67,7 @@ public class ScheduleQueryService {
         var accountId = query.getAccountId();
 
         var accountToQuery = this.accountRepository.findOrThrow(accountId);
-        var student = this.userService.getStudentUser(accountToQuery);
+        var student = this.accountService.getStudentUser(accountToQuery);
 
         return this.scheduleMapper.findAllByStudentReturningSummaryProjection(student.getId().getValue())
             .stream()

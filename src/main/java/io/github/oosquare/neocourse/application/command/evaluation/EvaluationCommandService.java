@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.schedule.service.ScheduleRepository;
 import io.github.oosquare.neocourse.domain.student.service.StudentRepository;
 import io.github.oosquare.neocourse.domain.teacher.service.EvaluationService;
@@ -20,7 +20,7 @@ import io.github.oosquare.neocourse.domain.transcript.service.TranscriptReposito
 @Slf4j
 public class EvaluationCommandService {
 
-    private final @NonNull UserService userService;
+    private final @NonNull AccountService accountService;
     private final @NonNull EvaluationService evaluationService;
     private final @NonNull ScheduleRepository scheduleRepository;
     private final @NonNull StudentRepository studentRepository;
@@ -34,7 +34,7 @@ public class EvaluationCommandService {
         var studentId = command.getStudentId();
         var score = command.getScore();
 
-        var teacher = this.userService.getTeacherUser(account);
+        var teacher = this.accountService.getTeacherUser(account);
         var schedule = this.scheduleRepository.findOrThrow(scheduleId);
         var student = this.studentRepository.findOrThrow(studentId);
         var transcript = this.transcriptRepository.findOrThrow(student.getTranscript());
@@ -62,7 +62,7 @@ public class EvaluationCommandService {
         var scheduleId = command.getScheduleId();
         var studentId = command.getStudentId();
 
-        var teacher = this.userService.getTeacherUser(account);
+        var teacher = this.accountService.getTeacherUser(account);
         var schedule = this.scheduleRepository.findOrThrow(scheduleId);
         var student = this.studentRepository.findOrThrow(studentId);
         var transcript = this.transcriptRepository.findOrThrow(student.getTranscript());

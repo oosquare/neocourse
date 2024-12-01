@@ -12,7 +12,7 @@ import io.github.oosquare.neocourse.domain.common.model.Username;
 
 @Service
 @AllArgsConstructor
-public class AccountService implements UserDetailsService {
+public class AccountSecurityService implements UserDetailsService {
 
     private final @NonNull AccountRepository accountRepository;
 

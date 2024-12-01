@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.oosquare.neocourse.domain.account.model.Account;
-import io.github.oosquare.neocourse.domain.common.service.UserService;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.course.service.CourseRepository;
 import io.github.oosquare.neocourse.domain.schedule.service.ScheduleRepository;
 import io.github.oosquare.neocourse.domain.schedule.service.ScheduleService;
@@ -17,7 +17,7 @@ import io.github.oosquare.neocourse.domain.schedule.service.ScheduleService;
 @Slf4j
 public class ScheduleCommandService {
 
-    private final @NonNull UserService userService;
+    private final @NonNull AccountService accountService;
     private final @NonNull ScheduleService scheduleService;
 
     private final @NonNull ScheduleRepository scheduleRepository;
@@ -32,7 +32,7 @@ public class ScheduleCommandService {
         var place = command.getPlace();
         var capacity = command.getCapacity();
 
-        var teacher = this.userService.getTeacherUser(account);
+        var teacher = this.accountService.getTeacherUser(account);
         var course = this.courseRepository.findOrThrow(courseId);
         var schedule = this.scheduleService.addNewSchedule(course, teacher, startTime, place, capacity);
         this.scheduleRepository.save(schedule);
@@ -52,7 +52,7 @@ public class ScheduleCommandService {
 
         var scheduleId = command.getScheduleId();
 
-        var teacher = this.userService.getTeacherUser(account);
+        var teacher = this.accountService.getTeacherUser(account);
         var schedule = this.scheduleRepository.findOrThrow(scheduleId);
         this.scheduleService.prepareRemovingSchedule(schedule, teacher);
         this.scheduleRepository.remove(schedule);
