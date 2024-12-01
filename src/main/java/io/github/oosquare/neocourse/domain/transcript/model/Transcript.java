@@ -108,7 +108,9 @@ public class Transcript implements Entity {
         if (estimatedClassPeriod < requiredClassPeriod.getValue()) {
             return FinalResult.ofPlanUnfinished();
         } else {
-            double averageScore = weightedScoreSum / estimatedClassPeriod;
+            double averageScore = estimatedClassPeriod != 0
+                ? weightedScoreSum / estimatedClassPeriod
+                : 0.0;
             return FinalResult.ofPlanFinished(averageScore);
         }
     }
