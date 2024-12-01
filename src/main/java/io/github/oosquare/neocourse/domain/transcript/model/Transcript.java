@@ -22,7 +22,7 @@ import io.github.oosquare.neocourse.utility.id.Id;
 @Builder
 public class Transcript implements Entity {
 
-    private static final Score DEFAULT_SCORE_FOR_UNEVALUATED = Score.of(60);
+    public static final Score DEFAULT_SCORE_FOR_UNEVALUATED = Score.of(60);
 
     private final @NonNull Id id;
     private final @NonNull Id plan;
