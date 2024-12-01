@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,6 +15,7 @@ import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.NonNull;
 
@@ -29,6 +31,7 @@ import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "registrations", layout = MainLayout.class)
+@PageTitle("Registrations | NeoCourse")
 @PermitAll
 public class RegistrationListView extends VerticalLayout
     implements CurrentAccountAwareSupport, HasUrlParameter<String> {
@@ -49,9 +52,11 @@ public class RegistrationListView extends VerticalLayout
         this.registrationCommandService = registrationCommandService;
         this.scheduleQueryService = scheduleQueryService;
 
+        var title = new H3("Registrations");
+
         this.scheduleGrid = this.createScheduleGrid();
 
-        this.add(this.scheduleGrid);
+        this.add(title, this.scheduleGrid);
         this.setSizeFull();
 
         this.updateView();

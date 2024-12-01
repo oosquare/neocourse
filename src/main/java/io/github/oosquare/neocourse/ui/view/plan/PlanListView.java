@@ -8,8 +8,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.NonNull;
 
@@ -22,6 +24,7 @@ import io.github.oosquare.neocourse.application.security.Roles;
 import io.github.oosquare.neocourse.ui.layout.MainLayout;
 
 @Route(value = "plans", layout = MainLayout.class)
+@PageTitle("Plans | NeoCourse")
 @RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})
 public class PlanListView extends VerticalLayout
     implements CurrentAccountAwareSupport {
@@ -41,13 +44,15 @@ public class PlanListView extends VerticalLayout
         this.planQueryService = planQueryService;
         this.courseQueryService = courseQueryService;
 
+        var title = new H3("Plans");
+
         var newPlanButton = new Button("New Plan");
         newPlanButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         newPlanButton.addClickListener(event -> this.openPlanNewDialog());
 
         this.planGrid = createPlanGrid();
 
-        this.add(newPlanButton, this.planGrid);
+        this.add(title, newPlanButton, this.planGrid);
         this.setSizeFull();
 
         this.updateView();

@@ -8,8 +8,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.NonNull;
 
@@ -24,6 +26,7 @@ import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.ui.view.evaluation.EvaluationView;
 
 @Route(value = "schedules", layout = MainLayout.class)
+@PageTitle("Schedules | NeoCourse")
 @RolesAllowed({Roles.TEACHER, Roles.ADMINISTRATOR})
 public class ScheduleListView extends VerticalLayout
     implements CurrentAccountAwareSupport {
@@ -43,13 +46,15 @@ public class ScheduleListView extends VerticalLayout
         this.scheduleQueryService = scheduleQueryService;
         this.courseQueryService = courseQueryService;
 
+        var title = new H3("Schedules");
+
         var newScheduleButton = new Button("New Schedule");
         newScheduleButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         newScheduleButton.addClickListener(event -> this.openScheduleNewDialog());
 
         this.scheduleGrid = this.createScheduleGrid();
 
-        this.add(newScheduleButton, this.scheduleGrid);
+        this.add(title, newScheduleButton, this.scheduleGrid);
         this.setSizeFull();
 
         this.updateView();

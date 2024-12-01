@@ -6,6 +6,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.Style;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
@@ -13,6 +14,7 @@ import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupp
 import io.github.oosquare.neocourse.ui.layout.MainLayout;
 
 @Route(value = "", layout = MainLayout.class)
+@PageTitle("NeoCourse")
 @PermitAll
 public class IndexView extends VerticalLayout implements CurrentAccountAwareSupport {
 

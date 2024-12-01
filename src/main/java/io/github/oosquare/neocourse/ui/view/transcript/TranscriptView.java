@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.NonNull;
 
@@ -21,6 +22,7 @@ import io.github.oosquare.neocourse.ui.layout.MainLayout;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "transcripts", layout = MainLayout.class)
+@PageTitle("Transcript | NeoCourse")
 @PermitAll
 public class TranscriptView extends VerticalLayout
     implements CurrentAccountAwareSupport, HasUrlParameter<String> {

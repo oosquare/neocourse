@@ -14,6 +14,7 @@ import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.dom.Style;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -36,6 +37,7 @@ import io.github.oosquare.neocourse.ui.view.login.LoginView;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route("signup")
+@PageTitle("Sign up | NeoCourse")
 @AnonymousAllowed
 public class SignUpView extends HorizontalLayout {
 
