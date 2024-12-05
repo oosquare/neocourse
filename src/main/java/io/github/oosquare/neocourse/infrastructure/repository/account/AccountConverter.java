@@ -1,8 +1,8 @@
 package io.github.oosquare.neocourse.infrastructure.repository.account;
 
-import java.util.EnumMap;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ public class AccountConverter implements DataConverter<Account, AccountData> {
             .username(Username.of(data.getUsername()))
             .displayedUsername(DisplayedUsername.of(data.getDisplayedUsername()))
             .encodedPassword(EncodedPassword.of(data.getEncodedPassword()))
-            .roles(new EnumMap<>(roles))
+            .roles(ImmutableMap.copyOf(roles))
             .build();
     }
 
