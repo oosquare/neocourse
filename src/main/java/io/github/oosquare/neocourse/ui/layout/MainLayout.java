@@ -23,6 +23,7 @@ import io.github.oosquare.neocourse.ui.view.plan.PlanListView;
 import io.github.oosquare.neocourse.ui.view.registration.RegistrationListView;
 import io.github.oosquare.neocourse.ui.view.schedule.ScheduleListView;
 import io.github.oosquare.neocourse.ui.view.transcript.TranscriptView;
+import io.github.oosquare.neocourse.ui.view.user.UserListView;
 
 public class MainLayout extends AppLayout implements CurrentAccountAwareSupport {
 
@@ -75,6 +76,9 @@ public class MainLayout extends AppLayout implements CurrentAccountAwareSupport 
         }
         if (account.hasRole(AccountRoleKind.ADMINISTRATOR) || account.hasRole(AccountRoleKind.TEACHER)) {
             sideNav.addItem(new SideNavItem("Schedules", ScheduleListView.class, VaadinIcon.CLOCK.create()));
+        }
+        if (account.hasRole(AccountRoleKind.ADMINISTRATOR)) {
+            sideNav.addItem(new SideNavItem("Users", UserListView.class, VaadinIcon.USER.create()));
         }
         if (account.hasRole(AccountRoleKind.STUDENT)) {
             sideNav.addItem(new SideNavItem("Registrations", RegistrationListView.class, VaadinIcon.PENCIL.create()));

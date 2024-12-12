@@ -38,6 +38,7 @@ public class ScheduleQueryService {
             .map(ScheduleSummaryRepresentation::fromData)
             .orElseThrow(() -> EntityNotFoundException.builder()
                 .entity(ScheduleEvaluationRepresentation.class)
+                .context("scheduleId", scheduleId)
                 .build());
     }
 
@@ -90,6 +91,7 @@ public class ScheduleQueryService {
             .map(ScheduleEvaluationRepresentation::fromData)
             .orElseThrow(() -> EntityNotFoundException.builder()
                 .entity(ScheduleEvaluationRepresentation.class)
+                .context("scheduleId", scheduleId)
                 .build());
     }
 }

@@ -29,6 +29,20 @@ import lombok.Setter;
     name = "AccountData.findByUsername",
     query = "SELECT a FROM AccountData a WHERE a.username = :username"
 )
+@NamedQuery(
+    name = "AccountData.findAllReturningSummaryProjection",
+    query = """
+        SELECT new io.github.oosquare.neocourse.infrastructure.repository.account.AccountSummaryProjection(
+            a.id,
+            a.username,
+            a.displayedUsername
+        ) FROM AccountData a
+    """
+)
+@NamedQuery(
+    name = "AccountData.findById",
+    query = "SELECT a FROM AccountData a WHERE a.id = :accountId"
+)
 public class AccountData {
 
     @Id

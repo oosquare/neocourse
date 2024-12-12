@@ -2,6 +2,7 @@ package io.github.oosquare.neocourse.infrastructure.repository.account;
 
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
 import java.util.Optional;
 
 import lombok.NonNull;
@@ -20,6 +21,26 @@ public class AccountMapper extends DataMapper<AccountData> {
         var data = this.getEntityManager()
             .createNamedQuery("AccountData.findByUsername", AccountData.class)
             .setParameter("username", username)
+            .setMaxResults(1)
+            .getResultList();
+        return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
+    }
+
+    public List<AccountSummaryProjection> findAllReturningSummaryProjection() {
+        return this.getEntityManager()
+            .createNamedQuery(
+                "AccountData.findAllReturningSummaryProjection",
+                AccountSummaryProjection.class
+            )
+            .getResultList();
+    }
+
+    public Optional<AccountData> findById(
+        @NonNull String accountId
+    ) {
+        var data = this.getEntityManager()
+            .createNamedQuery("AccountData.findById", AccountData.class)
+            .setParameter("accountId", accountId)
             .setMaxResults(1)
             .getResultList();
         return (data.isEmpty() ? Optional.empty() : Optional.of(data.getFirst()));
