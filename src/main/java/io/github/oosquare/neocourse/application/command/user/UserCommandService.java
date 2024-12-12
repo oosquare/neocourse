@@ -6,9 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.service.AccountFactory;
 import io.github.oosquare.neocourse.domain.account.service.AccountRepository;
+import io.github.oosquare.neocourse.domain.account.service.AccountService;
 import io.github.oosquare.neocourse.domain.admin.service.AdministratorFactory;
 import io.github.oosquare.neocourse.domain.admin.service.AdministratorRepository;
 import io.github.oosquare.neocourse.domain.plan.service.PlanRepository;
@@ -25,6 +27,7 @@ public class UserCommandService {
 
     private final @NonNull AccountFactory accountFactory;
     private final @NonNull AccountRepository accountRepository;
+    private final @NonNull AccountService accountService;
     private final @NonNull StudentFactory studentFactory;
     private final @NonNull StudentRepository studentRepository;
     private final @NonNull TeacherFactory teacherFactory;
@@ -108,6 +111,37 @@ public class UserCommandService {
             administrator.getUsername(),
             account.getId(),
             account.roleKindsToString()
+        );
+    }
+
+    @Transactional
+    public void upgradeToAdministrator(
+        @NonNull UpgradeToAdministratorCommand command,
+        @NonNull Account account
+    ) {
+        log.warn("{} requests upgradeToAdministrator with {}", account.toLoggingString(), command);
+
+        var accountId = command.getAccountId();
+
+        this.accountService.checkHasRole(account, AccountRoleKind.ADMINISTRATOR);
+        var accountToUpgrade = this.accountRepository.findOrThrow(accountId);
+        this.accountService.checkHasRole(accountToUpgrade, AccountRoleKind.TEACHER);
+
+        var administrator = this.administratorFactory.createAdministrator(
+            accountToUpgrade.getUsername(),
+            accountToUpgrade.getDisplayedUsername()
+        );
+        accountToUpgrade.addRole(AccountRoleKind.ADMINISTRATOR, administrator.getId());
+
+        this.accountRepository.save(accountToUpgrade);
+        this.administratorRepository.save(administrator);
+
+        log.warn(
+            "Upgraded Account[id={}, username={}, kind={}] by {}",
+            accountToUpgrade.getId(),
+            accountToUpgrade.getUsername(),
+            accountToUpgrade.roleKindsToString(),
+            account.toLoggingString()
         );
     }
 }
