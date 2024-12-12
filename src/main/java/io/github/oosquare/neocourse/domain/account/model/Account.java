@@ -27,7 +27,7 @@ public class Account implements Entity {
     private final @NonNull Id id;
     private final @NonNull Username username;
     private final @NonNull DisplayedUsername displayedUsername;
-    private final @NonNull EncodedPassword encodedPassword;
+    private @NonNull EncodedPassword encodedPassword;
     private @NonNull @Singular Map<AccountRoleKind, AccountRole> roles;
 
     public Account(
@@ -97,5 +97,9 @@ public class Account implements Entity {
             .map(AccountRoleKind::toString)
             .reduce((lhs, rhs) -> lhs + "+" + rhs)
             .orElse("NONE");
+    }
+
+    public void changeEncodedPassword(@NonNull EncodedPassword encodedPassword) {
+        this.encodedPassword = encodedPassword;
     }
 }

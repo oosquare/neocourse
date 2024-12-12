@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.github.oosquare.neocourse.application.security.AccountSecurityService;
 import io.github.oosquare.neocourse.domain.account.model.Account;
 import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.domain.account.service.AccountFactory;
@@ -36,6 +37,7 @@ public class UserCommandService {
     private final @NonNull AdministratorRepository administratorRepository;
     private final @NonNull TranscriptRepository transcriptRepository;
     private final @NonNull PlanRepository planRepository;
+    private final @NonNull AccountSecurityService accountSecurityService;
 
     @Transactional
     public void signUpStudent(@NonNull SignUpStudentCommand command) {
@@ -143,5 +145,20 @@ public class UserCommandService {
             accountToUpgrade.roleKindsToString(),
             account.toLoggingString()
         );
+    }
+
+    @Transactional
+    public void changePassword(@NonNull ChangePasswordCommand command, @NonNull Account account) {
+        log.info("{} requests changePassword", account.toLoggingString());
+
+        var rawOldPassword = command.getRawOldPassword();
+        var encodedNewPassword = command.getEncodedNewPassword();
+
+        this.accountSecurityService.checkPasswordCorrect(account, rawOldPassword);
+        account.changeEncodedPassword(encodedNewPassword);
+
+        this.accountRepository.save(account);
+
+        log.info("Changed password of {}", account.toLoggingString());
     }
 }

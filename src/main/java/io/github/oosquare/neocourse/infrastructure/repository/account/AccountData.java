@@ -55,7 +55,7 @@ public class AccountData {
     @Column(nullable = false, updatable = false)
     private String displayedUsername;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private String encodedPassword;
 
     @ElementCollection(fetch = FetchType.EAGER)

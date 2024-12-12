@@ -32,12 +32,16 @@ public interface InitializeTeacherTestSupport {
         );
     }
 
+    default EncodedPassword createTestEncodedPassword() {
+        return EncodedPassword.of("password");
+    }
+
     default Account createTestTeacherAccount() {
         return new Account(
             Id.of("test-teacher-account"),
             AccountRoleKind.TEACHER,
             this.createTestTeacher(),
-            EncodedPassword.of("password")
+            this.createTestEncodedPassword()
         );
     }
 }
