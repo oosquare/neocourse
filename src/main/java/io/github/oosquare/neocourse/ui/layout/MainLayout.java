@@ -24,6 +24,7 @@ import io.github.oosquare.neocourse.ui.view.registration.RegistrationListView;
 import io.github.oosquare.neocourse.ui.view.schedule.ScheduleListView;
 import io.github.oosquare.neocourse.ui.view.transcript.TranscriptView;
 import io.github.oosquare.neocourse.ui.view.user.UserListView;
+import io.github.oosquare.neocourse.ui.view.user.UserView;
 
 public class MainLayout extends AppLayout implements CurrentAccountAwareSupport {
 
@@ -97,6 +98,11 @@ public class MainLayout extends AppLayout implements CurrentAccountAwareSupport 
                 VaadinIcon.BAR_CHART.create()
             ));
         }
+        sideNav.addItem(new SideNavItem(
+            "Profile",
+            "users/" + UserView.CURRENT_ACCOUNT_USER_PATH,
+            VaadinIcon.USER_CARD.create()
+        ));
 
         var scroller = new Scroller(sideNav);
         scroller.setClassName(LumoUtility.Padding.SMALL);

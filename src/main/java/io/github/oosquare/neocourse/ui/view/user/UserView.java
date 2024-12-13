@@ -16,6 +16,7 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.NonNull;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import io.github.oosquare.neocourse.application.command.user.UpgradeToAdministratorCommand;
 import io.github.oosquare.neocourse.application.command.user.UserCommandService;
@@ -23,6 +24,7 @@ import io.github.oosquare.neocourse.application.query.account.AccountQueryServic
 import io.github.oosquare.neocourse.application.security.CurrentAccountAwareSupport;
 import io.github.oosquare.neocourse.domain.account.model.AccountRoleKind;
 import io.github.oosquare.neocourse.ui.layout.MainLayout;
+import io.github.oosquare.neocourse.ui.view.index.IndexView;
 import io.github.oosquare.neocourse.utility.id.Id;
 
 @Route(value = "users", layout = MainLayout.class)
@@ -33,6 +35,7 @@ public class UserView extends VerticalLayout
 
     public static final String CURRENT_ACCOUNT_USER_PATH = "self";
 
+    private final @NonNull PasswordEncoder passwordEncoder;
     private final @NonNull UserCommandService userCommandService;
     private final @NonNull AccountQueryService accountQueryService;
     private String accountId;
@@ -42,9 +45,11 @@ public class UserView extends VerticalLayout
     private final @NonNull TextField rolesField;
 
     public UserView(
+        @NonNull PasswordEncoder passwordEncoder,
         @NonNull UserCommandService userCommandService,
         @NonNull AccountQueryService accountQueryService
     ) {
+        this.passwordEncoder = passwordEncoder;
         this.userCommandService = userCommandService;
         this.accountQueryService = accountQueryService;
 
@@ -67,10 +72,7 @@ public class UserView extends VerticalLayout
         summaryLayout.setSpacing(false);
         summaryLayout.setPadding(false);
 
-
-        var buttonLayout = this.createButtonLayout();
-
-        this.add(title, summaryLayout, buttonLayout);
+        this.add(title, summaryLayout);
         this.setSizeFull();
     }
 
@@ -81,21 +83,37 @@ public class UserView extends VerticalLayout
         } else {
             this.accountId = mayBeAccountId;
         }
+        this.add(this.createButtonLayout());
         this.updateView();
     }
 
     private HorizontalLayout createButtonLayout() {
         var layout = new HorizontalLayout();
 
+        if (this.getCurrentAccount().getId().getValue().equals(this.accountId)) {
+            layout.add(this.createChangePasswordButton());
+        }
+
         if (this.getCurrentAccount().hasRole(AccountRoleKind.ADMINISTRATOR)) {
             layout.add(this.createUpgradeToAdministratorButton());
         }
 
         var returnButton = new Button("Return");
-        returnButton.addClickListener(event -> this.navigateToUserListView());
+        returnButton.addClickListener(event -> this.navigateBack());
         layout.add(returnButton);
 
         return layout;
+    }
+
+    private Button createChangePasswordButton() {
+        return new Button("Change Password", event -> {
+            var dialog = new UserChangePasswordDialog(
+                this.userCommandService,
+                this.passwordEncoder,
+                this::updateView
+            );
+            dialog.open();
+        });
     }
 
     private Button createUpgradeToAdministratorButton() {
@@ -122,8 +140,12 @@ public class UserView extends VerticalLayout
         this.updateView();
     }
 
-    private void navigateToUserListView() {
-        Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.navigate(UserListView.class));
+    private void navigateBack() {
+        if (this.getCurrentAccount().hasRole(AccountRoleKind.ADMINISTRATOR)) {
+            Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.navigate(UserListView.class));
+        } else {
+            Optional.ofNullable(UI.getCurrent()).ifPresent(ui -> ui.navigate(IndexView.class));
+        }
     }
 
     private void updateView() {
