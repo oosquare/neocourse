@@ -20,6 +20,7 @@
           packages = with pkgs; [
             jdk21
             nodejs
+            sqlite
           ];
         };
       };

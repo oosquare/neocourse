@@ -29,6 +29,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.vaadin:vaadin-spring-boot-starter:24.5.0")
+    implementation("org.xerial:sqlite-jdbc:3.47.1.0")
+    implementation("org.hibernate.orm:hibernate-community-dialects:6.6.3.Final")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
