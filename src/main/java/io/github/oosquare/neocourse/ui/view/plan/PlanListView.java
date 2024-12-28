@@ -63,9 +63,13 @@ public class PlanListView extends VerticalLayout
         planGrid.addColumn(PlanSummaryRepresentation::getPlanName)
             .setHeader("Plan Name");
         planGrid.addColumn(PlanSummaryRepresentation::getTotalClassPeriod)
-            .setHeader("Total Class Period");
+            .setHeader("Total Class Period")
+            .setAutoWidth(true)
+            .setFlexGrow(0);
         planGrid.addColumn(PlanSummaryRepresentation::getRequiredClassPeriod)
-            .setHeader("Required Class Period");
+            .setHeader("Required Class Period")
+            .setAutoWidth(true)
+            .setFlexGrow(0);
         planGrid.addColumn(createPlanGridEditRender())
             .setHeader("Operation")
             .setAutoWidth(true)

@@ -59,7 +59,9 @@ public class CourseListView extends VerticalLayout
         courseGrid.addColumn(CourseRepresentation::getCourseName)
             .setHeader("Course Name");
         courseGrid.addColumn(CourseRepresentation::getClassPeriod)
-            .setHeader("Class Period");
+            .setHeader("Class Period")
+            .setAutoWidth(true)
+            .setFlexGrow(0);
         courseGrid.addColumn(createCourseGridEditRender())
             .setHeader("Operation")
             .setAutoWidth(true)
